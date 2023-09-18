@@ -1,0 +1,79 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:sigalogin/src/themes/main_theme.dart';
+
+class LoginInput extends StatefulWidget {
+  Icon? icon;
+  TextEditingController controller;
+  String? hint;
+  bool? obscure;
+  TextInputType? inputType;
+  List<TextInputFormatter>? inputFormat;
+  int? maxLength;
+  LoginInput({super.key, required this.controller, this.icon, this.hint, this.obscure, this.inputType, this.inputFormat, this.maxLength});
+
+  @override
+  State<LoginInput> createState() => _LoginInputState();
+}
+
+class _LoginInputState extends State<LoginInput> {
+  late MainTheme theme;
+  final FocusNode _focusNode = FocusNode();
+  bool focus = false;
+  late bool hidden;
+
+  @override
+  void initState() {
+    _focusNode.addListener(()=>_onFocusChange());
+    hidden = widget.obscure ?? false;
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    theme = Provider.of<MainTheme>(context);
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: theme.onPrimary,
+        borderRadius: const BorderRadius.all(Radius.circular(16))
+      ),
+      child: Row(
+        children: [
+          Expanded(child: TextField(
+            focusNode: _focusNode,
+            inputFormatters: widget.inputFormat,
+            keyboardType: widget.inputType,
+            cursorColor: theme.secondary,
+            style: TextStyle(color: theme.primary,fontSize: 16),
+            obscureText: hidden,
+            maxLength: widget.maxLength,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              icon: widget.icon,
+              iconColor: focus?theme.secondary:theme.primary,
+              hintText: widget.hint,
+              hintStyle: TextStyle(color: theme.primary),
+              counterText: ''
+            ),
+            controller: widget.controller,
+          )),
+          widget.obscure!=null?IconButton(onPressed: ()=>setState(()=>hidden=!hidden!), icon: Icon(hidden?EvaIcons.eyeOff:EvaIcons.eye, color: focus?theme.secondary:theme.primary)):const SizedBox()
+        ],
+      )
+    );
+  }
+
+  _onFocusChange(){
+    if(_focusNode.hasFocus){
+      setState(()=>focus=true);
+    }else{
+      setState(()=>focus=false);
+    }
+  }
+
+}
