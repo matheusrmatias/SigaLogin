@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/pages/home_page.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
+import 'package:sigalogin/src/pages/settings/view_settings.dart';
+import 'package:sigalogin/src/pages/siga_page.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/copy_text.dart';
+import 'package:sigalogin/src/widgets/navigation_button.dart';
+import 'package:sigalogin/src/widgets/settings_switch.dart';
 import 'package:unicons/unicons.dart';
+import 'package:sigalogin/src/widgets/container_text_info.dart';
 
 import '../../../main.dart';
 import '../../controllers/student_controller.dart';
@@ -37,8 +44,21 @@ class _SettingPageState extends State<SettingPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    TextInfo(text: 'PP\n${student.pp}'),
+                    const SizedBox(width: 8),
+                    TextInfo(text: 'PR\n${student.pr}')
+                  ],
+                ),
+              ),
               CopyCard(text: student.ra, ico: Icon(UniconsLine.graduation_cap,color: MainTheme.black,)),
-              CopyCard(text: student.email, ico: Icon(Icons.email_outlined, color: MainTheme.black))
+              CopyCard(text: student.email, ico: Icon(Icons.email_outlined, color: MainTheme.black)),
+              NavigationButton(text: 'Configuração de Exibição', child: ViewSettings()),
+              NavigationButton(text: 'Acessar o SIGA', child: SigaPage()),
+
             ],
           ),
         ),
@@ -50,9 +70,12 @@ class _SettingPageState extends State<SettingPage> {
             setState(()=>inExit=true);
             try{
               await control.deleteDatabase();
-              if(mounted)Navigator.pushReplacement(context, PageTransition(child: const LoginPage(), type: PageTransitionType.fade));
+              if(mounted){
+                Navigator.pop(context);
+                Navigator.pushReplacement(context, PageTransition(child: const LoginPage(), type: PageTransitionType.fade));
+              }
             }catch (e){
-              Fluttertoast.showToast(msg: 'Não foi possível sair. Verifique sua conexão de internet');
+              debugPrint('Error: $e');
             }finally{
               setState(()=>inExit=false);
             }

@@ -7,6 +7,7 @@ import 'package:sigalogin/src/pages/settings/settings_page.dart';
 import 'package:sigalogin/src/pages/tabs/historic_tab.dart';
 import 'package:sigalogin/src/pages/tabs/notes_tab.dart';
 import 'package:sigalogin/src/pages/tabs/schedule_tab.dart';
+import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import '../controllers/student_controller.dart';
 import '../models/student.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   StudentController control = StudentController();
   late StudentRepository studentRep;
   late Student student;
+  late SettingRepository prefs;
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     studentRep = Provider.of<StudentRepository>(context);
     student = Provider.of<StudentRepository>(context).student;
+    prefs = Provider.of<SettingRepository>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -79,9 +82,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(flex:4,child: Row(
             children: [
-              Container(margin: const EdgeInsets.only(right: 8),height: 50, width: 50,
-                child: const CircleAvatar(radius: 50),
-              ),const SizedBox(width: 12,),Flexible(child: Text(student.name,maxLines: 8, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 12, overflow: TextOverflow.ellipsis)))
+              Container(margin: const EdgeInsets.only(right: 8),height: 70, width: 70,
+                child: prefs.imageDisplay?GestureDetector(child: CircleAvatar(radius: 70,backgroundImage: NetworkImage(student.imageUrl),backgroundColor: MainTheme.orange),onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Image.network(student.imageUrl))):CircleAvatar(radius: 70, backgroundColor: MainTheme.orange, child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary)),
+              ),const SizedBox(width: 12,),Flexible(child: Text(student.name,maxLines: 8, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 14, overflow: TextOverflow.ellipsis)))
             ],
           )),
           Expanded(child: Row(

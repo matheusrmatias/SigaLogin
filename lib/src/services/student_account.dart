@@ -41,7 +41,7 @@ class StudentAccount{
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOREGISTROACADEMICOCURSO').textContent").then((value) => student.ra=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOCICLOATUAL').textContent").then((value) => student.cycle=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPP').textContent").then((value) => student.pp=value.toString().replaceAll('"', ''));
-          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPR').textContent").then((value) => student.pr=value.toString().replaceAll('"', ''));
+          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPR').textContent").then((value) => student.pr=value.toString().replaceAll('"', '').trim());
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vINSTITUCIONALFATEC').textContent").then((value) => student.email=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('MPW0041FOTO').firstChild.src").then((value) => student.imageUrl=value.toString().replaceAll('"', ''));
           _isLoad = false;

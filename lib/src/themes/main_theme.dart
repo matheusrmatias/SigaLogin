@@ -6,6 +6,7 @@ class MainTheme {
   static Color lightOrange = const Color.fromRGBO(251, 146, 60, 1);
   static Color lightBlue = const Color.fromRGBO(134, 171, 212, 1);
   static Color tertiary = const Color.fromRGBO(217, 217, 217, 1);
+  static Color lightGrey = const Color.fromRGBO(217, 217, 217, 1);
   static Color black = const Color.fromRGBO(38, 38, 38, 1);
   static Color white = const Color.fromRGBO(242, 242, 242, 1);
   static Color red = const Color.fromRGBO(217, 4, 4, 1);
