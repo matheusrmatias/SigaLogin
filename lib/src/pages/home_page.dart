@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 100,
         titleSpacing: 0,
         title: _header(),
-        titleTextStyle: const TextStyle(overflow: TextOverflow.visible),
+        actions: [Container(margin: EdgeInsets.only(right: 32),child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))],
         shadowColor: Colors.transparent,
       ),
 
@@ -80,19 +80,11 @@ class _HomePageState extends State<HomePage> {
       height: 100,
       child: Row(
         children: [
-          Expanded(flex:4,child: Row(
-            children: [
-              Container(margin: const EdgeInsets.only(right: 8),height: 70, width: 70,
-                child: prefs.imageDisplay?GestureDetector(child: CircleAvatar(radius: 70,backgroundImage: NetworkImage(student.imageUrl),backgroundColor: MainTheme.orange),onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Image.network(student.imageUrl))):CircleAvatar(radius: 70, backgroundColor: MainTheme.orange, child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary)),
-              ),const SizedBox(width: 12,),Flexible(child: Text(student.name,maxLines: 8, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 14, overflow: TextOverflow.ellipsis)))
-            ],
-          )),
-          Expanded(child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Flexible(child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))
-            ],
-          ))
+          Container(margin: const EdgeInsets.only(right: 8),height: 70, width: 70,
+            child: prefs.imageDisplay?GestureDetector(child: CircleAvatar(radius: 70,backgroundImage: NetworkImage(student.imageUrl),backgroundColor: MainTheme.orange),onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Image.network(student.imageUrl))):CircleAvatar(radius: 70, backgroundColor: MainTheme.orange, child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary)),
+          ),
+          const SizedBox(width: 12),
+          Expanded(child: Text(student.name, maxLines: 3,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 14,),textAlign: TextAlign.justify,)),
         ],
       ),
     );

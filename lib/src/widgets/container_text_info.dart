@@ -3,14 +3,22 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 
 class TextInfo extends StatelessWidget {
   final String text;
-  const TextInfo({super.key, required this.text});
+  final String title;
+  Color titleColor;
+  Color textColor;
+  TextInfo({super.key, required this.text, required this.title, this.titleColor = Colors.black, this.textColor = Colors.black});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(child: Container(
         decoration: BoxDecoration(color: MainTheme.tertiary, borderRadius: const BorderRadius.all(Radius.circular(8))),
         padding: const EdgeInsets.all(8),
-        child: Text(text, style: TextStyle(color: MainTheme.black,fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center)
+        child: Column(
+          children: [
+            Text(title, style: TextStyle(color: titleColor,fontSize: 14, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
+            Text(text, style: TextStyle(color: textColor,fontSize: 14),textAlign: TextAlign.center)
+          ],
+        )
     ));
   }
 }

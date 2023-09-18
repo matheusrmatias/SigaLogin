@@ -24,7 +24,7 @@ class _SettingSwitchState extends State<SettingSwitch> {
       ),
       child: Row(
         children: [
-          Expanded(child: Text(widget.text ,style: TextStyle(fontSize: 16, color: MainTheme.black))),
+          Expanded(child: Text(widget.text ,style: TextStyle(fontSize: 14, color: MainTheme.black))),
           Switch(value: widget.value, onChanged: (e){
             widget.onChange(e);
             setState(()=>widget.value=e);

@@ -28,7 +28,7 @@ class _CopyCardState extends State<CopyCard> {
         child: Row(
           children: [
             widget.ico,
-            Expanded(child: Container(margin: const EdgeInsets.only(left: 4),child: Text(onCopy? 'Copiado para área de transferência.':widget.text, style: TextStyle(fontSize: 16, color: MainTheme.black)))),
+            Expanded(child: Container(margin: const EdgeInsets.only(left: 4),child: Text(onCopy? 'Copiado para área de transferência.':widget.text, style: TextStyle(fontSize: 14, color: MainTheme.black)))),
             IconButton(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,

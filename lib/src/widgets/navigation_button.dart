@@ -20,7 +20,7 @@ class NavigationButton extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: Text(text ,style: TextStyle(fontSize: 16, color: MainTheme.black))),
+              Expanded(child: Text(text ,style: TextStyle(fontSize: 14, color: MainTheme.black))),
               IconButton(onPressed: null,icon: Icon(Icons.arrow_forward_ios, color: MainTheme.black,))
             ],
           ),
