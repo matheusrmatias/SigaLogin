@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
       body:Column(
         children: [
           Expanded(flex: 1,child: Container(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset('assets/images/college campus-bro.png',width: double.maxFinite, fit: BoxFit.cover,alignment: Alignment.bottomCenter),
           )),
           Expanded(flex: 2,child: Container(
             padding: const EdgeInsets.only(right: 32,left: 32,top: 16),
@@ -43,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(50))
             ),
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   Container(
