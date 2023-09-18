@@ -68,7 +68,7 @@ Comparativo entre os temas claro e escuro.
 
 # Possíveis Erros
 
-Caso você insira seu CPF e/ou Senha incorretamente você será alertado com uma mensagem, outros possíveis podem estar associados ao não funcionamento do SIGA e a instabilidade ou indisponibilidade da rede.
+Caso você insira seu CPF e/ou Senha incorretamente você será alertado com uma mensagem, outros possíveis erros podem estar associados ao não funcionamento do SIGA e a instabilidade ou indisponibilidade da rede.
 
 <img src='https://github.com/matheusrmatias/SigaLogin/assets/115509118/d1b9ff33-51a4-4e32-9836-8b78fd676105' alt='Home Light' width=300>
 <img src='https://github.com/matheusrmatias/SigaLogin/assets/115509118/88b76e91-fb19-425a-945f-95eca218e5df' alt='Home Dark' width=300>
