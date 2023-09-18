@@ -71,7 +71,17 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 8),
                         Text(progress, style:TextStyle(color: Theme.of(context).colorScheme.onPrimary))
                       ],
-                    ):ElevatedButton(onPressed: _login,style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24))),
+                    ):ElevatedButton(onPressed: (){
+                      if(identification.text.isEmpty){
+                        Fluttertoast.showToast(msg: 'Informe o CPF');
+                      }else if(password.text.isEmpty){
+                        Fluttertoast.showToast(msg: 'Informe a Senha');
+                      }else if(identification.text.length<10 || identification.text.length>11){
+                        Fluttertoast.showToast(msg: 'Informe um CPF válido');
+                      }else{
+                        _login();
+                      }
+                    },style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24))),
                   )
                 ],
               ),
