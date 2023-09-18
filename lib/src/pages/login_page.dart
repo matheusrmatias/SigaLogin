@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
+import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
 
 import '../controllers/student_controller.dart';
 import '../models/student.dart';
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController password = TextEditingController();
   bool inLogin = false;
   String progress = '';
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   _login()async{
+    counter++;
     setState(()=>inLogin=true);
     StudentAccount account = StudentAccount();
     Student student = Student(cpf: identification.text, password: password.text);
@@ -115,6 +118,10 @@ class _LoginPageState extends State<LoginPage> {
         Fluttertoast.showToast(msg: 'Senha e/ou CPF Inválidos');
       }else{
         Fluttertoast.showToast(msg: 'Ocorreu um erro, tente novamente!');
+        if(counter==3){
+          counter=0;
+          showModalBottomSheetDefault(context, 'Várias tentativas de login sem sucesso, por favor, verifique:\nSua conexão com a internet;\nSe o SIGA está funcionando;');
+        }
       }
 
     }finally{

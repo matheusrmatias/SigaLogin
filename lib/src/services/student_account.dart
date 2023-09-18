@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:sigalogin/src/models/assessment.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student.dart';
@@ -187,6 +188,7 @@ class StudentAccount{
       throw Exception('User not loaded');
     }
   }
+
 
   Future<void> userSchedule(Student student)async{
     int i = 0;
