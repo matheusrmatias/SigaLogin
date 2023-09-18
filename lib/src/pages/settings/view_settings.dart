@@ -26,6 +26,7 @@ class _ViewSettingsState extends State<ViewSettings> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               SettingSwitch(text: 'Foto de Perfil', onChange: _funcitonFt, value: prefs.imageDisplay)

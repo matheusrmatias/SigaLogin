@@ -38,6 +38,7 @@ class _SettingPageState extends State<SettingPage> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               Container(

@@ -23,6 +23,7 @@ class _AboutPageState extends State<AboutPage> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               LinkButton(func: ()async{
