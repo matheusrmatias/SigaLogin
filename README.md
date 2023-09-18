@@ -26,7 +26,7 @@ Esse app é uma forma alternativa, segura e amigável de acessar o SIGA (Sistema
 
 # Funcionamento
 
-O motor disso tudo é o arquivo student_account.dart, ele é responsável por criar uma instância do Webview para coletar os dados;
+O motor disso tudo é o arquivo <a href="https://github.com/matheusrmatias/SigaLogin/blob/main/lib/src/services/student_account.dart">student_account.dart</a>, ele é responsável por criar uma instância do Webview para coletar os dados;
 
 # Telas
 
