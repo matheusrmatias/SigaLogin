@@ -16,7 +16,7 @@ Esse app é uma forma alternativa, segura e amigável de acessar o SIGA (Sistema
 - <a href="#telas">Telas</a>
     - <a href="#login">Login</a>
     - <a href="#home">Home</a>
-    - <a href="#configuracoes">Configurações</a>
+    - <a href="#configurações">Configurações</a>
         - <a href="#siga">SIGA</a>
 - <a href="#tema-escuro">Tema Escuro</a>
     - <a href="#login-dark">Login</a>
