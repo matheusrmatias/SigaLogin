@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
+
+import '../controllers/student_controller.dart';
+import '../models/student.dart';
+import '../repositories/student_repository.dart';
+import '../services/student_account.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late MainTheme theme;
+  late StudentRepository studentRep;
   TextEditingController identification = TextEditingController();
   TextEditingController password = TextEditingController();
   bool inLogin = false;
@@ -20,25 +28,18 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    theme = Provider.of<MainTheme>(context);
+    studentRep = Provider.of<StudentRepository>(context);
     return Scaffold(
-      backgroundColor: theme.onPrimary,
+      backgroundColor: MainTheme.white,
       body:Column(
         children: [
           Expanded(flex: 1,child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Flexible(child: Text('FATEC', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold,color: theme.primary)))
-              ],
-            ),
           )),
           Expanded(flex: 2,child: Container(
             padding: const EdgeInsets.only(right: 32,left: 32,top: 16),
             width: double.maxFinite,
             decoration: BoxDecoration(
-                color: theme.primary,
+                color: Theme.of(context).colorScheme.tertiary,
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(50))
             ),
             child: SingleChildScrollView(
@@ -50,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Flexible(child: Text('SIGA ', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,color: theme.onPrimary))),
-                        Flexible(child: Text('LOGIN', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,color: theme.secondary))),
+                        Flexible(child: Text('SIGA ', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.onPrimary))),
+                        Flexible(child: Text('LOGIN', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,color: MainTheme.orange))),
                       ],
                     ),
                   ),
@@ -61,10 +62,11 @@ class _LoginPageState extends State<LoginPage> {
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     child: inLogin?Column(
                       children: [
-                        CircularProgressIndicator(color: theme.secondary),
-                        Text(progress, style:TextStyle(color: theme.onPrimary))
+                        CircularProgressIndicator(color: MainTheme.orange),
+                        const SizedBox(height: 8),
+                        Text(progress, style:TextStyle(color: Theme.of(context).colorScheme.onPrimary))
                       ],
-                    ):ElevatedButton(onPressed: _login,style: ElevatedButton.styleFrom(backgroundColor: theme.secondary, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: theme.onSecondary, fontSize: 24))),
+                    ):ElevatedButton(onPressed: _login,style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24))),
                   )
                 ],
               ),
@@ -73,11 +75,48 @@ class _LoginPageState extends State<LoginPage> {
           )
         ],
       ),
+
     );
   }
   _login()async{
     setState(()=>inLogin=true);
-    await Future.delayed(Duration(seconds: 2));
-    setState(()=>inLogin=false);
+    StudentAccount account = StudentAccount();
+    Student student = Student(cpf: identification.text, password: password.text);
+    StudentController control = StudentController();
+
+
+    try{
+      // Navigator.push(context, PageTransition(child: TestePage(web: account.view), type: PageTransitionType.fade));
+      setState(()=>progress='Carregando Dados');
+      await account.userLogin(student);
+      setState(()=>progress='Carregando Histórico');
+      await account.userHistoric(student);
+      setState(()=>progress='Carregando Notas');
+      await account.userAssessment(student);
+      setState(()=>progress='Carregando Horários');
+      await account.userSchedule(student);
+      setState(()=>progress='Carregando Faltas');
+      await account.userAbsences(student);
+      setState(()=>progress='Carregando Ementas');
+      await account.userAssessmentDetails(student);
+
+      studentRep.student = student;
+
+      await control.insertDatabase(student);
+      if(context.mounted){
+        Navigator.pushReplacement(context, PageTransition(child: const HomePage(), type: PageTransitionType.fade));
+      }
+    }catch(e){
+      debugPrint('Error $e');
+      if(e.toString() == 'Exception: User or Password Incorrect'){
+        Fluttertoast.showToast(msg: 'Senha e/ou CPF Inválidos');
+      }else{
+        Fluttertoast.showToast(msg: 'Ocorreu um erro, tente novamente!');
+      }
+
+    }finally{
+      setState(()=>progress='');
+      setState(()=>inLogin=false);
+    }
   }
 }

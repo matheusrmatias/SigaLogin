@@ -33,7 +33,13 @@ dependencies:
 
   provider:
   eva_icons_flutter:
-
+  webview_flutter:
+  page_transition:
+  sqflite:
+  contained_tab_bar_view:
+  fluttertoast:
+  unicons:
+  shared_preferences:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

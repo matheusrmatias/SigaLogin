@@ -19,7 +19,6 @@ class LoginInput extends StatefulWidget {
 }
 
 class _LoginInputState extends State<LoginInput> {
-  late MainTheme theme;
   final FocusNode _focusNode = FocusNode();
   bool focus = false;
   late bool hidden;
@@ -34,12 +33,11 @@ class _LoginInputState extends State<LoginInput> {
 
   @override
   Widget build(BuildContext context) {
-    theme = Provider.of<MainTheme>(context);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: theme.onPrimary,
+        color: MainTheme.white,
         borderRadius: const BorderRadius.all(Radius.circular(16))
       ),
       child: Row(
@@ -48,21 +46,21 @@ class _LoginInputState extends State<LoginInput> {
             focusNode: _focusNode,
             inputFormatters: widget.inputFormat,
             keyboardType: widget.inputType,
-            cursorColor: theme.secondary,
-            style: TextStyle(color: theme.primary,fontSize: 16),
+            cursorColor: MainTheme.orange,
+            style: TextStyle(color: MainTheme.black,fontSize: 16),
             obscureText: hidden,
             maxLength: widget.maxLength,
             decoration: InputDecoration(
               border: InputBorder.none,
               icon: widget.icon,
-              iconColor: focus?theme.secondary:theme.primary,
+              iconColor: focus?MainTheme.orange:MainTheme.black,
               hintText: widget.hint,
-              hintStyle: TextStyle(color: theme.primary),
+              hintStyle: TextStyle(color: MainTheme.black),
               counterText: ''
             ),
             controller: widget.controller,
           )),
-          widget.obscure!=null?IconButton(onPressed: ()=>setState(()=>hidden=!hidden!), icon: Icon(hidden?EvaIcons.eyeOff:EvaIcons.eye, color: focus?theme.secondary:theme.primary)):const SizedBox()
+          widget.obscure!=null?IconButton(onPressed: ()=>setState(()=>hidden=!hidden!), icon: Icon(hidden?EvaIcons.eyeOff:EvaIcons.eye, color: focus?MainTheme.orange:MainTheme.black)):const SizedBox()
         ],
       )
     );

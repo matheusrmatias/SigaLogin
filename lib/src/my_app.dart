@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sigalogin/src/themes/main_theme.dart';
 
 class MyApp extends StatelessWidget {
   final Widget page;
@@ -10,7 +11,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ResolveLight',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Resolve-Light'),
+      theme: MainTheme.lightTheme,
+      darkTheme: MainTheme.darkTheme,
       home: page,
     );
   }
