@@ -7,7 +7,7 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/discipline_historic_card.dart';
 
 class HistoricTab extends StatefulWidget {
-  final Function(Student) onPressed;
+  final Function onPressed;
   const HistoricTab({Key? key, required this.onPressed}) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class _HistoricTabState extends State<HistoricTab> {
     return RefreshIndicator(
       backgroundColor: MainTheme.white,
       color: MainTheme.orange,
-      onRefresh: ()async{await widget.onPressed(student);},
+      onRefresh: ()async{await widget.onPressed();},
       child: ListView.builder(
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         itemCount: student.historic.length,

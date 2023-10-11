@@ -7,7 +7,7 @@ import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/widgets/discipline_note_card.dart';
 
 class NotesTab extends StatefulWidget {
-  final Function(Student) onPressed;
+  final Function onPressed;
   const NotesTab({Key? key, required this.onPressed}) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class _NotesTabState extends State<NotesTab> {
     return RefreshIndicator(
       backgroundColor: MainTheme.white,
       color: MainTheme.orange,
-      onRefresh: ()async{await widget.onPressed(student);},
+      onRefresh: ()async{await widget.onPressed();},
       child: ListView.builder(
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         itemCount: student.assessment.length,

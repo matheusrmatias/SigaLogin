@@ -7,7 +7,7 @@ import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/widgets/schedule_card.dart';
 
 class ScheduleTab extends StatefulWidget {
-  final Function(Student) onPressed;
+  final Function onPressed;
   const ScheduleTab({super.key, required this.onPressed});
 
   @override
@@ -22,7 +22,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
     return RefreshIndicator(
       backgroundColor: MainTheme.white,
       color: MainTheme.orange,
-      onRefresh: ()async{await widget.onPressed(student);},
+      onRefresh: ()async{await widget.onPressed();},
       child: ListView.builder(
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           itemCount: student.schedule.length,

@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 100,
         titleSpacing: 0,
         title: _header(),
-        actions: [Container(margin: EdgeInsets.only(right: 32),child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))],
+        actions: [Container(margin: const EdgeInsets.only(right: 32),child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))],
         shadowColor: Colors.transparent,
       ),
 
@@ -90,21 +90,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _updateStudentDate(Student student)async{
+  Future<void> _updateStudentDate()async{
     StudentAccount account = StudentAccount();
+
     try{
       await account.userLogin(student);
-      studentRep.student = student;
       await account.userHistoric(student);
-      studentRep.student = student;
       await account.userAssessment(student);
-      studentRep.student = student;
       await account.userSchedule(student);
-      studentRep.student = student;
       await account.userAbsences(student);
-      studentRep.student = student;
       await account.userAssessmentDetails(student);
-      studentRep.student = student;
       await control.updateDatabase(student);
       studentRep.student = student;
       setState(() {
