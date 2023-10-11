@@ -40,8 +40,8 @@ class StudentAccount{
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vPRO_PESSOALNOME').textContent").then((value) => student.name=value.toString().replaceAll('"', '').replaceAll('-', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOREGISTROACADEMICOCURSO').textContent").then((value) => student.ra=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOCICLOATUAL').textContent").then((value) => student.cycle=value.toString().replaceAll('"', ''));
-          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPP').textContent").then((value) => student.pp=value.toString().replaceAll('"', ''));
-          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPR').textContent").then((value) => student.pr=value.toString().replaceAll('"', ''));
+          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPP').textContent").then((value) => student.pp=value.toString().replaceAll('"', '').trim());
+          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPR').textContent").then((value) => student.pr=value.toString().replaceAll('"', '').trim());
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vINSTITUCIONALFATEC').textContent").then((value) => student.email=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('MPW0041FOTO').firstChild.src").then((value) => student.imageUrl=value.toString().replaceAll('"', ''));
           _isLoad = false;
@@ -150,7 +150,7 @@ class StudentAccount{
                 await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[0].children[0].firstChild.textContent").then((value) => discipline.acronym = value.toString().replaceAll('"', ''));
                 await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[0].children[1].textContent").then((value) => discipline.name = value.toString().replaceAll('"', ''));
 
-                await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[1].children[1].textContent").then((value) => discipline.average = value.toString().replaceAll('"', ''));
+                await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[1].children[1].textContent").then((value) => discipline.average = value.toString().replaceAll('"', '').trim());
                 // await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[2].children[1].textContent").then((value) => discipline.absence = value.toString().replaceAll('"', ''));
                 await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[3].children[1].textContent").then((value) => discipline.frequency = value.toString().replaceAll('"', ''));
 
@@ -158,7 +158,7 @@ class StudentAccount{
                   if(int.parse(grid.toString())>1){
                     for(int k=1; k<int.parse(grid.toString()); k++){
                       await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[0].textContent").then((key)async{
-                        await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[2].textContent").then((val){discipline.assessment[key.toString().replaceAll('"', '')]=val.toString().replaceAll('"', '');});
+                        await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[2].textContent").then((val){discipline.assessment[key.toString().replaceAll('"', '')]=val.toString().replaceAll('"', '').trim();});
                       });
                     }
                   }
@@ -207,13 +207,6 @@ class StudentAccount{
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').firstChild.children[$j].children[0].textContent").then((disciplineAcronym)async{
                   await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').firstChild.children[$j].children[1].textContent").then((disciplineName)async{
                     acronyms[disciplineAcronym.toString()]=disciplineName.toString().replaceAll('"', '').substring(0,disciplineName.toString().indexOf('-')-1);
-                    for(int k = 0; k<student.assessment.length;k++){
-                      if(student.assessment[k].name.replaceAll('"', '') == disciplineName.toString().replaceAll('"', '').substring(0, disciplineName.toString().indexOf('-')-2)){
-                        await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').firstChild.children[$j].children[3].textContent").then((disciplineTeacher)async{
-                          student.assessment[k].teacher=disciplineTeacher.toString().replaceAll('"', '');
-                        });
-                      }
-                    }
                   });
                 });
               }
@@ -287,7 +280,7 @@ class StudentAccount{
         await Future.delayed(const Duration(milliseconds: 1000), ()async{
           if(_isLoad){
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAAULASTOTAISPERIODO").textContent').then((value){
-              student.assessment[i].maxAbsences = (int.parse(value.toString().replaceAll('"', "").replaceAll(" ", ""))/4).toInt().toString();
+              student.assessment[i].maxAbsences = (int.parse(value.toString().replaceAll('"', "").replaceAll(" ", ""))~/4).toString();
               student.assessment[i].totalClasses = value.toString().replaceAll('"', "").replaceAll(" ", "");
             });
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAEMENTA").textContent').then((value){
@@ -296,6 +289,9 @@ class StudentAccount{
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAOBJETIVO").textContent').then((value){
               student.assessment[i].objective = value.toString().replaceAll('"', '');
             });
+            await view.runJavaScriptReturningResult('document.getElementById("span_W0005vPRO_PESSOALNOME").textContent').then((value){
+              student.assessment[i].teacher = value.toString().replaceAll('"', '');
+            });
             _isLoad = false;
             j = 10;
           }
@@ -303,7 +299,7 @@ class StudentAccount{
       }
 
       if(j==10){
-        throw Exception("User not loaded");
+        throw Exception("User not loaded - Syllabus ");
       }
     }
   }

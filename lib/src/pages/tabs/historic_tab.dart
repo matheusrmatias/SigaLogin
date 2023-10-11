@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/student.dart';
-import '../../repositories/student_repository.dart';
-import '../../themes/main_theme.dart';
-import '../../widgets/discipline_historic_card.dart';
+import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/repositories/student_repository.dart';
+import 'package:sigalogin/src/themes/main_theme.dart';
+import 'package:sigalogin/src/widgets/discipline_historic_card.dart';
 
 class HistoricTab extends StatefulWidget {
-  final onPressed;
+  final Function(Student) onPressed;
   const HistoricTab({Key? key, required this.onPressed}) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class _HistoricTabState extends State<HistoricTab> {
       color: MainTheme.orange,
       onRefresh: ()async{await widget.onPressed(student);},
       child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         itemCount: student.historic.length,
         itemBuilder: (context, index) => DisciplineHistoricCard(discipline: student.historic[index]),
       ),

@@ -9,10 +9,10 @@ import 'package:sigalogin/src/pages/tabs/notes_tab.dart';
 import 'package:sigalogin/src/pages/tabs/schedule_tab.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
-import '../controllers/student_controller.dart';
-import '../models/student.dart';
-import '../repositories/student_repository.dart';
-import '../services/student_account.dart';
+import 'package:sigalogin/src/controllers/student_controller.dart';
+import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/repositories/student_repository.dart';
+import 'package:sigalogin/src/services/student_account.dart';
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget {

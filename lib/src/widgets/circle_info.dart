@@ -16,7 +16,7 @@ class CircleInfo extends StatelessWidget {
       margin: const EdgeInsets.only(left: 4),
       child: Column(
           children: [
-            CircleAvatar(backgroundColor: color, child: Text(text.replaceAll(' ', ''), style: TextStyle(color: MainTheme.white, fontSize: 10))),
+            CircleAvatar(backgroundColor: color, child: Text(text.replaceAll(' ', ''), style: TextStyle(color: MainTheme.white, fontSize: 12))),
             const SizedBox(height: 4),
             Text(title, style: TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.bold))
           ]

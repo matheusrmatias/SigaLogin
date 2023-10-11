@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:sigalogin/src/controllers/sqlite_controller.dart';
 import 'package:sqflite/sqflite.dart';
-import '../models/assessment.dart';
-import '../models/schedule.dart';
-import '../models/student.dart';
+import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/models/assessment.dart';
+import 'package:sigalogin/src/models/schedule.dart';
 
 class StudentController extends SqliteController{
   StudentController();

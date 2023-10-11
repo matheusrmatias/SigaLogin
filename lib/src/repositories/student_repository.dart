@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../models/student.dart';
+import 'package:sigalogin/src/models/student.dart';
 
 class StudentRepository extends ChangeNotifier{
   Student _student;

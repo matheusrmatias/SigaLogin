@@ -25,7 +25,7 @@ class DisciplineHistoricCard extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.end,crossAxisAlignment: CrossAxisAlignment.end,children: [
             Expanded(child: Text(discipline['observation']!, style: TextStyle(color: MainTheme.black, fontSize: 12))),
             CircleInfo(MainTheme.lightOrange, title: 'Frequência', text: discipline['frequency']!.replaceAll(' ', ''), textColor: MainTheme.black),
-            CircleInfo(MainTheme.orange, textColor: MainTheme.black,title: 'Média', text: discipline['average'].toString())
+            CircleInfo(MainTheme.orange, textColor: MainTheme.black,title: 'Média', text: discipline['average']=='--'?'--':discipline['average']!.replaceAll(" ", '').length==5?discipline['average']!.toString().substring(0,discipline['average']!.length-3):discipline['average']!.toString().replaceAll(" ", "").substring(0,discipline['average']!.length-2))
           ]),
 
         ],

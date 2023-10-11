@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 
-import '../../models/student.dart';
-import '../../repositories/student_repository.dart';
-import '../../widgets/schedule_card.dart';
+import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/repositories/student_repository.dart';
+import 'package:sigalogin/src/widgets/schedule_card.dart';
 
 class ScheduleTab extends StatefulWidget {
-  final onPressed;
+  final Function(Student) onPressed;
   const ScheduleTab({super.key, required this.onPressed});
 
   @override
@@ -24,7 +24,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
       color: MainTheme.orange,
       onRefresh: ()async{await widget.onPressed(student);},
       child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           itemCount: student.schedule.length,
           itemBuilder: (context, index)=>ScheduleCard(schedule: student.schedule[index])),
     );

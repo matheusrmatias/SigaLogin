@@ -13,6 +13,7 @@ class ScheduleCard extends StatefulWidget {
 class _ScheduleCardState extends State<ScheduleCard> {
   Schedule schedule = Schedule();
   List<Widget> list = [];
+  int counter = 0;
 
   @override
   void initState() {
@@ -21,13 +22,19 @@ class _ScheduleCardState extends State<ScheduleCard> {
     schedule = widget.schedule;
     list.add(Row(children: [Expanded(child: Text(schedule.weekDay,style: TextStyle(fontSize: 14, color: MainTheme.orange, fontWeight: FontWeight.bold)))]));
     for (var element in schedule.schedule) {
-      list.add(
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text(element[0],style: TextStyle(color: MainTheme.black, fontSize: 12, fontFamily: "Arial"), textAlign: TextAlign.justify),const SizedBox(width: 8),Expanded(child: Text(element[1],style: TextStyle(color: MainTheme.black, fontSize: 14),textAlign: TextAlign.end))]),
-          )
-      );
+      if(element.length==2){
+        list.add(Divider(color: MainTheme.orange));
+        list.add(
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text(element[0],style: TextStyle(color: MainTheme.black, fontSize: 12, fontFamily: "Arial"), textAlign: TextAlign.justify),const SizedBox(width: 8),Expanded(child: Text(element[1],style: TextStyle(color: MainTheme.black, fontSize: 14),textAlign: TextAlign.end))]),
+            )
+        );
+      }
+    }
+    if(list.length==1){
       list.add(Divider(color: MainTheme.orange));
+      list.add(Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Flexible(child: Text("Nenhum horário de aula encontrado.",style: TextStyle(color: MainTheme.black, fontSize: 12, fontFamily: "Arial")))]));
     }
   }
 

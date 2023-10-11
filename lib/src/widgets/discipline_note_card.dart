@@ -17,27 +17,26 @@ class DisciplineNoteCard extends StatelessWidget {
           showDialog(context: context, builder: (ctx) => AlertDialog(
             title: Text(discipline.name.toUpperCase(), style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,),
             backgroundColor: Theme.of(context).colorScheme.primary,
-            titleTextStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            titleTextStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontFamily: 'ResolveLight'),
             contentTextStyle: TextStyle(color: MainTheme.orange),
             content: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   const Row(children: [Flexible(child: Text('Ementa', style: TextStyle(fontSize: 14)))]),
-                  Row(children: [Flexible(child: Text(discipline.syllabus, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onPrimary), textAlign: TextAlign.justify,))]),
+                  Row(children: [Flexible(child: Text(discipline.syllabus.isEmpty? "Nenhuma ementa encontrada.":discipline.syllabus, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onPrimary), textAlign: TextAlign.justify,))]),
                   const SizedBox(height: 8),
                   const Row(children: [Flexible(child: Text('Objetivo', style: TextStyle(fontSize: 14)))]),
-                  Row(children: [Flexible(child: Text(discipline.objective, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onPrimary), textAlign: TextAlign.justify,))]),
+                  Row(children: [Flexible(child: Text(discipline.objective.isEmpty? "Nenhum objetivo encontrado.":discipline.objective, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onPrimary), textAlign: TextAlign.justify,))]),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Flexible(child: CircleInfo(MainTheme.orange, title: discipline.name.contains('Estágio')?'Carga Horária':'Total de Aulas', text: discipline.totalClasses,textColor: Theme.of(context).colorScheme.onPrimary)),
+                      Flexible(child: CircleInfo(MainTheme.orange, title: 'Total de Aulas', text: discipline.totalClasses,textColor: Theme.of(context).colorScheme.onPrimary)),
                     ],
                   ),
                   const SizedBox(height: 8),
-
-                  discipline.name.contains('Estágio')||discipline.name.contains('Trabalho de Graduação')?SizedBox():SingleChildScrollView(
+                  SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -85,7 +84,7 @@ class DisciplineNoteCard extends StatelessWidget {
                     child: Builder(builder: (BuildContext context) {
                       List<Widget> assessment = [];
                       for (var element in discipline.assessment.keys) {
-                        assessment.add(CircleInfo(MainTheme.lightBlue, text: discipline.assessment[element].toString(),title: element, textColor: MainTheme.black));
+                        assessment.add(CircleInfo(MainTheme.lightBlue, text: discipline.assessment[element]=='0,0'?'0':discipline.assessment[element]!.replaceAll(" ", '').length==4?discipline.assessment[element]!.toString().substring(0,discipline.assessment[element]!.length-2):discipline.assessment[element]!,title: element, textColor: MainTheme.black));
                       }
                       return Row(
                         children: assessment,
@@ -93,8 +92,8 @@ class DisciplineNoteCard extends StatelessWidget {
                     },),
                   )
                   ),
-                  discipline.name.contains('Estágio')||discipline.name.contains('Trabalho de Graduação')?SizedBox():CircleInfo(MainTheme.lightOrange,text:discipline.absence,title:'Faltas', textColor: MainTheme.black,),
-                  CircleInfo(MainTheme.orange, text:discipline.average, title: 'Nota', textColor: MainTheme.black),
+                  CircleInfo(MainTheme.lightOrange,text:discipline.absence,title:'Faltas', textColor: MainTheme.black,),
+                  CircleInfo(MainTheme.orange, text:discipline.average=='0,0'?'0':discipline.average.replaceAll(" ", '').length==4?discipline.average.toString().substring(0,discipline.average.length-2):discipline.average, title: 'Nota', textColor: MainTheme.black),
                 ],
               ),),
               Row(

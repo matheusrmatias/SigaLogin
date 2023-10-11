@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
 import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
+import 'package:sigalogin/src/models/student.dart';
 
 import '../controllers/student_controller.dart';
-import '../models/student.dart';
 import '../repositories/student_repository.dart';
 import '../services/student_account.dart';
 import 'home_page.dart';
