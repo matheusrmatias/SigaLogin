@@ -142,7 +142,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                       children: [
                         Flexible(child: Image.asset('assets/images/cps-logo.png', width: 150)),
                         Flexible(child:Image.asset('assets/images/logo-sp.png', width: 200)),
-                        Flexible(child: Image.network(studentCardRep.studentCard.image))
+                        Flexible(child: Image.memory(studentCardRep.studentCard.image))
                       ],
                     ),
                     const SizedBox(height: 8),

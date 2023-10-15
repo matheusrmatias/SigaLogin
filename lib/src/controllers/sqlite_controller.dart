@@ -20,7 +20,7 @@ abstract class SqliteController{
   Future _onCreate(Database db, int version)async{
     await db.execute(
         '''CREATE TABLE IF NOT EXISTS student (
-        cpf TEXT, password TEXT, name TEXT, email TEXT, ra TEXT, pp TEXT, pr TEXT, cycle TEXT, image TEXT, fatec TEXT, progress TEXT, period TEXT, graduation TEXT
+        cpf TEXT, password TEXT, name TEXT, email TEXT, ra TEXT, pp TEXT, pr TEXT, cycle TEXT, image BLOB, fatec TEXT, progress TEXT, period TEXT, graduation TEXT
       )'''
     );
     await db.execute(
@@ -38,7 +38,7 @@ abstract class SqliteController{
       )''');
     await db.execute(
         '''CREATE TABLE IF NOT EXISTS card(
-        name TEXT, ra TEXT, cpf TEXT, course TEXT, period TEXT, fatec TEXT, image TEXT, validatorUrl TEXT, shipmentDate TEXT
+        name TEXT, ra TEXT, cpf TEXT, course TEXT, period TEXT, fatec TEXT, image BLOB, validatorUrl TEXT, shipmentDate TEXT
       )''');
   }
 

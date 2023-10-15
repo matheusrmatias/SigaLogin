@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:sigalogin/src/models/assessment.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student.dart';
@@ -43,7 +44,7 @@ class StudentAccount{
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPP').textContent").then((value) => student.pp=value.toString().replaceAll('"', '').trim());
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPR').textContent").then((value) => student.pr=value.toString().replaceAll('"', '').trim());
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vINSTITUCIONALFATEC').textContent").then((value) => student.email=value.toString().replaceAll('"', ''));
-          await view.runJavaScriptReturningResult("document.getElementById('MPW0041FOTO').firstChild.src").then((value) => student.imageUrl=value.toString().replaceAll('"', ''));
+          await view.runJavaScriptReturningResult("document.getElementById('MPW0041FOTO').firstChild.src").then((value)async => student.image=(await get(Uri.parse(value.toString().replaceAll('"', '')))).bodyBytes);
           _isLoad = false;
           i=11;
           print('user basic data coleted');

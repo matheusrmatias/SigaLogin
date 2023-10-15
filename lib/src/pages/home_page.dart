@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         children: [
           Container(margin: const EdgeInsets.only(right: 8),height: 70, width: 70,
-            child: prefs.imageDisplay?GestureDetector(child: CircleAvatar(radius: 70,backgroundImage: NetworkImage(student.imageUrl),backgroundColor: MainTheme.orange),onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Image.network(student.imageUrl))):CircleAvatar(radius: 70, backgroundColor: MainTheme.orange, child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary)),
+            child: prefs.imageDisplay?GestureDetector(child: CircleAvatar(radius: 70,backgroundImage: MemoryImage(student.image),backgroundColor: MainTheme.orange),onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Image.memory(student.image))):CircleAvatar(radius: 70, backgroundColor: MainTheme.orange, child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary)),
           ),
           const SizedBox(width: 12),
           Expanded(child: Text(student.name, maxLines: 3,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 14,),textAlign: TextAlign.justify,)),

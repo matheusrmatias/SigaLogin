@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:sigalogin/src/controllers/sqlite_controller.dart';
 import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sqflite/sqflite.dart';
@@ -34,7 +36,7 @@ class StudentCardController extends SqliteController{
         period: results[0]['period'].toString(),
         fatec: results[0]['fatec'].toString(),
         shipmentDate: results[0]['shipmentDate'].toString(),
-        image: results[0]['image'].toString(),
+        image: results[0]['image'] as Uint8List,
         validatorUrl: results[0]['validatorUrl'].toString()
     );
   }

@@ -27,7 +27,7 @@ class StudentCardService {
           course: student.graduation,
           period: student.period,
           fatec: student.fatec,
-          image: student.imageUrl,
+          image: student.image,
           validatorUrl: url,
           shipmentDate: shippingDate
       );

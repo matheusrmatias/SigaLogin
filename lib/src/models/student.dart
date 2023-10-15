@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'assessment.dart';
 import 'schedule.dart';
 
@@ -12,7 +15,7 @@ class Student{
   String _pp = '';
   String _pr = '';
   String _cycle = '';
-  String _imageUrl = '';
+  Uint8List _image = Uint8List(0);
   String _fatec = '';
   String _progress = '';
   String _graduation = '';
@@ -35,10 +38,10 @@ class Student{
     _historic = value;
   }
 
-  String get imageUrl => _imageUrl;
+  Uint8List get image => _image;
 
-  set imageUrl(String value) {
-    _imageUrl = value;
+  set image(Uint8List value) {
+    _image = value;
   }
 
   String get cycle => _cycle;

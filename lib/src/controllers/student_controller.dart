@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:sigalogin/src/controllers/sqlite_controller.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sigalogin/src/models/student.dart';
@@ -12,7 +13,7 @@ class StudentController extends SqliteController{
     Database db = await startDatabase();
     String sqlStudent = '''
        INSERT INTO student (cpf, password, name, email, ra, pp, pr, cycle, image, fatec, progress, period, graduation) VALUES (
-       '${student.cpf}','${student.password}','${student.name}','${student.email}','${student.ra}','${student.pp}','${student.pr}','${student.cycle}','${student.imageUrl}',
+       '${student.cpf}','${student.password}','${student.name}','${student.email}','${student.ra}','${student.pp}','${student.pr}','${student.cycle}','${student.image}',
        '${student.fatec}','${student.progress}', '${student.period}', '${student.graduation}'
        )
     ''';
@@ -75,7 +76,7 @@ class StudentController extends SqliteController{
         student.pp  = value[0]['pp'].toString();
         student.pr  = value[0]['pr'].toString();
         student.cycle  = value[0]['cycle'].toString();
-        student.imageUrl  = value[0]['image'].toString();
+        student.image  = Uint8List.fromList(value[0]['image'].toString().replaceAll('[', '').replaceAll(']', '').split(',').map<int>((e) => int.parse(e)).toList());
         student.fatec  = value[0]['fatec'].toString();
         student.progress  = value[0]['progress'].toString();
         student.graduation  = value[0]['graduation'].toString();

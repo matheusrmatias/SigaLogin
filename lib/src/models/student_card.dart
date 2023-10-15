@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class StudentCard{
   String name;
   String ra;
@@ -5,7 +7,7 @@ class StudentCard{
   String course;
   String period;
   String fatec;
-  String image;
+  Uint8List image;
   String validatorUrl;
 
   String shipmentDate;
@@ -29,7 +31,7 @@ class StudentCard{
     name: '',
     period: '',
     ra: '',
-    image: '',
+    image: Uint8List(0),
     shipmentDate: '',
     validatorUrl: ''
   );
