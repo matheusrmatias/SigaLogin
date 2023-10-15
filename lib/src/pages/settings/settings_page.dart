@@ -5,6 +5,7 @@ import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/pages/about_page.dart';
 import 'package:sigalogin/src/pages/developer_contact.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
+import 'package:sigalogin/src/pages/settings/student_card_page.dart';
 import 'package:sigalogin/src/pages/settings/view_settings.dart';
 import 'package:sigalogin/src/pages/siga_page.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
@@ -54,6 +55,8 @@ class _SettingPageState extends State<SettingPage> {
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               CopyCard(text: student.ra, ico: Icon(UniconsLine.graduation_cap,color: MainTheme.black,)),
               CopyCard(text: student.email, ico: Icon(Icons.email_outlined, color: MainTheme.black)),
+              NavigationButton(text: 'Carteirinha de Estudante', child: const StudentCardPage()),
+              Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Configuração de Exibição', child: const ViewSettings()),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Contato com o Desenvolvedor', child: const DeveloperContact()),

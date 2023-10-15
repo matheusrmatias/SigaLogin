@@ -10,6 +10,7 @@ class MainTheme {
   static Color black = const Color.fromRGBO(38, 38, 38, 1);
   static Color white = const Color.fromRGBO(242, 242, 242, 1);
   static Color red = const Color.fromRGBO(217, 4, 4, 1);
+  static Color darkRed = const Color.fromRGBO(151, 37, 26, 1.0);
 
   static ThemeData darkTheme = ThemeData(
     fontFamily: 'ResolveLight',

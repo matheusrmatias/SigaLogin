@@ -36,6 +36,10 @@ abstract class SqliteController{
         '''CREATE TABLE IF NOT EXISTS schedule(
         weekDay TEXT, schedule TEXT
       )''');
+    await db.execute(
+        '''CREATE TABLE IF NOT EXISTS card(
+        name TEXT, ra TEXT, cpf TEXT, course TEXT, period TEXT, fatec TEXT, image TEXT, validatorUrl TEXT, shipmentDate TEXT
+      )''');
   }
 
   Future deleteDatabase() async{
@@ -44,5 +48,6 @@ abstract class SqliteController{
     await db.delete('historic');
     await db.delete('assessment');
     await db.delete('schedule');
+    await db.delete('card');
   }
 }
