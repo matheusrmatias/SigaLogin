@@ -36,7 +36,7 @@ class StudentCardController extends SqliteController{
         period: results[0]['period'].toString(),
         fatec: results[0]['fatec'].toString(),
         shipmentDate: results[0]['shipmentDate'].toString(),
-        image: results[0]['image'] as Uint8List,
+        image: Uint8List.fromList(results[0]['image'].toString().replaceAll('[', '').replaceAll(']', '').split(',').map<int>((e) => int.parse(e)).toList()),
         validatorUrl: results[0]['validatorUrl'].toString()
     );
   }

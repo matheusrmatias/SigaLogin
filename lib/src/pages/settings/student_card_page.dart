@@ -54,31 +54,24 @@ class _StudentCardPageState extends State<StudentCardPage> {
           ],
         )
       ):Padding(padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              CarouselSlider(
-                  items: [
-                    GestureDetector(onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Scaffold(body: GestureDetector(onTap: ()=>Navigator.pop(context),child: _cardWidget(),))),child: _cardWidget()),
-                    Container(alignment: Alignment.center,child: QrImageView(data: studentCardRep.studentCard.validatorUrl,version: 9,eyeStyle: QrEyeStyle(color: Theme.of(context).colorScheme.onPrimary,eyeShape: QrEyeShape.square),dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square,color: Theme.of(context).colorScheme.onPrimary))),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(onPressed: _deleteCard, icon: const Icon(EvaIcons.trash), label: const Text('Excluir Carteirinha',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),style: ElevatedButton.styleFrom(backgroundColor: MainTheme.red)),
-                      ],
-                    )
-                  ],
-                  options: CarouselOptions(
-                      enableInfiniteScroll: false,
-                      viewportFraction: 1,
-                      height: 700,
-                      onPageChanged: (index, reason)=>setState(()=>activeIndex=index)
-                  )
-              ),
+        child: CarouselSlider(
+            items: [
+              GestureDetector(onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Scaffold(body: GestureDetector(onTap: ()=>Navigator.pop(context),child: _cardWidget(),))),child: _cardWidget()),
+              Container(alignment: Alignment.center,child: QrImageView(data: studentCardRep.studentCard.validatorUrl,version: 9,eyeStyle: QrEyeStyle(color: Theme.of(context).colorScheme.onPrimary,eyeShape: QrEyeShape.square),dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square,color: Theme.of(context).colorScheme.onPrimary))),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(onPressed: _deleteCard, icon: const Icon(EvaIcons.trash), label: const Text('Excluir Carteirinha',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),style: ElevatedButton.styleFrom(backgroundColor: MainTheme.red)),
+                ],
+              )
             ],
-          ),
-        )
+            options: CarouselOptions(
+                enableInfiniteScroll: false,
+                viewportFraction: 1,
+                height: double.maxFinite,
+                onPageChanged: (index, reason)=>setState(()=>activeIndex=index)
+            )
+        ),
       ),
       bottomNavigationBar: studentCardRep.studentCard.name==''? null:Padding(padding: const EdgeInsets.all(4),child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [AnimatedSmoothIndicator(activeIndex: activeIndex, count: 3,effect: WormEffect(activeDotColor: MainTheme.red))])),
     );
@@ -132,28 +125,25 @@ class _StudentCardPageState extends State<StudentCardPage> {
             child: Container(
               padding: const EdgeInsets.all(8),
               color: Colors.white,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Flexible(child: Image.asset('assets/images/cps-logo.png', width: 150)),
-                        Flexible(child:Image.asset('assets/images/logo-sp.png', width: 200)),
-                        Flexible(child: Image.memory(studentCardRep.studentCard.image))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(child: Text(studentCardRep.studentCard.fatec,style: TextStyle(color: MainTheme.red,fontWeight: FontWeight.bold)))
-                      ],
-                    )
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Flexible(child: Image.asset('assets/images/cps-logo.png', width: 150)),
+                      Flexible(child:Image.asset('assets/images/logo-sp.png', width: 200)),
+                      Flexible(child: Image.memory(studentCardRep.studentCard.image))
+                    ],
+                  )),
+                  const SizedBox(height: 8),
+                  Expanded(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(child: Text(studentCardRep.studentCard.fatec,style: TextStyle(color: MainTheme.red,fontWeight: FontWeight.bold)))
+                    ],
+                  ))
+                ],
               ),
             )
         ),
@@ -161,52 +151,49 @@ class _StudentCardPageState extends State<StudentCardPage> {
             child:Container(
               padding: const EdgeInsets.all(8),
               color: MainTheme.red,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(child: Text(studentCardRep.studentCard.name, style: _style()))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Flexible(child: Image.asset('assets/images/fatec.png', width: 80))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Flexible(child: Text('Curso Superior em ${studentCardRep.studentCard.course}', style: _style()))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Flexible(child: Text('PERIODO: ${studentCardRep.studentCard.period}', style: _style()))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(child: Text('RA: ${studentCardRep.studentCard.ra}', style: _style())),
-                        Flexible(child: Text('CPF: ${studentCardRep.studentCard.cpf}', style: _style()))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(child: Text('EXPEDIÇÃO: ${studentCardRep.studentCard.shipmentDate}', style: _style())),
-                        Flexible(child: Text('VALIDADE: ${studentCardRep.studentCard.shipmentDate.substring(0,studentCardRep.studentCard.shipmentDate.length-2)}${int.parse(studentCardRep.studentCard.shipmentDate.substring(studentCardRep.studentCard.shipmentDate.length-2,studentCardRep.studentCard.shipmentDate.length))+3}', style: _style()))
-                      ],
-                    ),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  Flexible(child: Row(
+                    children: [
+                      Flexible(child: Text(studentCardRep.studentCard.name, style: _style()))
+                    ],
+                  )),
+                  const SizedBox(height: 8),
+                  Flexible(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset('assets/images/fatec.png')
+                    ],
+                  )),
+                  const SizedBox(height: 8),
+                  Flexible(child: Row(
+                    children: [
+                      Flexible(child: Text('Curso Superior em ${studentCardRep.studentCard.course}', style: _style()))
+                    ],
+                  )),
+                  const SizedBox(height: 8),
+                  Flexible(child: Row(
+                    children: [
+                      Flexible(child: Text('PERIODO: ${studentCardRep.studentCard.period}', style: _style()))
+                    ],
+                  )),
+                  const SizedBox(height: 8),
+                  Flexible(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(child: Text('RA: ${studentCardRep.studentCard.ra}', style: _style())),
+                      Flexible(child: Text('CPF: ${studentCardRep.studentCard.cpf}', style: _style()))
+                    ],
+                  )),
+                  const SizedBox(height: 8),
+                  Flexible(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(child: Text('EXPEDIÇÃO: ${studentCardRep.studentCard.shipmentDate}', style: _style())),
+                      Flexible(child: Text('VALIDADE: ${studentCardRep.studentCard.shipmentDate.substring(0,studentCardRep.studentCard.shipmentDate.length-2)}${int.parse(studentCardRep.studentCard.shipmentDate.substring(studentCardRep.studentCard.shipmentDate.length-2,studentCardRep.studentCard.shipmentDate.length))+3}', style: _style()))
+                    ],
+                  )),
+                ],
               ),
             )
         )
