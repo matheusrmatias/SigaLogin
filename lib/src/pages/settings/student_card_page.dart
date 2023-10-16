@@ -128,21 +128,21 @@ class _StudentCardPageState extends State<StudentCardPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(child: Row(
+                  Expanded(child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Flexible(child: Image.asset('assets/images/cps-logo.png', width: 150)),
-                      Flexible(child:Image.asset('assets/images/logo-sp.png', width: 200)),
+                      Flexible(child:Image.asset('assets/images/logo-sp-old.png', width: 200)),
                       Flexible(child: Image.memory(studentCardRep.studentCard.image))
                     ],
                   )),
                   const SizedBox(height: 8),
-                  Expanded(child: Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(child: Text(studentCardRep.studentCard.fatec,style: TextStyle(color: MainTheme.red,fontWeight: FontWeight.bold)))
                     ],
-                  ))
+                  )
                 ],
               ),
             )
@@ -155,7 +155,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                 children: [
                   Flexible(child: Row(
                     children: [
-                      Flexible(child: Text(studentCardRep.studentCard.name, style: _style()))
+                      Flexible(child: Text(studentCardRep.studentCard.name, style: _style(bold: true,fontSize: 16)))
                     ],
                   )),
                   const SizedBox(height: 8),
@@ -200,5 +200,5 @@ class _StudentCardPageState extends State<StudentCardPage> {
       ],
     ));
   }
-  TextStyle _style()=> TextStyle(color: MainTheme.white);
+  TextStyle _style({bool bold = false, double? fontSize})=> TextStyle(color: MainTheme.white, fontWeight: bold?FontWeight.bold:FontWeight.normal, fontSize: fontSize);
 }
