@@ -1,6 +1,7 @@
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/pages/settings/settings_page.dart';
@@ -102,6 +103,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         student = student;
       });
+      prefs.lastInfoUpdate = DateFormat('dd/MM HH:mm').format(DateTime.now());
       Fluttertoast.showToast(msg: 'Dados atualizados com sucesso!');
     }catch(e){
       print('Error $e');

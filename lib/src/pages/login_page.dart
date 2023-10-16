@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
 import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
@@ -23,6 +25,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late StudentRepository studentRep;
+  late SettingRepository setting;
   TextEditingController identification = TextEditingController();
   TextEditingController password = TextEditingController();
   bool inLogin = false;
@@ -32,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     studentRep = Provider.of<StudentRepository>(context);
+    setting = Provider.of<SettingRepository>(context);
     return Scaffold(
       backgroundColor: MainTheme.white,
       body:Column(
@@ -116,10 +120,12 @@ class _LoginPageState extends State<LoginPage> {
       await account.userAbsences(student);
       setState(()=>progress='Carregando Ementas');
       await account.userAssessmentDetails(student);
-
       studentRep.student = student;
 
       await control.insertDatabase(student);
+
+      setting.lastInfoUpdate = DateFormat('dd/MM/yy HH:mm').format(DateTime.now());
+
       if(context.mounted){
         Navigator.pushReplacement(context, PageTransition(child: const HomePage(), type: PageTransitionType.fade));
       }

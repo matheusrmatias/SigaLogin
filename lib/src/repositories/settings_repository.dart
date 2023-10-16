@@ -5,10 +5,21 @@ class SettingRepository extends ChangeNotifier{
   SharedPreferences prefs;
   late bool? _imageDisplay;
   late String? _theme;
+  late String? _lastInfoUpdate;
 
   SettingRepository({required this.prefs}){
     _imageDisplay = getBool('imageDisplay');
     _theme = getString('theme');
+    _lastInfoUpdate = getString('lastInfoUpdate');
+  }
+
+
+  String get lastInfoUpdate => _lastInfoUpdate??'n/a';
+
+  set lastInfoUpdate(String value) {
+    _lastInfoUpdate = value;
+    setString('lastInfoUpdate', value);
+    notifyListeners();
   }
 
   bool get imageDisplay => _imageDisplay==null?true:_imageDisplay!;

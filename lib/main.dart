@@ -44,6 +44,7 @@ void main() async{
           child: const MyApp(page: LoginPage()),
         )
     );
+
   }else{
     runApp(
         MultiProvider(
