@@ -83,7 +83,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
       String code = await FlutterBarcodeScanner.scanBarcode(
           "#F97316",
           "Cancelar",
-          false,
+          true,
           ScanMode.QR
       );
       if(code=="-1"){
