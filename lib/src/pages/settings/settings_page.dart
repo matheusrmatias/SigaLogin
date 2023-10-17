@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sigalogin/src/pages/about_page.dart';
 import 'package:sigalogin/src/pages/developer_contact.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/pages/settings/student_card_page.dart';
 import 'package:sigalogin/src/pages/settings/view_settings.dart';
 import 'package:sigalogin/src/pages/siga_page.dart';
+import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/copy_text.dart';
@@ -25,12 +27,17 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   late Student student;
+  late StudentRepository studentRep;
+  late StudentCardRepository stundentCardRep;
   StudentController control = StudentController();
   bool inExit = false;
   
   @override
   Widget build(BuildContext context) {
     student = Provider.of<StudentRepository>(context).student;
+    studentRep = Provider.of<StudentRepository>(context);
+    stundentCardRep = Provider.of<StudentCardRepository>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Configurações', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -80,6 +87,8 @@ class _SettingPageState extends State<SettingPage> {
             setState(()=>inExit=true);
             try{
               await control.deleteDatabase();
+              studentRep.student = Student(cpf: '', password: '');
+              stundentCardRep.studentCard = StudentCard.empty();
               if(mounted){
                 Navigator.pop(context);
                 Navigator.pushReplacement(context, PageTransition(child: const LoginPage(), type: PageTransitionType.fade));
