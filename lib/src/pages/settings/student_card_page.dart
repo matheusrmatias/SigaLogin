@@ -61,7 +61,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton.icon(onPressed: _deleteCard, icon: const Icon(EvaIcons.trash), label: const Text('Excluir Carteirinha',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),style: ElevatedButton.styleFrom(backgroundColor: MainTheme.red)),
+                  ElevatedButton.icon(onPressed: _deleteCard, icon: Icon(EvaIcons.trash,color: MainTheme.white,), label: Text('Excluir Carteirinha',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: MainTheme.white)),style: ElevatedButton.styleFrom(backgroundColor: MainTheme.red)),
                 ],
               )
             ],

@@ -12,7 +12,7 @@ showModalBottomSheetDefault(BuildContext context, String text){
       child: SingleChildScrollView(
           child: Row(
             children: [
-              Image.asset('assets/images/splash.png', width: 50),
+              ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
               const SizedBox(width: 4),
               Expanded(child: Column(
                 children: [
@@ -49,7 +49,7 @@ showModalBottomSheetConfirmAction(BuildContext context,String text, Function() f
       child: SingleChildScrollView(
           child: Row(
             children: [
-              Image.asset('assets/images/splash.png', width: 50),
+              ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
               const SizedBox(width: 4),
               Expanded(child: Column(
                 children: [

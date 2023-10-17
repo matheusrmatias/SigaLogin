@@ -18,7 +18,7 @@ class StudentCardService {
       final name = table.children[2].children[1].text.trim();
       final shippingDate = table.children[1].children[1].text.trim();
 
-      if(!student.name.contains(name))throw Exception('Divirgência de Estudante');
+      if(student.name != name)throw Exception('Divirgência de Estudante');
 
       return StudentCard(
           name: name,

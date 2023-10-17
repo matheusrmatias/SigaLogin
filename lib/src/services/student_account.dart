@@ -38,7 +38,7 @@ class StudentAccount{
           await view.runJavaScriptReturningResult("document.getElementById('span_vACD_CURSONOME_MPAGE').textContent").then((value) => student.graduation=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_vSITUACAO_MPAGE').textContent").then((value) => student.progress=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_vACD_PERIODODESCRICAO_MPAGE').textContent").then((value) => student.period=value.toString().replaceAll('"', ''));
-          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vPRO_PESSOALNOME').textContent").then((value) => student.name=value.toString().replaceAll('"', '').replaceAll('-', ''));
+          await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vPRO_PESSOALNOME').textContent").then((value) => student.name=value.toString().replaceAll('"', '').replaceAll('-', '').trim());
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOREGISTROACADEMICOCURSO').textContent").then((value) => student.ra=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOCICLOATUAL').textContent").then((value) => student.cycle=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vACD_ALUNOCURSOINDICEPP').textContent").then((value) => student.pp=value.toString().replaceAll('"', '').trim());

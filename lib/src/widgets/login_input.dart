@@ -12,7 +12,8 @@ class LoginInput extends StatefulWidget {
   TextInputType? inputType;
   List<TextInputFormatter>? inputFormat;
   int? maxLength;
-  LoginInput({super.key, required this.controller, this.icon, this.hint, this.obscure, this.inputType, this.inputFormat, this.maxLength});
+  bool? enbled;
+  LoginInput({super.key, required this.controller, this.icon, this.hint, this.obscure, this.inputType, this.inputFormat, this.maxLength, this.enbled});
 
   @override
   State<LoginInput> createState() => _LoginInputState();
@@ -43,12 +44,14 @@ class _LoginInputState extends State<LoginInput> {
       child: Row(
         children: [
           Expanded(child: TextField(
+            enabled: widget.enbled,
             focusNode: _focusNode,
             inputFormatters: widget.inputFormat,
             keyboardType: widget.inputType,
             cursorColor: MainTheme.orange,
             style: TextStyle(color: MainTheme.black,fontSize: 16),
             obscureText: hidden,
+            onTapOutside: (e)=>_focusNode.unfocus(),
             maxLength: widget.maxLength,
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -60,7 +63,7 @@ class _LoginInputState extends State<LoginInput> {
             ),
             controller: widget.controller,
           )),
-          widget.obscure!=null?IconButton(onPressed: ()=>setState(()=>hidden=!hidden!), icon: Icon(hidden?EvaIcons.eyeOff:EvaIcons.eye, color: focus?MainTheme.orange:MainTheme.black)):const SizedBox()
+          widget.obscure!=null?IconButton(onPressed: (){setState(()=>hidden=!hidden!);}, icon: Icon(hidden?EvaIcons.eyeOff:EvaIcons.eye, color: focus?MainTheme.orange:MainTheme.black)):const SizedBox()
         ],
       )
     );
