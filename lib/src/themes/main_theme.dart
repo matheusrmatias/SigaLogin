@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class MainTheme {
   static Color orange = const Color.fromRGBO(249, 115, 22, 1);
+  static Color blackLowOpacity = const Color.fromRGBO(38, 38, 38, 0.1);
   static Color lightOrange = const Color.fromRGBO(251, 146, 60, 1);
   static Color lightBlue = const Color.fromRGBO(134, 171, 212, 1);
   static Color tertiary = const Color.fromRGBO(217, 217, 217, 1);

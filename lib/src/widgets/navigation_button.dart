@@ -10,6 +10,8 @@ class NavigationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container( margin: const EdgeInsets.symmetric(vertical: 4),child:InkWell(
+        splashColor: MainTheme.blackLowOpacity,
+        highlightColor: MainTheme.blackLowOpacity,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         onTap: ()=>Navigator.push(context, PageTransition(child: child,type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))),
         child: Ink(

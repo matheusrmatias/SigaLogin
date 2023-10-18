@@ -71,9 +71,9 @@ class SettingRepository extends ChangeNotifier{
 
   clear()async{
     await prefs.clear();
-    _imageDisplay = null;
-    _appLock = null;
-    _lastInfoUpdate = null;
+    imageDisplay = true;
+    appLock = false;
+    lastInfoUpdate = '';
   }
 
 

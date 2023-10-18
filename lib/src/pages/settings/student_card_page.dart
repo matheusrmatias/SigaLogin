@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sigalogin/src/controllers/student_card_controller.dart';
@@ -78,6 +79,12 @@ class _StudentCardPageState extends State<StudentCardPage> {
   }
   _reaQRCode()async{
     StudentCardService service = StudentCardService();
+    PermissionStatus status = await Permission.camera.request();
+    if(status.isDenied || status.isPermanentlyDenied){
+      if(mounted)showModalBottomSheetDefault(context, 'É necessário conceder a permissão de acesso à câmera!');
+      return;
+    }
+    
     setState(()=>inValidation = true);
     try{
       String code = await FlutterBarcodeScanner.scanBarcode(

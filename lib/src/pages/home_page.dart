@@ -17,7 +17,8 @@ import 'package:sigalogin/src/services/student_account.dart';
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  bool afterLogin;
+  HomePage({Key? key, this.afterLogin=false}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _updateStudentDate(init: true);
+    if(!widget.afterLogin)_updateStudentDate(init: true);
     pc = PageController(initialPage: page);
   }
 
@@ -43,36 +44,36 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     student = Provider.of<StudentRepository>(context).student;
     prefs = Provider.of<SettingRepository>(context);
-    return Scaffold(
+    return DefaultTabController(length: 3,child:Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
         toolbarHeight: 100,
         title: _header(),
+        bottom: TabBar(
+            labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,
+            labelColor: MainTheme.orange,
+            unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            labelPadding: const EdgeInsets.symmetric(vertical: 16),
+            indicatorColor: MainTheme.orange,
+            indicatorPadding: EdgeInsets.only(bottom: 4),
+            tabs: const [
+              Text('Notas', overflow: TextOverflow.ellipsis),
+              Text('Histórico',overflow: TextOverflow.ellipsis),
+              Text('Horários',overflow: TextOverflow.ellipsis)
+        ]),
         actions: [Container(margin: const EdgeInsets.only(right: 32),child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))],
         shadowColor: Colors.transparent,
       ),
-      body: ContainedTabBarView(
-          tabBarProperties: TabBarProperties(
-              padding: const EdgeInsets.only(bottom: 4),
-              indicatorColor: MainTheme.orange,
-              labelColor: MainTheme.orange,
-              unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,
-          ),
-          tabBarViewProperties: const TabBarViewProperties(
-              physics: BouncingScrollPhysics()
-          ),
-          tabs: const [
-            Tab(child: Text('Notas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis)),
-            Tab(child: Text('Histórico', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis)),
-            Tab(child: Text('Horários', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis))
-          ],
-          views: [
-            NotesTab(onPressed: _updateStudentDate),
-            HistoricTab(onPressed: _updateStudentDate),
-            ScheduleTab(onPressed: _updateStudentDate)
-          ]
+      body: TabBarView(
+        physics: const BouncingScrollPhysics(),
+        children: [
+          NotesTab(onPressed: _updateStudentDate),
+          HistoricTab(onPressed: _updateStudentDate),
+          ScheduleTab(onPressed: _updateStudentDate)
+        ],
       ),
-    );
+    ));
   }
   _header(){
     return Container(
@@ -103,15 +104,11 @@ class _HomePageState extends State<HomePage> {
     try{
       if(!init)prefs.lastInfoUpdate = 'Atualizando Dados';
       await account.userLogin(student);
-      prefs.lastInfoUpdate = 'Atualizando Histórico';
+      prefs.lastInfoUpdate = 'Atualizando Dados';
       await account.userHistoric(student);
-      prefs.lastInfoUpdate = 'Atualizando Notas';
       await account.userAssessment(student);
-      prefs.lastInfoUpdate = 'Atualizando Horários';
       await account.userSchedule(student);
-      prefs.lastInfoUpdate = 'Atualizando Faltas';
       await account.userAbsences(student);
-      prefs.lastInfoUpdate = 'Atualizando Ementas';
       await account.userAssessmentDetails(student);
       await control.updateDatabase(student);
       studentRep.student = student;
@@ -136,3 +133,4 @@ class _HomePageState extends State<HomePage> {
   }
 
 }
+

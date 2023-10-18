@@ -31,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   bool inLogin = false;
   String progress = '';
   int counter = 0;
+  int percentage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,10 @@ class _LoginPageState extends State<LoginPage> {
                             margin: const EdgeInsets.symmetric(vertical: 8),
                             child: inLogin?Column(
                               children: [
-                                CircularProgressIndicator(color: MainTheme.orange),
+                                Stack(alignment: Alignment.center,children: [
+                                  SizedBox(height: MediaQuery.of(context).textScaleFactor*44,width: MediaQuery.of(context).textScaleFactor*44, child: CircularProgressIndicator(color: MainTheme.orange)),
+                                  Text('$percentage %')
+                                ],),
                                 const SizedBox(height: 8),
                                 Text(progress, style:TextStyle(color: Theme.of(context).colorScheme.onPrimary))
                               ],
@@ -112,18 +116,26 @@ class _LoginPageState extends State<LoginPage> {
 
     try{
       // Navigator.push(context, PageTransition(child: TestePage(web: account.view), type: PageTransitionType.fade));
+      percentage = 0;
       setState(()=>progress='Carregando Dados');
       await account.userLogin(student);
+      percentage = 15;
       setState(()=>progress='Carregando Histórico');
       await account.userHistoric(student);
+      percentage = 30;
       setState(()=>progress='Carregando Notas');
+      percentage = 45;
       await account.userAssessment(student);
+      percentage = 60;
       setState(()=>progress='Carregando Horários');
       await account.userSchedule(student);
+      percentage = 75;
       setState(()=>progress='Carregando Faltas');
       await account.userAbsences(student);
+      percentage = 90;
       setState(()=>progress='Carregando Ementas');
       await account.userAssessmentDetails(student);
+      percentage = 100;
       studentRep.student = student;
 
       await control.insertDatabase(student);
@@ -132,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
       setting.lastInfoUpdate = 'Última Atualização: ${DateFormat('dd/MM HH:mm').format(DateTime.now())}';
 
       if(context.mounted){
-        Navigator.pushReplacement(context, PageTransition(child: const HomePage(), type: PageTransitionType.fade));
+        Navigator.pushReplacement(context, PageTransition(child: HomePage(afterLogin: true), type: PageTransitionType.fade));
       }
     }catch(e){
       debugPrint('Error $e');

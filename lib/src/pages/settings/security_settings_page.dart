@@ -18,12 +18,12 @@ class _SecuritySettingPageState extends State<SecuritySettingPage> {
     LocalAuthService service = LocalAuthService();
     if(e){
       if(!(await service.isBiometricAvailable())){
-        Fluttertoast.showToast(msg: 'Biometria não disponível');
+        Fluttertoast.showToast(msg: 'Não é possível habilitar o bloqueio.');
         prefs.appLock = false;
         return;
       }
       if(!(await service.authenticate())){
-        Fluttertoast.showToast(msg: 'Biometria não reconhecida');
+        Fluttertoast.showToast(msg: 'Não foi possível habilitar o bloqueio.');
         prefs.appLock = false;
         return;
       }

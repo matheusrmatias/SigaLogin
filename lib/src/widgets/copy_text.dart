@@ -16,10 +16,12 @@ class _CopyCardState extends State<CopyCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Container(margin: const EdgeInsets.symmetric(vertical: 4),child: InkWell(
       onTap: _copyText,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
+      splashColor: MainTheme.blackLowOpacity,
+      highlightColor: MainTheme.blackLowOpacity,
+      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
             color: MainTheme.tertiary,
@@ -37,12 +39,12 @@ class _CopyCardState extends State<CopyCard> {
                   switchInCurve: Curves.easeInOut,
                   switchOutCurve: Curves.easeInOut,
                   transitionBuilder: (child, animation)=>ScaleTransition(scale: animation, child: child),
-                  child: onCopy? Icon(Icons.done,color: MainTheme.orange, key: ValueKey("true"),):Icon(Icons.copy,color: MainTheme.black, key: ValueKey("false"))
+                  child: onCopy? Icon(Icons.done,color: MainTheme.orange, key: const ValueKey("true"),):Icon(Icons.copy,color: MainTheme.black, key: const ValueKey("false"))
                   ,))
           ],
         ),
       ),
-    );
+    ));
   }
 
   _copyText()async{

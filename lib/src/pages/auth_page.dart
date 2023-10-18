@@ -51,7 +51,7 @@ class _AuthPageState extends State<AuthPage> {
     setState(()=>inAuthenticate=false);
 
     if(authenticated){
-      if(mounted)Navigator.pushReplacement(context, PageTransition(child: const HomePage(), type: PageTransitionType.fade));
+      if(mounted)Navigator.pushReplacement(context, PageTransition(child: HomePage(), type: PageTransitionType.fade));
     }
   }
 }

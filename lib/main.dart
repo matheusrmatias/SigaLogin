@@ -67,7 +67,7 @@ void main() async{
               ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
               ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
             ],
-            child: const MyApp(page: HomePage()),
+            child: MyApp(page: HomePage()),
           )
       );
     }

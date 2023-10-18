@@ -18,9 +18,9 @@ class LocalAuthService {
       authMessages:const <AuthMessages>[AndroidAuthMessages(
         signInTitle: 'Validar Identidade',
         cancelButton: 'Cancelar',
-        biometricHint: ''
+        biometricHint: '',
       )],
-      localizedReason: 'Use a biometria para validar sua identidade.',
+      localizedReason: 'Use a biometria ou senha para validar sua identidade.',
     );
   }
 }

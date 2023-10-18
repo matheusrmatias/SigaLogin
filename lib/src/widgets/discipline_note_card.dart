@@ -12,7 +12,11 @@ class DisciplineNoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return GestureDetector(
+    return Container(margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),child: InkWell(
+        splashColor: MainTheme.blackLowOpacity,
+        highlightColor: MainTheme.blackLowOpacity,
+
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         onTap:(){
           showDialog(context: context, builder: (ctx) => AlertDialog(
             title: Text(discipline.name.toUpperCase(), style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,),
@@ -61,8 +65,7 @@ class DisciplineNoteCard extends StatelessWidget {
             ),
           ));
         },
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+        child: Ink(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
               color: MainTheme.tertiary,
@@ -105,7 +108,7 @@ class DisciplineNoteCard extends StatelessWidget {
             ],
           ),
         )
-    );
+    ));
   }
 
 }
