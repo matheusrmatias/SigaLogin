@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _updateStudentDate();
+    _updateStudentDate(init: true);
     pc = PageController(initialPage: page);
   }
 
@@ -88,37 +88,47 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _updateStudentDate()async{
+  Future<void> _updateStudentDate({bool init = false})async{
     final studentRep = context.read<StudentRepository>();
-    Student student = context.read<StudentRepository>().student;
-    StudentAccount account = StudentAccount();
+    final stud = context.read<StudentRepository>().student;
+    Student student = Student(cpf: stud.cpf, password: stud.password);
+    String? lasInfoUpdate;
     if(inUpdateStudentData){
       Fluttertoast.showToast(msg: 'Os dados estão sendo atualizados, aguarde.');
       return;
     }
-    setState(()=>inUpdateStudentData = true);
+    if(!init)lasInfoUpdate = prefs.lastInfoUpdate;
+    inUpdateStudentData = true;
+    StudentAccount account = StudentAccount();
     try{
+      if(!init)prefs.lastInfoUpdate = 'Atualizando Dados';
       await account.userLogin(student);
+      prefs.lastInfoUpdate = 'Atualizando Histórico';
       await account.userHistoric(student);
+      prefs.lastInfoUpdate = 'Atualizando Notas';
       await account.userAssessment(student);
+      prefs.lastInfoUpdate = 'Atualizando Horários';
       await account.userSchedule(student);
+      prefs.lastInfoUpdate = 'Atualizando Faltas';
       await account.userAbsences(student);
+      prefs.lastInfoUpdate = 'Atualizando Ementas';
       await account.userAssessmentDetails(student);
       await control.updateDatabase(student);
       studentRep.student = student;
       setState(() {
-        student = student;
+        this.student = student;
       });
-      prefs.lastInfoUpdate = DateFormat('dd/MM HH:mm').format(DateTime.now());
+      prefs.lastInfoUpdate = 'Última Atualização: ${DateFormat('dd/MM HH:mm').format(DateTime.now())}';
       Fluttertoast.showToast(msg: 'Dados atualizados com sucesso!');
     }catch(e){
       print('Error $e');
+      if(lasInfoUpdate!=null)prefs.lastInfoUpdate=lasInfoUpdate;
       if(e.toString() == 'Exception: User or Password Incorrect'){
         Fluttertoast.showToast(msg: 'Faça o Login Novamente');
         control.deleteDatabase();
         Navigator.pushReplacement(context, PageTransition(child:const LoginPage(), type: PageTransitionType.fade));
       }else{
-        Fluttertoast.showToast(msg: 'Não foi possível atualizar os dados, tente novamente!');
+        if(!init)Fluttertoast.showToast(msg: 'Não foi possível atualizar os dados, tente novamente!');
       }
     }finally{
       setState(()=>inUpdateStudentData = false);

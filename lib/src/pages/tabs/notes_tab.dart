@@ -32,7 +32,7 @@ class _NotesTabState extends State<NotesTab> {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         itemCount: student.assessment.length+1,
         itemBuilder: (context, index){
-          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text('Última Atualização: ${setting.lastInfoUpdate}'))]);
+          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
           return DisciplineNoteCard(discipline: student.assessment[index-1]);
         },
       ),

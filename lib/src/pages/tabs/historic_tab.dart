@@ -31,7 +31,7 @@ class _HistoricTabState extends State<HistoricTab> {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         itemCount: student.historic.length+1,
         itemBuilder: (context, index){
-          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text('Última Atualização: ${setting.lastInfoUpdate}'))]);
+          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
           return DisciplineHistoricCard(discipline: student.historic[index-1]);
         }
       ),

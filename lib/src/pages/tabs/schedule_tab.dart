@@ -31,7 +31,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         itemCount: student.schedule.length+1,
         itemBuilder: (context, index){
-          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text('Última Atualização: ${setting.lastInfoUpdate}'))]);
+          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
           return ScheduleCard(schedule: student.schedule[index-1]);
         },
       ),

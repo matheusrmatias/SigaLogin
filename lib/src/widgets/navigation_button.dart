@@ -9,14 +9,14 @@ class NavigationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Container( margin: const EdgeInsets.symmetric(vertical: 4),child:InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         onTap: ()=>Navigator.push(context, PageTransition(child: child,type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Ink(
+          padding:const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-              color: MainTheme.lightGrey,
-              borderRadius: const BorderRadius.all(Radius.circular(8))
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: MainTheme.lightGrey,
           ),
           child: Row(
             children: [
@@ -25,6 +25,6 @@ class NavigationButton extends StatelessWidget {
             ],
           ),
         )
-    );
+    ));
   }
 }

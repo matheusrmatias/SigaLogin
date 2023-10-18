@@ -17,8 +17,10 @@ import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/copy_text.dart';
 import 'package:sigalogin/src/widgets/navigation_button.dart';
+import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
 import 'package:unicons/unicons.dart';
 import 'package:sigalogin/src/widgets/container_text_info.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../controllers/student_controller.dart';
 
 class SettingPage extends StatefulWidget {
@@ -58,9 +60,9 @@ class _SettingPageState extends State<SettingPage> {
                 margin: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
                   children: [
-                    TextInfo(text: '${student.pp} %', title: 'PP', titleColor: MainTheme.orange),
+                    Expanded(child: TextInfo(text: '${student.pp} %', title: 'PP', titleColor: MainTheme.orange)),
                     const SizedBox(width: 8),
-                    TextInfo(text: student.pr, title: 'PR', titleColor: MainTheme.orange)
+                    Expanded(child: TextInfo(text: student.pr, title: 'PR', titleColor: MainTheme.orange))
                   ],
                 ),
               ),
@@ -77,11 +79,14 @@ class _SettingPageState extends State<SettingPage> {
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Sobre', child: const AboutPage()),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  TextInfo(title: 'Desenvolvido por:', text: 'Matheus Rato Matias', titleColor: MainTheme.orange)
-                ],
-              ),
+              GestureDetector(
+                onTap: ()async=>await launchUrlString('https://matheusrmatias.dev.br', mode: LaunchMode.externalApplication),
+                child: Row(
+                  children: [
+                    Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'matheusrmatias.dev.br', titleColor: MainTheme.orange))
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -90,21 +95,23 @@ class _SettingPageState extends State<SettingPage> {
         height: 70,
         child: ElevatedButton(
           onPressed: ()async{
-            setState(()=>inExit=true);
-            try{
-              await control.deleteDatabase();
-              studentRep.student = Student(cpf: '', password: '');
-              stundentCardRep.studentCard = StudentCard.empty();
-              await settingRep.clear();
-              if(mounted){
-                Navigator.pop(context);
-                Navigator.pushReplacement(context, PageTransition(child: const LoginPage(), type: PageTransitionType.fade));
+            showModalBottomSheetConfirmAction(context, 'Deseja mesmo sair?', ()async{
+              setState(()=>inExit=true);
+              try{
+                await control.deleteDatabase();
+                studentRep.student = Student(cpf: '', password: '');
+                stundentCardRep.studentCard = StudentCard.empty();
+                await settingRep.clear();
+                if(mounted){
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, PageTransition(child: const LoginPage(), type: PageTransitionType.fade));
+                }
+              }catch (e){
+                debugPrint('Error: $e');
+              }finally{
+                setState(()=>inExit=false);
               }
-            }catch (e){
-              debugPrint('Error: $e');
-            }finally{
-              setState(()=>inExit=false);
-            }
+            });
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: MainTheme.orange,

@@ -10,7 +10,7 @@ class TextInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: Container(
+    return Container(
         decoration: BoxDecoration(color: MainTheme.tertiary, borderRadius: const BorderRadius.all(Radius.circular(8))),
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -19,7 +19,7 @@ class TextInfo extends StatelessWidget {
             Text(text, style: TextStyle(color: textColor,fontSize: 14),textAlign: TextAlign.center)
           ],
         )
-    ));
+    );
   }
 }
 

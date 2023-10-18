@@ -128,7 +128,8 @@ class _LoginPageState extends State<LoginPage> {
 
       await control.insertDatabase(student);
 
-      setting.lastInfoUpdate = DateFormat('dd/MM/yy HH:mm').format(DateTime.now());
+
+      setting.lastInfoUpdate = 'Última Atualização: ${DateFormat('dd/MM HH:mm').format(DateTime.now())}';
 
       if(context.mounted){
         Navigator.pushReplacement(context, PageTransition(child: const HomePage(), type: PageTransitionType.fade));

@@ -47,7 +47,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Flexible(child: Text('Valide sua carteirinha escaneando o QR Code presente na carteirinha fisica.',textAlign: TextAlign.center,))
+                Flexible(child: Text('Gere sua carteirinha digital escaneando o QR Code presente na carteirinha fisica.',textAlign: TextAlign.center,))
               ],
             ),
             const SizedBox(height: 8),
