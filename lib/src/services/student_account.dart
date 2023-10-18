@@ -10,8 +10,9 @@ class StudentAccount{
   WebViewController view = WebViewController();
   WebViewCookieManager cookie = WebViewCookieManager();
   bool _isLoad = false;
+  int? countDown;
 
-  StudentAccount(){
+  StudentAccount({this.countDown}){
     print('Contructor');
     _initialize();
   }
@@ -30,7 +31,7 @@ class StudentAccount{
 
   Future<void> userLogin(Student student)async{
     int i=0;
-    for(i; i<10; i++){
+    for(i; i<(countDown??10); i++){
       await Future.delayed(const Duration(milliseconds: 1000),()async{
         if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' && _isLoad){
           print('home loaded');
@@ -46,7 +47,7 @@ class StudentAccount{
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vINSTITUCIONALFATEC').textContent").then((value) => student.email=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('MPW0041FOTO').firstChild.src").then((value)async => student.image=(await get(Uri.parse(value.toString().replaceAll('"', '')))).bodyBytes);
           _isLoad = false;
-          i=11;
+          i=countDown??10;
           print('user basic data coleted');
         }else if(_isLoad && await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/login.aspx'){
           print('login loaded');
@@ -58,7 +59,7 @@ class StudentAccount{
 
       });
     }
-    if(i==10){
+    if(i==(countDown??10)){
       String error = '';
       await view.runJavaScriptReturningResult("document.getElementById('span_vSAIDA').textContent").then((value){
         error = value.toString();
@@ -74,8 +75,8 @@ class StudentAccount{
   Future<void> userHistoric(Student student) async{
     int k = 0;
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx'){
-      await view.runJavaScript("document.getElementById('ygtvlabelel8Span').click()");
-      for(k;k<10;k++){
+      await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/historicocompleto.aspx'));
+      for(k;k<(countDown??10);k++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad){
             print('historic loaded');
@@ -108,7 +109,7 @@ class StudentAccount{
               }
 
             });
-            k=11;
+            k=countDown??10;
             _isLoad = false;
             historic.sort((a, b) {
               int periodComparison = a["period"]!.compareTo(b["period"]!);
@@ -122,7 +123,7 @@ class StudentAccount{
           }
         });
       }
-      if(k==10){
+      if(k==(countDown??10)){
         throw Exception('Historic User Data not loaded');
       }
     }else{
@@ -133,8 +134,8 @@ class StudentAccount{
   Future<void> userAssessment(Student student) async{
     int i = 0;
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' || await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/historicocompleto.aspx'){
-      await view.runJavaScript("document.getElementById('ygtvlabelel10Span').click()");
-      for(i; i<10; i++){
+      await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/notasparciais.aspx'));
+      for(i; i<(countDown??10); i++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad){
             print('assessments loaded');
@@ -167,7 +168,7 @@ class StudentAccount{
                 assessments.add(discipline);
               }
             });
-            i=11;
+            i=countDown??10;
             _isLoad=false;
             assessments.sort((a, b){
               if(a.name!.contains('Estágio') || a.name!.contains('Trabalho de Graduação')){
@@ -182,7 +183,7 @@ class StudentAccount{
           }
         });
       }
-      if(i==10){
+      if(i==(countDown??10)){
         throw Exception('Assessment User Data not loaded');
       }
     }else{
@@ -194,8 +195,8 @@ class StudentAccount{
   Future<void> userSchedule(Student student)async{
     int i = 0;
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' || await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/notasparciais.aspx'){
-      await view.runJavaScript("document.getElementById('ygtvlabelel9Span').click()");
-      for(i; i<10; i++){
+      await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/horario.aspx'));
+      for(i; i<(countDown??10); i++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad) {
             print('schedule loaded');
@@ -229,7 +230,7 @@ class StudentAccount{
               scheduleTemp.schedule.sort((a,b)=>a[0].compareTo(b[0]));
               schedule.add(scheduleTemp);
             }
-            i=11;
+            i=countDown??10;
             _isLoad=false;
             student.schedule=schedule;
           }
@@ -240,8 +241,8 @@ class StudentAccount{
 
   Future<void> userAbsences(Student student)async{
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' || await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/horario.aspx'){
-      await view.runJavaScript("document.getElementById('ygtvlabelel11Span').click()");
-      for(int i = 0; i<10; i++){
+      await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/faltasparciais.aspx'));
+      for(int i = 0; i<(countDown??10); i++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad) {
             print('absences loaded');
@@ -262,7 +263,7 @@ class StudentAccount{
                 }
               });
             }
-            i=11;
+            i=countDown??10;
             _isLoad=false;
           }
         });
@@ -277,7 +278,7 @@ class StudentAccount{
       await view.loadRequest(Uri.parse("https://siga.cps.sp.gov.br/aluno/planoensino.aspx?" + student.assessment[i].acronym, 0, 56));
 
       int j = 0;
-      for(j; j<10; j++){
+      for(j; j<(countDown??10); j++){
         await Future.delayed(const Duration(milliseconds: 1000), ()async{
           if(_isLoad){
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAAULASTOTAISPERIODO").textContent').then((value){
@@ -294,12 +295,12 @@ class StudentAccount{
               student.assessment[i].teacher = value.toString().replaceAll('"', '');
             });
             _isLoad = false;
-            j = 10;
+            j = countDown??10;
           }
         });
       }
 
-      if(j==10){
+      if(j==(countDown??10)){
         throw Exception("User not loaded - Syllabus ");
       }
     }

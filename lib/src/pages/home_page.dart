@@ -27,20 +27,20 @@ class _HomePageState extends State<HomePage> {
   int page = 1;
   late PageController pc;
   StudentController control = StudentController();
-  late StudentRepository studentRep;
   late Student student;
   late SettingRepository prefs;
+  bool inUpdateStudentData = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _updateStudentDate();
     pc = PageController(initialPage: page);
   }
 
   @override
   Widget build(BuildContext context) {
-    studentRep = Provider.of<StudentRepository>(context);
     student = Provider.of<StudentRepository>(context).student;
     prefs = Provider.of<SettingRepository>(context);
     return Scaffold(
@@ -89,8 +89,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _updateStudentDate()async{
+    final studentRep = context.read<StudentRepository>();
+    Student student = context.read<StudentRepository>().student;
     StudentAccount account = StudentAccount();
-
+    if(inUpdateStudentData){
+      Fluttertoast.showToast(msg: 'Os dados estão sendo atualizados, aguarde.');
+      return;
+    }
+    setState(()=>inUpdateStudentData = true);
     try{
       await account.userLogin(student);
       await account.userHistoric(student);
@@ -112,8 +118,10 @@ class _HomePageState extends State<HomePage> {
         control.deleteDatabase();
         Navigator.pushReplacement(context, PageTransition(child:const LoginPage(), type: PageTransitionType.fade));
       }else{
-        Fluttertoast.showToast(msg: 'Ocorreu um erro, tente novamente!');
+        Fluttertoast.showToast(msg: 'Não foi possível atualizar os dados, tente novamente!');
       }
+    }finally{
+      setState(()=>inUpdateStudentData = false);
     }
   }
 
