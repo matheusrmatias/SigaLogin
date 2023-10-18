@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sigalogin/src/pages/about_page.dart';
 import 'package:sigalogin/src/pages/developer_contact.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
+import 'package:sigalogin/src/pages/settings/security_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/student_card_page.dart';
 import 'package:sigalogin/src/pages/settings/view_settings.dart';
 import 'package:sigalogin/src/pages/siga_page.dart';
+import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
@@ -29,6 +32,7 @@ class _SettingPageState extends State<SettingPage> {
   late Student student;
   late StudentRepository studentRep;
   late StudentCardRepository stundentCardRep;
+  late SettingRepository settingRep;
   StudentController control = StudentController();
   bool inExit = false;
   
@@ -37,6 +41,7 @@ class _SettingPageState extends State<SettingPage> {
     student = Provider.of<StudentRepository>(context).student;
     studentRep = Provider.of<StudentRepository>(context);
     stundentCardRep = Provider.of<StudentCardRepository>(context);
+    settingRep = Provider.of<SettingRepository>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -65,6 +70,7 @@ class _SettingPageState extends State<SettingPage> {
               NavigationButton(text: 'Carteirinha de Estudante', child: const StudentCardPage()),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Configuração de Exibição', child: const ViewSettings()),
+              NavigationButton(text: 'Configuração de Segurança', child: const SecuritySettingPage()),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Contato com o Desenvolvedor', child: const DeveloperContact()),
               NavigationButton(text: 'Acessar o SIGA', child: const SigaPage()),
@@ -89,6 +95,7 @@ class _SettingPageState extends State<SettingPage> {
               await control.deleteDatabase();
               studentRep.student = Student(cpf: '', password: '');
               stundentCardRep.studentCard = StudentCard.empty();
+              await settingRep.clear();
               if(mounted){
                 Navigator.pop(context);
                 Navigator.pushReplacement(context, PageTransition(child: const LoginPage(), type: PageTransitionType.fade));

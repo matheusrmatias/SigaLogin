@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sigalogin/src/controllers/student_card_controller.dart';
 import 'package:sigalogin/src/models/student_card.dart';
+import 'package:sigalogin/src/pages/auth_page.dart';
 import 'package:sigalogin/src/pages/splash_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
+import 'package:sigalogin/src/services/local_auth_service.dart';
 
 
 void main() async{
@@ -46,16 +48,28 @@ void main() async{
     );
 
   }else{
-    runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
-            ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
-            ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
-          ],
-          child: const MyApp(page: HomePage()),
-        )
-    );
+    if(prefs.getBool('appLock')??false){
+      runApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
+              ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
+              ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
+            ],
+            child: const MyApp(page: AuthPage()),
+          )
+      );
+    }else{
+      runApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
+              ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
+              ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
+            ],
+            child: const MyApp(page: HomePage()),
+          )
+      );
+    }
   }
-
 }

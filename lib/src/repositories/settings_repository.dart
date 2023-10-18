@@ -6,13 +6,23 @@ class SettingRepository extends ChangeNotifier{
   late bool? _imageDisplay;
   late String? _theme;
   late String? _lastInfoUpdate;
+  late bool? _appLock;
 
   SettingRepository({required this.prefs}){
     _imageDisplay = getBool('imageDisplay');
     _theme = getString('theme');
     _lastInfoUpdate = getString('lastInfoUpdate');
+    _appLock = getBool('appLock');
   }
 
+
+  bool get appLock => _appLock??false;
+
+  set appLock(bool value) {
+    _appLock = value;
+    setBool('appLock', value);
+    notifyListeners();
+  }
 
   String get lastInfoUpdate => _lastInfoUpdate??'n/a';
 
@@ -22,7 +32,7 @@ class SettingRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  bool get imageDisplay => _imageDisplay==null?true:_imageDisplay!;
+  bool get imageDisplay => _imageDisplay??true;
 
   set imageDisplay(bool value){
     _imageDisplay = value;
@@ -58,5 +68,13 @@ class SettingRepository extends ChangeNotifier{
   setString(String key, String value)async{
     await prefs.setString(key, value);
   }
+
+  clear()async{
+    await prefs.clear();
+    _imageDisplay = null;
+    _appLock = null;
+    _lastInfoUpdate = null;
+  }
+
 
 }
