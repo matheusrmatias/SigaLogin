@@ -15,7 +15,6 @@ class DisciplineNoteCard extends StatelessWidget {
     return Container(margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),child: InkWell(
         splashColor: MainTheme.blackLowOpacity,
         highlightColor: MainTheme.blackLowOpacity,
-
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         onTap:(){
           showDialog(context: context, builder: (ctx) => AlertDialog(

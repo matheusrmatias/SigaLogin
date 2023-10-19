@@ -10,27 +10,25 @@ showModalBottomSheetDefault(BuildContext context, String text){
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       child: SingleChildScrollView(
-          child: Row(
+          child: Column(
             children: [
-              ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
-              const SizedBox(width: 4),
-              Expanded(child: Column(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.end,children: [Flexible(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))],),
+                  ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
                   const SizedBox(width: 4),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Flexible(child: GestureDetector(
-                            onTap: ()=>Navigator.pop(context),
-                            child: Text('OK', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
-                        ),)
-                      ],
-                    ),
-                  )
+                  Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))
                 ],
-              ))
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(child: GestureDetector(
+                      onTap: ()=>Navigator.pop(context),
+                      child: Text('OK', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
+                  ))
+                ],
+              ),
             ],
           )
       ),
@@ -40,42 +38,40 @@ showModalBottomSheetDefault(BuildContext context, String text){
 
 showModalBottomSheetConfirmAction(BuildContext context,String text, Function() function){
   showModalBottomSheet(backgroundColor: Colors.transparent,context: context, builder: (BuildContext context){
-    return Container( decoration: BoxDecoration(
+    return Container(decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         borderRadius: const BorderRadius.all(Radius.circular(16))
     ),
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       child: SingleChildScrollView(
-          child: Row(
-            children: [
-              ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
-              const SizedBox(width: 4),
-              Expanded(child: Column(
-                children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.end,children: [Flexible(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))],),
-                  const SizedBox(width: 4),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Flexible(child: GestureDetector(
-                            onTap: ()=>Navigator.pop(context),
-                            child: Text('Não', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
-                        )),
-                        SizedBox(width: 16,),
-                        Flexible(child: GestureDetector(
-                            onTap: (){function();Navigator.pop(context);},
-                            child: Text('Sim', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
-                        ))
-                      ],
-                    ),
-                  )
-                ],
-              ))
-            ],
-          )
-      ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
+                const SizedBox(width: 4),
+                Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify))
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(child: GestureDetector(
+                    onTap: ()=>Navigator.pop(context),
+                    child: Text('Não', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
+                )),
+                const SizedBox(width: 16),
+                Flexible(child: GestureDetector(
+                    onTap: (){function();Navigator.pop(context);},
+                    child: Text('Sim', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
+                ))
+              ],
+            ),
+          ],
+        ),
+      )
     );
   });
 }

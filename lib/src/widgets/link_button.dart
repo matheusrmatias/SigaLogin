@@ -13,11 +13,12 @@ class LinkButton extends StatefulWidget {
 class _LinkButtonState extends State<LinkButton> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Container(margin: const EdgeInsets.symmetric(vertical: 8), child: InkWell(
+        splashColor: MainTheme.blackLowOpacity,
+        highlightColor: MainTheme.blackLowOpacity,
         onTap: widget.func,
-        child: Container(
+        child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          margin: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
               color: MainTheme.lightGrey,
               borderRadius: const BorderRadius.all(Radius.circular(8))
@@ -31,6 +32,6 @@ class _LinkButtonState extends State<LinkButton> {
             ],
           ),
         )
-    );
+    ));
   }
 }
