@@ -6,12 +6,13 @@ class TextInfo extends StatelessWidget {
   final String title;
   Color titleColor;
   Color textColor;
-  TextInfo({super.key, required this.text, required this.title, this.titleColor = Colors.black, this.textColor = Colors.black});
+  Color? backgroundColor;
+  TextInfo({super.key, required this.text, required this.title, this.titleColor = Colors.black, this.textColor = Colors.black, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(color: MainTheme.tertiary, borderRadius: const BorderRadius.all(Radius.circular(8))),
+        decoration: BoxDecoration(color: backgroundColor?? MainTheme.lightGrey, borderRadius: const BorderRadius.all(Radius.circular(8))),
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,37 +57,63 @@ class _SettingPageState extends State<SettingPage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
+              const SizedBox(height: 8),
+              Ink(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: MainTheme.lightGrey,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))
+                ),
+                child: Column(
                   children: [
-                    Expanded(child: TextInfo(text: '${student.pp} %', title: 'PP', titleColor: MainTheme.orange)),
-                    const SizedBox(width: 8),
-                    Expanded(child: TextInfo(text: student.pr, title: 'PR', titleColor: MainTheme.orange))
+                    CircleAvatar(backgroundImage: MemoryImage(student.image),backgroundColor: MainTheme.orange,radius: 30),
+                    Row(
+                      children: [
+                        Expanded(child: Text(student.name, maxLines: 3,style: TextStyle(color: MainTheme.black,fontSize: 14),textAlign: TextAlign.center)),
+                      ],
+                    ),
+                    Divider(color: MainTheme.black,),
+                    Row(
+                      children: [
+                        Expanded(child: Text(student.graduation, maxLines: 3,style: TextStyle(color: MainTheme.black,fontSize: 14),textAlign: TextAlign.center,)),
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Expanded(child: TextInfo(text: '${student.pp} %', title: 'PP', titleColor: MainTheme.white, backgroundColor: MainTheme.orange,textColor: MainTheme.white,)),
+                          const SizedBox(width: 8),
+                          Expanded(child: TextInfo(text: student.pr, title: 'PR', titleColor: MainTheme.white,backgroundColor: MainTheme.orange,textColor: MainTheme.white,))
+                        ],
+                      ),
+                    ),
+                    CopyCard(text: student.ra, ico: Icon(UniconsLine.graduation_cap,color: MainTheme.white), color: MainTheme.white, backgroundColor: MainTheme.lightBlue,animationColor: MainTheme.white,),
+                    NavigationButton(text: 'Carteirinha de Estudante',color: MainTheme.white,backgroundColor: MainTheme.lightBlue, child: const StudentCardPage()),
                   ],
                 ),
               ),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
-              CopyCard(text: student.ra, ico: Icon(UniconsLine.graduation_cap,color: MainTheme.black,)),
-              CopyCard(text: student.email, ico: Icon(Icons.email_outlined, color: MainTheme.black)),
-              NavigationButton(text: 'Carteirinha de Estudante', child: const StudentCardPage()),
-              Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Configuração de Exibição', child: const ViewSettings()),
               NavigationButton(text: 'Configuração de Segurança', child: const SecuritySettingPage()),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
-              NavigationButton(text: 'Contato com o Desenvolvedor', child: const DeveloperContact()),
               NavigationButton(text: 'Acessar o SIGA', child: const SigaPage()),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Sobre', child: const AboutPage()),
               const SizedBox(height: 8),
-              GestureDetector(
-                onTap: ()async=>await launchUrlString('https://matheusrmatias.dev.br', mode: LaunchMode.externalApplication),
-                child: Row(
-                  children: [
-                    Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'matheusrmatias.dev.br', titleColor: MainTheme.orange))
-                  ],
-                ),
-              )
+              FutureBuilder<PackageInfo>(future: PackageInfo.fromPlatform(),builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.done:
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                          'Já tá no Siga? v${snapshot.data!.version}', style: TextStyle(fontSize: 12, color: MainTheme.white)),
+                    );
+                  default:
+                    return const SizedBox();
+                }
+              }),
+              const SizedBox(height: 8)
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -197,7 +198,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(child: Text('EXPEDIÇÃO: ${studentCardRep.studentCard.shipmentDate}', style: _style())),
-                      Flexible(child: Text('VALIDADE: ${studentCardRep.studentCard.shipmentDate.substring(0,studentCardRep.studentCard.shipmentDate.length-2)}${int.parse(studentCardRep.studentCard.shipmentDate.substring(studentCardRep.studentCard.shipmentDate.length-2,studentCardRep.studentCard.shipmentDate.length))+3}', style: _style()))
+                      Flexible(child: Text('VALIDADE: ${_validityCalc()}', style: _style()))
                     ],
                   )),
                 ],
@@ -206,6 +207,11 @@ class _StudentCardPageState extends State<StudentCardPage> {
         )
       ],
     ));
+  }
+  String _validityCalc(){
+    List<String> splited = studentCardRep.studentCard.shipmentDate.split('/');
+    DateTime validity = DateTime(int.parse('20${splited[2]}'), int.parse(splited[1]), int.parse(splited[0])).add(const Duration(days: 365*3));
+    return DateFormat('dd/MM/yy').format(validity);
   }
   TextStyle _style({bool bold = false, double? fontSize})=> TextStyle(color: MainTheme.white, fontWeight: bold?FontWeight.bold:FontWeight.normal, fontSize: fontSize);
 }

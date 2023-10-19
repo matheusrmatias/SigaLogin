@@ -1,8 +1,11 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sigalogin/src/pages/libs_page.dart';
+import 'package:sigalogin/src/themes/main_theme.dart';
+import 'package:sigalogin/src/widgets/container_text_info.dart';
 import 'package:sigalogin/src/widgets/link_button.dart';
 import 'package:sigalogin/src/widgets/navigation_button.dart';
+import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AboutPage extends StatefulWidget {
@@ -26,6 +29,16 @@ class _AboutPageState extends State<AboutPage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
+              const SizedBox(height: 8),
+              Container(
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: MainTheme.orange,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))
+                ),
+                child: Image.asset('assets/images/icon.png', width: 100, height: 100,),
+              ),
+              const SizedBox(height: 8),
               LinkButton(func: ()async{
                 try{
                   await launchUrlString("https://github.com/matheusrmatias/SigaLogin", mode: LaunchMode.externalApplication);
@@ -33,7 +46,31 @@ class _AboutPageState extends State<AboutPage> {
                   Fluttertoast.showToast(msg: 'Não é possível abrir o link');
                 }
               }, text: 'Projeto no GitHub'),
-              NavigationButton(text: 'Libs Utilizadas', child: const LibsPage())
+              LinkButton(func: ()async{
+                try{
+                  await launchUrlString("mailto:contato@matheusrmatias.dev.br", mode: LaunchMode.externalApplication);
+                }catch (e){
+                  Fluttertoast.showToast(msg: 'Não é possível abrir o link');
+                }
+              }, text: 'Enviar E-mail'),
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: ()async=>await launchUrlString('https://matheusrmatias.dev.br', mode: LaunchMode.externalApplication),
+                child: Row(
+                  children: [
+                    Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'matheusrmatias.dev.br', titleColor: MainTheme.orange))
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(onPressed: ()async=>await launchUrlString('https://github.com/matheusrmatias/', mode: LaunchMode.externalApplication), icon: const Icon(UniconsLine.github)),
+                  IconButton(onPressed: ()async=>await launchUrlString('https://www.instagram.com/matheusrmatias/', mode: LaunchMode.externalApplication), icon: const Icon(UniconsLine.instagram)),
+                  IconButton(onPressed: ()async=>await launchUrlString('https://www.linkedin.com/in/matheusrmatias/', mode: LaunchMode.externalApplication), icon: const Icon(UniconsLine.linkedin))
+                ],
+              )
             ],
           ),
         ),

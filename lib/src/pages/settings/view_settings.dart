@@ -29,7 +29,7 @@ class _ViewSettingsState extends State<ViewSettings> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              SettingSwitch(text: 'Foto de Perfil', onChange: _funcitonFt, value: prefs.imageDisplay)
+              SettingSwitch(text: 'Foto de perfil na página inicial', onChange: _funcitonFt, value: prefs.imageDisplay)
             ],
           ),
         ),

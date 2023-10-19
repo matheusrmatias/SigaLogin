@@ -5,7 +5,10 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 class CopyCard extends StatefulWidget {
   final String text;
   Widget ico;
-  CopyCard({super.key, required this.text, this.ico = const Text('')});
+  Color? backgroundColor;
+  Color? color;
+  Color? animationColor;
+  CopyCard({super.key, required this.text, this.ico = const Text(''), this.backgroundColor, this.color,this.animationColor});
 
   @override
   State<CopyCard> createState() => _CopyCardState();
@@ -24,13 +27,13 @@ class _CopyCardState extends State<CopyCard> {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-            color: MainTheme.tertiary,
+            color: widget.backgroundColor?? MainTheme.lightGrey,
             borderRadius: const BorderRadius.all(Radius.circular(8))
         ),
         child: Row(
           children: [
             widget.ico,
-            Expanded(child: Container(margin: const EdgeInsets.only(left: 4),child: Text(onCopy? 'Copiado para área de transferência.':widget.text, style: TextStyle(fontSize: 14, color: MainTheme.black)))),
+            Expanded(child: Container(margin: const EdgeInsets.only(left: 4),child: Text(onCopy? 'Copiado para área de transferência.':widget.text, style: TextStyle(fontSize: 14, color: widget.color?? MainTheme.black)))),
             IconButton(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -39,7 +42,7 @@ class _CopyCardState extends State<CopyCard> {
                   switchInCurve: Curves.easeInOut,
                   switchOutCurve: Curves.easeInOut,
                   transitionBuilder: (child, animation)=>ScaleTransition(scale: animation, child: child),
-                  child: onCopy? Icon(Icons.done,color: MainTheme.orange, key: const ValueKey("true"),):Icon(Icons.copy,color: MainTheme.black, key: const ValueKey("false"))
+                  child: onCopy? Icon(Icons.done,color: widget.animationColor??MainTheme.orange, key: const ValueKey("true"),):Icon(Icons.copy,color: widget.color??MainTheme.black, key: const ValueKey("false"))
                   ,))
           ],
         ),

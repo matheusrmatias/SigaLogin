@@ -8,17 +8,17 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: MainTheme.black,
+            color: MainTheme.orange,
             child: Center(
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/splash.png',
+                    'assets/images/icon.png',
                     width: 175,
                     height: 175,
                   ),
-                  Padding(padding: const EdgeInsets.only(top: 196),child:  CircularProgressIndicator(color: MainTheme.orange))
+                  Padding(padding: const EdgeInsets.only(top: 196),child:  CircularProgressIndicator(color: MainTheme.white))
                 ],
               ),
             )

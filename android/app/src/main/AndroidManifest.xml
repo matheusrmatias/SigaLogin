@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="Siga Login"
+        android:label="Já tá no Siga?"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

@@ -42,8 +42,9 @@ class _LoginPageState extends State<LoginPage> {
       body:Column(
         children: [
           Expanded(flex: 1,child: Container(
+            color: MainTheme.white,
             alignment: Alignment.bottomCenter,
-            child: Image.asset('assets/images/college campus-bro.png',width: double.maxFinite, fit: BoxFit.cover,alignment: Alignment.bottomCenter),
+            child: Image.asset('assets/images/icon-transparent.png',width: double.maxFinite,alignment: Alignment.bottomCenter),
           )),
           Expanded(flex: 2,child: Container(
               padding: const EdgeInsets.only(right: 32,left: 32,top: 16),
@@ -52,51 +53,40 @@ class _LoginPageState extends State<LoginPage> {
                   color: Theme.of(context).colorScheme.tertiary,
                   borderRadius: const BorderRadius.only(topRight: Radius.circular(50))
               ),
-              child: Column(
-                  children:[
-                    Expanded(child: Container(
-                      alignment: AlignmentDirectional.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(child: Text('SIGA ', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.onPrimary))),
-                          Flexible(child: Text('LOGIN', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold,color: MainTheme.orange))),
-                        ],
-                      ),
-                    )),
-                    Expanded(flex: 3,child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          LoginInput(controller: identification,icon: const Icon(Icons.person),hint: 'CPF',maxLength: 11, inputType: TextInputType.number,inputFormat: [FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))],enbled: !inLogin),
-                          LoginInput(controller: password,icon: const Icon(Icons.lock),hint: 'Senha',obscure: true, enbled: !inLogin),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: inLogin?Column(
-                              children: [
-                                Stack(alignment: Alignment.center,children: [
-                                  SizedBox(height: MediaQuery.of(context).textScaleFactor*44,width: MediaQuery.of(context).textScaleFactor*44, child: CircularProgressIndicator(color: MainTheme.orange)),
-                                  Text('$percentage %')
-                                ],),
-                                const SizedBox(height: 8),
-                                Text(progress, style:TextStyle(color: Theme.of(context).colorScheme.onPrimary))
-                              ],
-                            ):ElevatedButton(onPressed: (){
-                              if(identification.text.isEmpty){
-                                Fluttertoast.showToast(msg: 'Informe o CPF');
-                              }else if(password.text.isEmpty){
-                                Fluttertoast.showToast(msg: 'Informe a Senha');
-                              }else if(identification.text.length<10 || identification.text.length>11){
-                                Fluttertoast.showToast(msg: 'Informe um CPF válido');
-                              }else{
-                                _login();
-                              }
-                            },style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24))),
-                          )
-                        ],
-                      ),
-                    ))
-                  ]
+              child: Center(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+
+                  child: Column(
+                    children: [
+                      LoginInput(controller: identification,icon: const Icon(Icons.person),hint: 'CPF',maxLength: 11, inputType: TextInputType.number,inputFormat: [FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))],enbled: !inLogin),
+                      LoginInput(controller: password,icon: const Icon(Icons.lock),hint: 'Senha',obscure: true, enbled: !inLogin),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: inLogin?Column(
+                          children: [
+                            Stack(alignment: Alignment.center,children: [
+                              SizedBox(height: MediaQuery.of(context).textScaleFactor*44,width: MediaQuery.of(context).textScaleFactor*44, child: CircularProgressIndicator(color: MainTheme.orange)),
+                              Text('$percentage %')
+                            ],),
+                            const SizedBox(height: 8),
+                            Text(progress, style:TextStyle(color: Theme.of(context).colorScheme.onPrimary))
+                          ],
+                        ):ElevatedButton(onPressed: (){
+                          if(identification.text.isEmpty){
+                            Fluttertoast.showToast(msg: 'Informe o CPF');
+                          }else if(password.text.isEmpty){
+                            Fluttertoast.showToast(msg: 'Informe a Senha');
+                          }else if(identification.text.length<10 || identification.text.length>11){
+                            Fluttertoast.showToast(msg: 'Informe um CPF válido');
+                          }else{
+                            _login();
+                          }
+                        },style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24, fontWeight: FontWeight.bold))),
+                      )
+                    ],
+                  ),
+                ),
               )
             )
           )
