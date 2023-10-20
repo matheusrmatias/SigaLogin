@@ -9,10 +9,10 @@ class SettingRepository extends ChangeNotifier{
   late bool? _appLock;
 
   SettingRepository({required this.prefs}){
-    _imageDisplay = getBool('imageDisplay');
-    _theme = getString('theme');
-    _lastInfoUpdate = getString('lastInfoUpdate');
-    _appLock = getBool('appLock');
+    _imageDisplay = prefs.getBool('imageDisplay');
+    _theme = prefs.getString('theme');
+    _lastInfoUpdate = prefs.getString('lastInfoUpdate');
+    _appLock = prefs.getBool('appLock');
   }
 
 
@@ -46,25 +46,10 @@ class SettingRepository extends ChangeNotifier{
     _theme = value;
   }
 
-  getBool(String key){
-    if(prefs.getBool(key) == null){
-      return true;
-    }else{
-      return prefs.getBool(key)!;
-    }
-  }
-
   setBool(String key, bool value)async{
     await prefs.setBool(key, value);
   }
 
-  String? getString(String key){
-    if(prefs.getString(key) == null){
-      return null;
-    }else{
-      return prefs.getString(key)!;
-    }
-  }
   setString(String key, String value)async{
     await prefs.setString(key, value);
   }

@@ -6,6 +6,7 @@ import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/discipline_historic_card.dart';
+import 'package:sigalogin/src/widgets/sliver_appbar_search.dart';
 
 class HistoricTab extends StatefulWidget {
   final Function onPressed;
@@ -16,25 +17,54 @@ class HistoricTab extends StatefulWidget {
 }
 
 class _HistoricTabState extends State<HistoricTab> {
-  late Student student;
+  late StudentRepository student;
   late SettingRepository setting;
 
   @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    student.cleanSearch(listen: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    student = Provider.of<StudentRepository>(context).student;
+    student = Provider.of<StudentRepository>(context);
     setting = Provider.of<SettingRepository>(context);
     return RefreshIndicator(
       backgroundColor: MainTheme.white,
       color: MainTheme.orange,
       onRefresh: ()async{await widget.onPressed();},
-      child: ListView.builder(
+      child: CustomScrollView(
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        itemCount: student.historic.length+1,
-        itemBuilder: (context, index){
-          if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
-          return DisciplineHistoricCard(discipline: student.historic[index-1]);
-        }
-      ),
+        slivers: [
+          SliverList.list(children: [Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))])]),
+          SliverAppBarSearch(onChanged: _searchHistoric),
+          SliverList.builder(
+              itemCount: student.historic.length,
+              itemBuilder: (context, index)=>DisciplineHistoricCard(discipline: student.historic[index])
+          ),
+        ],
+      )
     );
+  }
+  Future<void> _searchHistoric(String query)async{
+    final suggetions = student.student.historic.where((element){
+      final name = element['name']!.toLowerCase();
+      final acronym = element['acronym']!.toLowerCase();
+      final period = element['period']!.toLowerCase();
+      final observation = element['observation']!.toLowerCase();
+      final input = query.toLowerCase();
+      return name.contains(input) || acronym.contains(input) || period.contains(input) || observation.contains(input);
+    }).toList();
+    suggetions.sort((a, b) {
+      int periodComparison = a["period"]!.compareTo(b["period"]!);
+      if (periodComparison != 0) {
+        return periodComparison;
+      } else {
+        return a["name"]!.compareTo(b["name"]!);
+      }
+    });
+    student.historic = suggetions;
   }
 }

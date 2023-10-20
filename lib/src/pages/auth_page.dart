@@ -25,11 +25,12 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainTheme.orange,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              inAuthenticate? CircularProgressIndicator(color: MainTheme.orange,):Image.asset(
+              inAuthenticate? CircularProgressIndicator(color: MainTheme.white,):Image.asset(
                 'assets/images/splash.png',
                 width: 175,
                 height: 175,
@@ -40,7 +41,7 @@ class _AuthPageState extends State<AuthPage> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 32),
-        child: inAuthenticate? const SizedBox():ElevatedButton(onPressed: _validate,style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange), child: const Row(mainAxisAlignment: MainAxisAlignment.center,children: [ Flexible(child: Text('Validar identidade',style: TextStyle(fontSize: 24)))])),
+        child: inAuthenticate? const SizedBox():ElevatedButton(onPressed: _validate,style: ElevatedButton.styleFrom(backgroundColor: MainTheme.lightBlue,padding: EdgeInsets.all(16)), child: const Row(mainAxisAlignment: MainAxisAlignment.center,children: [ Flexible(child: Text('Validar identidade',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)))])),
       ),
     );
 

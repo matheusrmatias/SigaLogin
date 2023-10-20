@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             labelPadding: const EdgeInsets.symmetric(vertical: 16),
             indicatorColor: MainTheme.orange,
-            indicatorPadding: EdgeInsets.only(bottom: 4),
+            indicatorPadding: const EdgeInsets.only(bottom: 4),
             tabs: const [
               Text('Notas', overflow: TextOverflow.ellipsis),
               Text('Histórico',overflow: TextOverflow.ellipsis),
@@ -112,6 +112,8 @@ class _HomePageState extends State<HomePage> {
       await account.userAssessmentDetails(student);
       await control.updateDatabase(student);
       studentRep.student = student;
+      studentRep.historic = student.historic;
+      studentRep.assessment = student.assessment;
       setState(() {
         this.student = student;
       });

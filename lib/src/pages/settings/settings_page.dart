@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sigalogin/src/pages/about_page.dart';
-import 'package:sigalogin/src/pages/developer_contact.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/pages/settings/security_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/student_card_page.dart';
@@ -66,7 +65,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 child: Column(
                   children: [
-                    CircleAvatar(backgroundImage: MemoryImage(student.image),backgroundColor: MainTheme.orange,radius: 30),
+                    CircleAvatar(backgroundImage: MemoryImage(student.image),backgroundColor: MainTheme.orange,radius: 45),
                     Row(
                       children: [
                         Expanded(child: Text(student.name, maxLines: 3,style: TextStyle(color: MainTheme.black,fontSize: 14),textAlign: TextAlign.center)),
@@ -107,7 +106,7 @@ class _SettingPageState extends State<SettingPage> {
                     return Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
-                          'Já tá no Siga? v${snapshot.data!.version}', style: TextStyle(fontSize: 12, color: MainTheme.white)),
+                          '"Já tá no Siga?" v${snapshot.data!.version}', style: TextStyle(fontSize: 12, color: MainTheme.white)),
                     );
                   default:
                     return const SizedBox();

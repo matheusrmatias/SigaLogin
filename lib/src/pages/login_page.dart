@@ -127,6 +127,8 @@ class _LoginPageState extends State<LoginPage> {
       await account.userAssessmentDetails(student);
       percentage = 100;
       studentRep.student = student;
+      studentRep.historic = student.historic;
+      studentRep.assessment = student.assessment;
 
       await control.insertDatabase(student);
 
