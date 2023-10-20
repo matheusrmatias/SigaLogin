@@ -1,4 +1,4 @@
-<img src='https://github.com/matheusrmatias/SigaLogin/assets/115509118/bbc366e5-ad67-47e2-b407-bc541c53f051' alt='Login Screen'>
+<img src='https://github.com/matheusrmatias/SigaLogin/assets/115509118/a9d0d5a6-942b-4ad5-9924-12bd710e9c72' alt='Login Screen'>
 
 # Siga Login
 
