@@ -26,7 +26,7 @@ Esse app é uma forma alternativa, segura e amigável de acessar o SIGA (Sistema
 
 ## Download
 Até o momento o app não foi disponibilizado nas lojas digitais, porém é possível baixar o arquivo ".apk" e realizar a instalação.
-<a href="https://github-production-user-asset-6210df.s3.amazonaws.com/115509118/276930007-ff78b639-e577-4fdf-b62c-c8c7c8ddc8ba.png" download>
+<a href="https://github.com/matheusrmatias/SigaLogin/blob/main/release/Siga%20Login.apk" download>
 <img src='https://github.com/matheusrmatias/SigaLogin/assets/115509118/ff78b639-e577-4fdf-b62c-c8c7c8ddc8ba' width=275 alt="Botão de Download">
 </a>
 
