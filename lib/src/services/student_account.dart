@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:sigalogin/src/models/assessment.dart';
@@ -61,9 +62,12 @@ class StudentAccount{
     }
     if(i==(countDown??10)){
       String error = '';
-      await view.runJavaScriptReturningResult("document.getElementById('span_vSAIDA').textContent").then((value){
-        error = value.toString();
-      });
+      if(Platform.isAndroid) {
+        await view.runJavaScriptReturningResult(
+            "document.getElementById('span_vSAIDA').textContent").then((value) {
+          error = value.toString();
+        });
+      }
       if(error=='"Não confere Login e Senha"'){
         throw Exception('User or Password Incorrect');
       }else{
@@ -85,7 +89,7 @@ class StudentAccount{
               for(int i=1; i<int.parse(value.toString()); i++){
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[$i].getElementsByTagName('span').length").then((value)async{
                   Map<String, String> discipline = {};
-                  for(int j=0; j<int.parse(value.toString());j++){
+                  for(int j=0; j<(double.parse(value.toString())).toInt();j++){
                     await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[$i].getElementsByTagName('span')[$j].textContent").then((value){
                       if(j==0){
                         discipline['acronym'] = value.toString().replaceAll('"', '');
@@ -141,7 +145,7 @@ class StudentAccount{
             print('assessments loaded');
             List<DisciplineAssessment> assessments = [];
             await view.runJavaScriptReturningResult("document.getElementById('Grid4ContainerTbl').firstChild.children.length/3").then((value)async{
-              for(int j=0; j<int.parse(value.toString()); j++){
+              for(int j=0; j<(double.parse(value.toString())).toInt(); j++){
                 DisciplineAssessment discipline = DisciplineAssessment();
                 String prefix = '00';
                 if(j>=9){
@@ -157,7 +161,7 @@ class StudentAccount{
                 await view.runJavaScriptReturningResult("document.getElementById('TABLE2_$prefix').firstChild.children[3].children[1].textContent").then((value) => discipline.frequency = value.toString().replaceAll('"', ''));
 
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children.length").then((grid)async{
-                  if(int.parse(grid.toString())>1){
+                  if(double.parse(grid.toString())>1){
                     for(int k=1; k<int.parse(grid.toString()); k++){
                       await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[0].textContent").then((key)async{
                         await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[2].textContent").then((val){discipline.assessment[key.toString().replaceAll('"', '')]=val.toString().replaceAll('"', '').trim();});
@@ -205,7 +209,7 @@ class StudentAccount{
             await view.runJavaScriptReturningResult(
                 "document.getElementById('Grid1ContainerTbl').firstChild.children.length")
                 .then((value) async {
-              for (int j = 1; j < int.parse(value.toString()); j++) {
+              for (int j = 1; j < (double.parse(value.toString())).toInt(); j++) {
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').firstChild.children[$j].children[0].textContent").then((disciplineAcronym)async{
                   await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').firstChild.children[$j].children[1].textContent").then((disciplineName)async{
                     acronyms[disciplineAcronym.toString()]=disciplineName.toString().replaceAll('"', '').substring(0,disciplineName.toString().indexOf('-')-1);
@@ -219,7 +223,7 @@ class StudentAccount{
                 scheduleTemp.weekDay = value.toString().replaceAll('"', '');
               });
               await view.runJavaScriptReturningResult("document.getElementById('Grid${j}ContainerTbl').firstChild.children.length").then((value)async{
-                for (int k = 1; k < int.parse(value.toString()); k++) {
+                for (int k = 1; k < (double.parse(value.toString())).toInt(); k++) {
                   await view.runJavaScriptReturningResult("document.getElementById('Grid${j}ContainerTbl').firstChild.children[$k].children[1].textContent").then((time)async{
                     await view.runJavaScriptReturningResult("document.getElementById('Grid${j}ContainerTbl').firstChild.children[$k].children[2].textContent").then((discipline){
                       scheduleTemp.schedule.add([time.toString().replaceAll('"', ''),acronyms[discipline].toString()]);
@@ -282,7 +286,7 @@ class StudentAccount{
         await Future.delayed(const Duration(milliseconds: 1000), ()async{
           if(_isLoad){
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAAULASTOTAISPERIODO").textContent').then((value){
-              student.assessment[i].maxAbsences = (int.parse(value.toString().replaceAll('"', "").replaceAll(" ", ""))~/4).toString();
+              student.assessment[i].maxAbsences = (double.parse(value.toString().replaceAll('"', "").replaceAll(" ", ""))~/4).toString();
               student.assessment[i].totalClasses = value.toString().replaceAll('"', "").replaceAll(" ", "");
             });
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAEMENTA").textContent').then((value){
