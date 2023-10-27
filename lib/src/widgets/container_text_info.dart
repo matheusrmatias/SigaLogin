@@ -7,19 +7,26 @@ class TextInfo extends StatelessWidget {
   Color titleColor;
   Color textColor;
   Color? backgroundColor;
-  TextInfo({super.key, required this.text, required this.title, this.titleColor = Colors.black, this.textColor = Colors.black, this.backgroundColor});
+  Function()? onTap;
+  TextInfo({super.key, required this.text, required this.title, this.titleColor = Colors.black, this.textColor = Colors.black, this.backgroundColor,this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(color: backgroundColor?? MainTheme.lightGrey, borderRadius: const BorderRadius.all(Radius.circular(8))),
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            Text(title, style: TextStyle(color: titleColor,fontSize: 14, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-            Text(text, style: TextStyle(color: textColor,fontSize: 14),textAlign: TextAlign.center)
-          ],
-        )
+    return InkWell(
+      onTap: onTap,
+      splashColor: MainTheme.blackLowOpacity,
+      highlightColor: MainTheme.blackLowOpacity,
+      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      child: Ink(
+          decoration: BoxDecoration(color: backgroundColor?? MainTheme.lightGrey, borderRadius: const BorderRadius.all(Radius.circular(8))),
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            children: [
+              Text(title, style: TextStyle(color: titleColor,fontSize: 14, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
+              Text(text, style: TextStyle(color: textColor,fontSize: 14),textAlign: TextAlign.center)
+            ],
+          )
+      ),
     );
   }
 }

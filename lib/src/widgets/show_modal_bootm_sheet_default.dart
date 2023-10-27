@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 
-showModalBottomSheetDefault(BuildContext context, String text){
+showModalBottomSheetDefault(BuildContext context, String text, {String? title}){
   showModalBottomSheet(backgroundColor: Colors.transparent,context: context, builder: (BuildContext context){
     return Container( decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
@@ -17,7 +17,12 @@ showModalBottomSheetDefault(BuildContext context, String text){
                 children: [
                   ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
                   const SizedBox(width: 4),
-                  Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))
+                  Expanded(child: Column(
+                    children: [
+                      title==null? const SizedBox():Row(children: [Expanded(child: Text(title, style: TextStyle(color: MainTheme.orange, fontSize: 16,fontWeight: FontWeight.bold),textAlign: TextAlign.center,))]),
+                      Row(children: [Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))])
+                    ],
+                  ))
                 ],
               ),
               Row(

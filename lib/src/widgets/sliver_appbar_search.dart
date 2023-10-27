@@ -27,7 +27,7 @@ class _SliverAppBarSearchState extends State<SliverAppBarSearch> {
       titleSpacing: 0,
       centerTitle: true,
       shadowColor: Colors.transparent,
-      backgroundColor: MainTheme.black,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       title: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         padding: const EdgeInsets.symmetric(horizontal: 16),

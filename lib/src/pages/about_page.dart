@@ -54,13 +54,10 @@ class _AboutPageState extends State<AboutPage> {
                 }
               }, text: 'Enviar E-mail'),
               const SizedBox(height: 8),
-              GestureDetector(
-                onTap: ()async=>await launchUrlString('https://matheusrmatias.dev.br', mode: LaunchMode.externalApplication),
-                child: Row(
-                  children: [
-                    Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'matheusrmatias.dev.br', titleColor: MainTheme.orange))
-                  ],
-                ),
+              Row(
+                children: [
+                  Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'matheusrmatias.dev.br', titleColor: MainTheme.orange,onTap: ()async=>await launchUrlString('https://matheusrmatias.dev.br', mode: LaunchMode.externalApplication)))
+                ],
               ),
               const SizedBox(height: 8),
               Row(

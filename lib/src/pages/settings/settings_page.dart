@@ -81,9 +81,9 @@ class _SettingPageState extends State<SettingPage> {
                       margin: const EdgeInsets.symmetric(vertical: 4),
                       child: Row(
                         children: [
-                          Expanded(child: TextInfo(text: '${student.pp} %', title: 'PP', titleColor: MainTheme.white, backgroundColor: MainTheme.orange,textColor: MainTheme.white,)),
+                          Expanded(child: TextInfo(text: '${student.pp} %', title: 'Progessão', titleColor: MainTheme.white, backgroundColor: MainTheme.orange,textColor: MainTheme.white,onTap: ()=>showModalBottomSheetDefault(context, 'Equivale ao percentual realizado no curso pela carga horária das disciplinas aprovadas.', title: 'Percentual de Progressão (PP)'))),
                           const SizedBox(width: 8),
-                          Expanded(child: TextInfo(text: student.pr, title: 'PR', titleColor: MainTheme.white,backgroundColor: MainTheme.orange,textColor: MainTheme.white,))
+                          Expanded(child: TextInfo(text: student.pr, title: 'Rendimento', titleColor: MainTheme.white,backgroundColor: MainTheme.orange,textColor: MainTheme.white,onTap: ()=>showModalBottomSheetDefault(context, 'Equivale a nota média do estudante no curso.', title: 'Percentual de Rendimento (PR)')))
                         ],
                       ),
                     ),
