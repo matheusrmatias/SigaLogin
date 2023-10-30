@@ -4,7 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:sigalogin/src/models/assessment.dart';
+import 'package:sigalogin/src/models/historic.dart';
+import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/pages/TestePage.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
@@ -100,37 +104,48 @@ class _LoginPageState extends State<LoginPage> {
     counter++;
     setState(()=>inLogin=true);
     StudentAccount account = StudentAccount();
-    Student student = Student(cpf: identification.text, password: password.text);
     StudentController control = StudentController();
-
+    List<Historic> historic = [];
+    List<DisciplineAssessment> assessment = [];
+    List<Schedule> schedule = [];
+    Student student = Student(cpf: identification.text, password: password.text);
 
     try{
-      // Navigator.push(context, PageTransition(child: TestePage(web: account.view), type: PageTransitionType.fade));
+      // Navigator.push(context, PageTransition(child: TestePage(controller: account.view), type: PageTransitionType.fade));
       percentage = 0;
       setState(()=>progress='Carregando Dados');
-      await account.userLogin(student);
+      student = await account.userLogin(student);
       percentage = 15;
       setState(()=>progress='Carregando Histórico');
-      await account.userHistoric(student);
+      historic = await account.userHistoric();
       percentage = 30;
       setState(()=>progress='Carregando Notas');
       percentage = 45;
-      await account.userAssessment(student);
+      assessment = await account.userAssessment();
       percentage = 60;
       setState(()=>progress='Carregando Horários');
-      await account.userSchedule(student);
+      schedule = await account.userSchedule();
       percentage = 75;
       setState(()=>progress='Carregando Faltas');
-      await account.userAbsences(student);
+      assessment = await account.userAbsences(assessment);
       percentage = 90;
       setState(()=>progress='Carregando Ementas');
-      await account.userAssessmentDetails(student);
+      assessment = await account.userAssessmentDetails(assessment);
       percentage = 100;
       studentRep.student = student;
-      studentRep.historic = student.historic;
-      studentRep.assessment = student.assessment;
 
-      await control.insertDatabase(student);
+      studentRep.allHistoric=historic;
+      studentRep.historic = historic;
+
+      studentRep.allAssessment = assessment;
+      studentRep.assessment = assessment;
+
+      studentRep.schedule = schedule;
+
+      await control.insertStudent(student);
+      await control.insertSchedule(schedule);
+      await control.insertAssessment(assessment);
+      await control.insertHistoric(historic);
 
 
       setting.lastInfoUpdate = 'Última Atualização: ${DateFormat('dd/MM HH:mm').format(DateTime.now())}';

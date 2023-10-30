@@ -48,7 +48,7 @@ class _NotesTabState extends State<NotesTab> {
   }
 
   Future<void> _searchAssessment(String query)async{
-    final suggetions = student.student.assessment.where((element){
+    final suggetions = student.allAssessment.where((element){
       final discipline = element.name.toLowerCase();
       final teacher = element.teacher.toLowerCase();
       final input = query.toLowerCase();

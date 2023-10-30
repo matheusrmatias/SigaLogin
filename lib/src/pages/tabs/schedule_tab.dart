@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 
@@ -16,12 +17,12 @@ class ScheduleTab extends StatefulWidget {
 }
 
 class _ScheduleTabState extends State<ScheduleTab> {
-  late Student student;
+  late List<Schedule> schedule;
   late SettingRepository setting;
 
   @override
   Widget build(BuildContext context) {
-    student = Provider.of<StudentRepository>(context).student;
+    schedule = Provider.of<StudentRepository>(context).schedule;
     setting = Provider.of<SettingRepository>(context);
     return RefreshIndicator(
       backgroundColor: MainTheme.white,
@@ -29,10 +30,10 @@ class _ScheduleTabState extends State<ScheduleTab> {
       onRefresh: ()async{await widget.onPressed();},
       child: ListView.builder(
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        itemCount: student.schedule.length+1,
+        itemCount: schedule.length+1,
         itemBuilder: (context, index){
           if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
-          return ScheduleCard(schedule: student.schedule[index-1]);
+          return ScheduleCard(schedule: schedule[index-1]);
         },
       ),
     );

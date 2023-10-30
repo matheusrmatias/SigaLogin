@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sigalogin/src/controllers/student_card_controller.dart';
+import 'package:sigalogin/src/models/assessment.dart';
+import 'package:sigalogin/src/models/historic.dart';
+import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sigalogin/src/pages/auth_page.dart';
 import 'package:sigalogin/src/pages/splash_page.dart';
@@ -27,20 +30,22 @@ void main() async{
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  Student student = Student(cpf: '', password: '');
   StudentController control = StudentController();
   StudentCardController cardControl = StudentCardController();
 
+  Student student = await control.queryStudent();
+  List<Schedule> schedule = await control.querySchedule();
+  List<DisciplineAssessment> assessment = await control.queryAssessment();
+  List<Historic> historic = await control.queryHistoric();
   StudentCard card = await cardControl.queryDatabase();
 
-  await control.queryStudent(student);
 
   if(student.cpf == ''){
     runApp(
         MultiProvider(
           providers: [
             ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
-            ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
+            ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student, [], [], [])),
             ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
           ],
           child: const MyApp(page: LoginPage()),
@@ -53,7 +58,7 @@ void main() async{
           MultiProvider(
             providers: [
               ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
-              ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
+              ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
               ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
             ],
             child: const MyApp(page: AuthPage()),
@@ -64,7 +69,7 @@ void main() async{
           MultiProvider(
             providers: [
               ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
-              ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student)),
+              ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
               ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
             ],
             child: MyApp(page: HomePage()),

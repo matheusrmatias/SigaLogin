@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:sigalogin/src/controllers/schedule_controller.dart';
 import 'package:sigalogin/src/controllers/sqlite_controller.dart';
 import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,6 +17,7 @@ class StudentCardController extends SqliteController{
   }
 
   Future<void> updateDatabase(StudentCard card)async{
+    
     Database db = await startDatabase();
     await db.execute('DELETE FROM card');
     await insertDatabase(card);

@@ -20,9 +20,6 @@ class Student{
   String _progress = '';
   String _graduation = '';
   String _period = '';
-  List<Map<String,String>> _historic = [];
-  List<DisciplineAssessment> _assessment = [];
-  List<Schedule> _schedule = [];
 
   String get name => _name;
 
@@ -31,12 +28,6 @@ class Student{
   }
 
   String get email => _email;
-
-  List<Map<String, String>> get historic => _historic;
-
-  set historic(List<Map<String, String>> value) {
-    _historic = value;
-  }
 
   Uint8List get image => _image;
 
@@ -94,17 +85,5 @@ class Student{
 
   set fatec(String value) {
     _fatec = value;
-  }
-
-  List<DisciplineAssessment> get assessment => _assessment;
-
-  set assessment(List<DisciplineAssessment> value) {
-    _assessment = value;
-  }
-
-  List<Schedule> get schedule => _schedule;
-
-  set schedule(List<Schedule> value) {
-    _schedule = value;
   }
 }

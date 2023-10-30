@@ -25,7 +25,7 @@ class _SigaPageState extends State<SigaPage> {
     controller.setNavigationDelegate(NavigationDelegate(
         onPageFinished: (e)async{
           if(e=='https://siga.cps.sp.gov.br/aluno/login.aspx'){
-            await control.queryStudent(student);
+            student = await control.queryStudent();
             await controller.runJavaScript("document.getElementById('vSIS_USUARIOID').value='${student.cpf}'");
             await controller.runJavaScript("document.getElementById('vSIS_USUARIOSENHA').value='${student.password}'");
             await controller.runJavaScript("document.getElementsByName('BTCONFIRMA')[0].click()");

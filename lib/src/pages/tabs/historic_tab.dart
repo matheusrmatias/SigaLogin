@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
@@ -49,20 +47,20 @@ class _HistoricTabState extends State<HistoricTab> {
     );
   }
   Future<void> _searchHistoric(String query)async{
-    final suggetions = student.student.historic.where((element){
-      final name = element['name']!.toLowerCase();
-      final acronym = element['acronym']!.toLowerCase();
-      final period = element['period']!.toLowerCase();
-      final observation = element['observation']!.toLowerCase();
+    final suggetions = student.allHistoric.where((element){
+      final name = element.name.toLowerCase();
+      final acronym = element.acronym.toLowerCase();
+      final period = element.period.toLowerCase();
+      final observation = element.observation.toLowerCase();
       final input = query.toLowerCase();
       return name.contains(input) || acronym.contains(input) || period.contains(input) || observation.contains(input);
     }).toList();
     suggetions.sort((a, b) {
-      int periodComparison = a["period"]!.compareTo(b["period"]!);
+      int periodComparison = a.period.compareTo(b.period);
       if (periodComparison != 0) {
         return periodComparison;
       } else {
-        return a["name"]!.compareTo(b["name"]!);
+        return a.name.compareTo(b.name);
       }
     });
     student.historic = suggetions;

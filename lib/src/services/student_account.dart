@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:sigalogin/src/models/assessment.dart';
+import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -30,7 +31,7 @@ class StudentAccount{
     ));
   }
 
-  Future<void> userLogin(Student student)async{
+  Future<Student> userLogin(Student student)async{
     int i=0;
     for(i; i<(countDown??10); i++){
       await Future.delayed(const Duration(milliseconds: 1000),()async{
@@ -48,8 +49,8 @@ class StudentAccount{
           await view.runJavaScriptReturningResult("document.getElementById('span_MPW0041vINSTITUCIONALFATEC').textContent").then((value) => student.email=value.toString().replaceAll('"', ''));
           await view.runJavaScriptReturningResult("document.getElementById('MPW0041FOTO').firstChild.src").then((value)async => student.image=(await get(Uri.parse(value.toString().replaceAll('"', '')))).bodyBytes);
           _isLoad = false;
-          i=countDown??10;
-          print('user basic data coleted');
+          i=countDown==null? 11:countDown!+1;
+          debugPrint('user basic data coleted');
         }else if(_isLoad && await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/login.aspx'){
           print('login loaded');
           _isLoad = false;
@@ -74,37 +75,38 @@ class StudentAccount{
         throw Exception('User not loaded');
       }
     }
+    return student;
   }
 
-  Future<void> userHistoric(Student student) async{
+  Future<List<Historic>> userHistoric() async{
     int k = 0;
+    List<Historic> historic = [];
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx'){
       await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/historicocompleto.aspx'));
       for(k;k<(countDown??10);k++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad){
             print('historic loaded');
-            List<Map<String,String>> historic = [];
             await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr').length").then((value)async{
               for(int i=1; i<int.parse(value.toString()); i++){
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[$i].getElementsByTagName('span').length").then((value)async{
-                  Map<String, String> discipline = {};
+                  Historic discipline = Historic.empty();
                   for(int j=0; j<(double.parse(value.toString())).toInt();j++){
                     await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[$i].getElementsByTagName('span')[$j].textContent").then((value){
                       if(j==0){
-                        discipline['acronym'] = value.toString().replaceAll('"', '');
+                        discipline.acronym = value.toString().replaceAll('"', '').trim();
                       }else if(j==1){
-                        discipline['name'] = value.toString().replaceAll('"', '');
+                        discipline.name =value.toString().replaceAll('"', '').trim();
                       }else if(j==2){
-                        discipline['period'] = value.toString().replaceAll('"', '');
+                        discipline.period = value.toString().replaceAll('"', '').trim();
                       }else if(j==3){
-                        discipline['average'] = value.toString().replaceAll('"', '');
+                        discipline.avarage = double.tryParse(value.toString().replaceAll('"', '').trim())??0;
                       }else if(j==4){
-                        discipline['frequency'] = value.toString().replaceAll('"', '');
+                        discipline.frequency = double.tryParse(value.toString().replaceAll('"', '').replaceAll('%', '').trim())??0;
                       }else if(j==5){
-                        discipline['absence'] = value.toString().replaceAll('"', '');
+                        discipline.absence = int.parse(value.toString().replaceAll('"', '').trim());
                       }else if(j==6){
-                        discipline['observation'] = value.toString().replaceAll('"', '');
+                        discipline.observation = value.toString().replaceAll('"', '');
                       }
                     });
                   }
@@ -113,37 +115,37 @@ class StudentAccount{
               }
 
             });
-            k=countDown??10;
+            k=countDown==null? 11:countDown!+1;
             _isLoad = false;
             historic.sort((a, b) {
-              int periodComparison = a["period"]!.compareTo(b["period"]!);
+              int periodComparison = a.period!.compareTo(b.period!);
               if (periodComparison != 0) {
                 return periodComparison;
               } else {
-                return a["name"]!.compareTo(b["name"]!);
+                return a.period!.compareTo(b.period!);
               }
             });
-            student.historic = historic;
           }
         });
       }
       if(k==(countDown??10)){
         throw Exception('Historic User Data not loaded');
       }
+      return historic;
     }else{
       throw Exception('User not loaded');
     }
   }
 
-  Future<void> userAssessment(Student student) async{
+  Future<List<DisciplineAssessment>> userAssessment() async{
     int i = 0;
+    List<DisciplineAssessment> assessments = [];
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' || await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/historicocompleto.aspx'){
       await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/notasparciais.aspx'));
       for(i; i<(countDown??10); i++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad){
             print('assessments loaded');
-            List<DisciplineAssessment> assessments = [];
             await view.runJavaScriptReturningResult("document.getElementById('Grid4ContainerTbl').firstChild.children.length/3").then((value)async{
               for(int j=0; j<(double.parse(value.toString())).toInt(); j++){
                 DisciplineAssessment discipline = DisciplineAssessment();
@@ -172,7 +174,7 @@ class StudentAccount{
                 assessments.add(discipline);
               }
             });
-            i=countDown??10;
+            i=countDown==null? 11:countDown!+1;
             _isLoad=false;
             assessments.sort((a, b){
               if(a.name!.contains('Estágio') || a.name!.contains('Trabalho de Graduação')){
@@ -183,28 +185,29 @@ class StudentAccount{
                 return a.name!.compareTo(b.name!);
               }
             });
-            student.assessment = assessments;
           }
         });
       }
       if(i==(countDown??10)){
         throw Exception('Assessment User Data not loaded');
       }
+      return assessments;
     }else{
       throw Exception('User not loaded');
     }
   }
 
 
-  Future<void> userSchedule(Student student)async{
+  Future<List<Schedule>> userSchedule()async{
     int i = 0;
+    List<Schedule> schedule = [];
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' || await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/notasparciais.aspx'){
+      List<Schedule> schedule = [];
       await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/horario.aspx'));
       for(i; i<(countDown??10); i++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad) {
             print('schedule loaded');
-            List<Schedule> schedule = [];
             Map<String, String> acronyms = {};
             await view.runJavaScriptReturningResult(
                 "document.getElementById('Grid1ContainerTbl').firstChild.children.length")
@@ -234,23 +237,29 @@ class StudentAccount{
               scheduleTemp.schedule.sort((a,b)=>a[0].compareTo(b[0]));
               schedule.add(scheduleTemp);
             }
-            i=countDown??10;
+            i=countDown==null? 11:countDown!+1;
             _isLoad=false;
-            student.schedule=schedule;
           }
         });
       }
+      if(i == (countDown??10)){
+        throw Exception('Schedule User Data not loaded');
+      }
+      return schedule;
+    }else{
+      throw Exception('User Not Loaded');
     }
   }
 
-  Future<void> userAbsences(Student student)async{
+  Future<List<DisciplineAssessment>> userAbsences(List<DisciplineAssessment> assessment)async{
+    int i = 0;
     if(await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/home.aspx' || await view.currentUrl() == 'https://siga.cps.sp.gov.br/aluno/horario.aspx'){
       await view.loadRequest(Uri.parse('https://siga.cps.sp.gov.br/aluno/faltasparciais.aspx'));
-      for(int i = 0; i<(countDown??10); i++){
+      for(i; i<(countDown??10); i++){
         await Future.delayed(const Duration(milliseconds: 1000),()async{
           if(_isLoad) {
             print('absences loaded');
-            for(int j = 0; j<student.assessment.length; j++){
+            for(int j = 0; j< assessment.length; j++){
               String prefix = '00';
               if(j>=9){
                 prefix+=(j+1).toString();
@@ -258,10 +267,10 @@ class StudentAccount{
                 prefix+='0${j+1}';
               }
               await view.runJavaScriptReturningResult("document.getElementById('span_vACD_DISCIPLINASIGLA_$prefix').textContent").then((acronym) async {
-                for (var element in student.assessment) {
+                for (var element in assessment) {
                   if(element.acronym == acronym.toString().replaceAll('"', '')){
                     await view.runJavaScriptReturningResult("document.getElementById('span_vAUSENCIAS_$prefix').textContent").then((value) async {
-                      student.assessment[student.assessment.indexWhere((disc) => disc == element)].absence = value.toString().replaceAll('"', '');
+                      assessment[assessment.indexWhere((disc) => disc == element)].absence = value.toString().replaceAll('"', '');
                     });
                   }
                 }
@@ -272,31 +281,37 @@ class StudentAccount{
           }
         });
       }
+      if(i == (countDown??10)){
+        throw Exception('Absences User Data not loaded');
+      }
+      return assessment;
+    }else{
+      throw Exception('User Not Loaded');
     }
   }
 
 
-  Future<void> userAssessmentDetails(Student student) async{
+  Future<List<DisciplineAssessment>> userAssessmentDetails(List<DisciplineAssessment> assessment) async{
 
-    for(int i = 0; i<student.assessment.length; i++){
-      await view.loadRequest(Uri.parse("https://siga.cps.sp.gov.br/aluno/planoensino.aspx?" + student.assessment[i].acronym, 0, 56));
+    for(int i = 0; i<assessment.length; i++){
+      await view.loadRequest(Uri.parse("https://siga.cps.sp.gov.br/aluno/planoensino.aspx?" + assessment[i].acronym, 0, 56));
 
       int j = 0;
       for(j; j<(countDown??10); j++){
         await Future.delayed(const Duration(milliseconds: 1000), ()async{
           if(_isLoad){
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAAULASTOTAISPERIODO").textContent').then((value){
-              student.assessment[i].maxAbsences = (double.parse(value.toString().replaceAll('"', "").replaceAll(" ", ""))~/4).toString();
-              student.assessment[i].totalClasses = value.toString().replaceAll('"', "").replaceAll(" ", "");
+              assessment[i].maxAbsences = (double.parse(value.toString().replaceAll('"', "").replaceAll(" ", ""))~/4).toString();
+              assessment[i].totalClasses = value.toString().replaceAll('"', "").replaceAll(" ", "");
             });
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAEMENTA").textContent').then((value){
-              student.assessment[i].syllabus = value.toString().replaceAll('"', '');
+              assessment[i].syllabus = value.toString().replaceAll('"', '');
             });
             await view.runJavaScriptReturningResult('document.getElementById("span_W0008W0013vACD_DISCIPLINAOBJETIVO").textContent').then((value){
-              student.assessment[i].objective = value.toString().replaceAll('"', '');
+              assessment[i].objective = value.toString().replaceAll('"', '');
             });
             await view.runJavaScriptReturningResult('document.getElementById("span_W0005vPRO_PESSOALNOME").textContent').then((value){
-              student.assessment[i].teacher = value.toString().replaceAll('"', '');
+              assessment[i].teacher = value.toString().replaceAll('"', '');
             });
             _isLoad = false;
             j = countDown??10;
@@ -308,5 +323,6 @@ class StudentAccount{
         throw Exception("User not loaded - Syllabus ");
       }
     }
+    return assessment;
   }
 }

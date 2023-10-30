@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:sigalogin/src/controllers/assessment_controller.dart';
+import 'package:sigalogin/src/controllers/historic_controller.dart';
 import 'package:sigalogin/src/controllers/sqlite_controller.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sigalogin/src/models/student.dart';
-import 'package:sigalogin/src/models/assessment.dart';
-import 'package:sigalogin/src/models/schedule.dart';
+import 'schedule_controller.dart';
 
-class StudentController extends SqliteController{
+class StudentController extends SqliteController with ScheduleController, HistoricController, AssessmentController{
   StudentController();
 
-  Future insertDatabase(Student student) async{
+  Future<void> insertStudent(Student student)async{
     Database db = await startDatabase();
     String sqlStudent = '''
        INSERT INTO student (cpf, password, name, email, ra, pp, pr, cycle, image, fatec, progress, period, graduation) VALUES (
@@ -17,53 +18,22 @@ class StudentController extends SqliteController{
        '${student.fatec}','${student.progress}', '${student.period}', '${student.graduation}'
        )
     ''';
-
-    String sqlHistoric = 'INSERT INTO historic (acronym, name, period, average, frequency, absence, observation) VALUES ';
-    student.historic.forEach((element) {
-      sqlHistoric = "$sqlHistoric('${element['acronym']}','${element['name']}','${element['period']}','${element['average']}','${element['frequency']}','${element['asbsense']}', '${element['observation']}'),";
-    });
-    sqlHistoric = '${sqlHistoric.substring(0,sqlHistoric.length-1)};';
-
-    String sqlAssessment = 'INSERT INTO assessment (acronym, teacher,name, average, frequency, absence, assessment, max_absences,total_classes, syllabus, objective) VALUES ';
-    student.assessment.forEach((element) {
-      sqlAssessment = "$sqlAssessment('${element.acronym}','${element.teacher}','${element.name}','${element.average}','${element.frequency}','${element.absence}','${jsonEncode(element.assessment)}', '${element.maxAbsences}','${element.totalClasses}', '${element.syllabus}', '${element.objective}'),";
-    });
-    sqlAssessment = '${sqlAssessment.substring(0,sqlAssessment.length-1)};';
-
-    String sqlSchedule = 'INSERT INTO schedule (weekDay, schedule) VALUES';
-    student.schedule.forEach((element) {
-      sqlSchedule = "$sqlSchedule('${element.weekDay}', '${element.schedule.toString()}'),";
-    });
-    sqlSchedule = '${sqlSchedule.substring(0,sqlSchedule.length-1)};';
-
-    try{
-      await db.execute(sqlStudent);
-      await db.execute(sqlHistoric);
-      await db.execute(sqlAssessment);
-      await db.execute(sqlSchedule);
-    }finally{
-
-    }
+    await db.execute(sqlStudent);
   }
 
-  Future updateDatabase(Student student) async{
+  Future updateStudent(Student student) async{
     Database db = await startDatabase();
     try{
       await db.execute('DELETE FROM student');
-      await db.execute('DELETE FROM historic');
-      await db.execute('DELETE FROM assessment');
-      await db.execute('DELETE FROM schedule');
-      await insertDatabase(student);
+      await insertStudent(student);
     }finally{
 
     }
   }
 
-  Future queryStudent(Student student) async{
+  Future<Student> queryStudent() async{
     Database db = await startDatabase();
-    student.historic = [];
-    student.assessment = [];
-    student.schedule = [];
+    Student student = Student(cpf: '', password: '');
     await db.rawQuery('SELECT * FROM student').then((value){
       if(value.isEmpty){
 
@@ -83,49 +53,6 @@ class StudentController extends SqliteController{
         student.period  = value[0]['period'].toString();
       }
     });
-    await db.rawQuery('SELECT * FROM historic').then((value){
-      value.forEach((element) {
-        Map<String, String> hist = {};
-        element.forEach((key, value) {
-          hist[key] = value.toString();
-        });
-        student.historic.add(hist);
-      });
-    });
-
-    await db.rawQuery('SELECT * FROM assessment').then((value){
-      value.forEach((element) {
-        DisciplineAssessment disciplineAssessment = DisciplineAssessment();
-        Map<String,String> assessment = {};
-        disciplineAssessment.acronym = element['acronym'].toString();
-        disciplineAssessment.teacher = element['teacher'].toString();
-        disciplineAssessment.name = element['name'].toString();
-        disciplineAssessment.average = element['average'].toString();
-        disciplineAssessment.frequency = element['frequency'].toString();
-        disciplineAssessment.absence = element['absence'].toString();
-        disciplineAssessment.syllabus = element['syllabus'].toString();
-        disciplineAssessment.objective = element['objective'].toString();
-        disciplineAssessment.maxAbsences = element['max_absences'].toString();
-        disciplineAssessment.totalClasses = element['total_classes'].toString();
-        Map<String, dynamic> dynamicMap = jsonDecode(element['assessment'].toString());
-        dynamicMap.forEach((key, value) {
-          assessment[key] = value.toString();
-        });
-        disciplineAssessment.assessment = assessment;
-        student.assessment.add(disciplineAssessment);
-      });
-    });
-    await db.rawQuery('SELECT * FROM schedule').then((value){
-      value.forEach((element) {
-        Schedule schedule = Schedule();
-        schedule.weekDay = element['weekDay'].toString();
-        schedule.schedule = element['schedule'].toString().substring(1,element['schedule'].toString().length-1).split('], ').map((element) {
-          element = element.replaceAll('[', '').replaceAll(']', '');
-          return element.split(', ');
-        }).toList();
-        student.schedule.add(schedule);
-      });
-    });
-
+    return student;
   }
 }

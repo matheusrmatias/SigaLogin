@@ -4,6 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:sigalogin/src/models/assessment.dart';
+import 'package:sigalogin/src/models/historic.dart';
+import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/pages/settings/settings_page.dart';
 import 'package:sigalogin/src/pages/tabs/historic_tab.dart';
 import 'package:sigalogin/src/pages/tabs/notes_tab.dart';
@@ -92,7 +95,12 @@ class _HomePageState extends State<HomePage> {
   Future<void> _updateStudentDate({bool init = false})async{
     final studentRep = context.read<StudentRepository>();
     final stud = context.read<StudentRepository>().student;
+
+    List<Historic> historic = [];
+    List<Schedule> schedule = [];
+    List<DisciplineAssessment> assessment = [];
     Student student = Student(cpf: stud.cpf, password: stud.password);
+
     String? lasInfoUpdate;
     if(inUpdateStudentData){
       Fluttertoast.showToast(msg: 'Os dados estão sendo atualizados, aguarde.');
@@ -103,17 +111,27 @@ class _HomePageState extends State<HomePage> {
     StudentAccount account = StudentAccount();
     try{
       if(!init)prefs.lastInfoUpdate = 'Atualizando Dados';
-      await account.userLogin(student);
+      student = await account.userLogin(student);
       prefs.lastInfoUpdate = 'Atualizando Dados';
-      await account.userHistoric(student);
-      await account.userAssessment(student);
-      await account.userSchedule(student);
-      await account.userAbsences(student);
-      await account.userAssessmentDetails(student);
-      await control.updateDatabase(student);
+      historic = await account.userHistoric();
+      assessment = await account.userAssessment();
+      schedule = await account.userSchedule();
+      assessment = await account.userAbsences(assessment);
+      assessment = await account.userAssessmentDetails(assessment);
+      await control.updateStudent(student);
+      await control.updateAssessment(assessment);
+      await control.updateHistoric(historic);
+      await control.updateSchedule(schedule);
+
       studentRep.student = student;
-      studentRep.historic = student.historic;
-      studentRep.assessment = student.assessment;
+      studentRep.historic = historic;
+      studentRep.allHistoric = historic;
+
+      studentRep.assessment = assessment;
+      studentRep.allAssessment = assessment;
+
+      studentRep.schedule = schedule;
+
       setState(() {
         this.student = student;
       });
