@@ -23,10 +23,8 @@ Esse app é uma forma alternativa, segura e amigável de acessar o SIGA (Sistema
 
 ## Download
 Até o momento o app não foi disponibilizado nas lojas digitais, porém é possível baixar o arquivo ".apk" e realizar a instalação.
-<a href="https://github.com/matheusrmatias/SigaLogin/releases/download/v1.3.3/Ja.Ta.No.Siga.1.3.3.apk">
-<img src='https://github.com/matheusrmatias/SigaLogin/assets/115509118/ff78b639-e577-4fdf-b62c-c8c7c8ddc8ba' width=275 alt="Botão de Download">
-</a>
 
+[⬇️Download v1.3.4](https://github.com/matheusrmatias/SigaLogin/releases/download/v1.3.4/Ja_ta_no_Siga_v1.3.4.apk)
 
 ## Funcionamento
 
