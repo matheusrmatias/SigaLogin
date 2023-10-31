@@ -18,7 +18,7 @@ class SplashPage extends StatelessWidget {
                     width: 175,
                     height: 175,
                   ),
-                  Padding(padding: const EdgeInsets.only(top: 196),child:  CircularProgressIndicator(color: MainTheme.white))
+                  Padding(padding: const EdgeInsets.only(top: 196),child: CircularProgressIndicator(color: MainTheme.white))
                 ],
               ),
             )

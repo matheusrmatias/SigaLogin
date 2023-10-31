@@ -25,8 +25,8 @@ class DisciplineHistoricCard extends StatelessWidget {
           Container(margin: const EdgeInsets.symmetric(vertical: 4),child: Row(children: [Expanded(child: Text(discipline.name!, style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: MainTheme.black)))])),
           Row(mainAxisAlignment: MainAxisAlignment.end,crossAxisAlignment: CrossAxisAlignment.end,children: [
             Expanded(child: Text(discipline.observation, style: TextStyle(color: MainTheme.black, fontSize: 12))),
-            CircleInfo(MainTheme.lightOrange, title: 'Frequência', text: discipline.frequency.toString(), textColor: MainTheme.black),
-            CircleInfo(MainTheme.orange, textColor: MainTheme.black,title: 'Média', text: discipline.avarage.toString())
+            CircleInfo(MainTheme.lightOrange, title: 'Frequência', text: '${discipline.frequency.toInt()}%', textColor: MainTheme.black),
+            CircleInfo(MainTheme.orange, textColor: MainTheme.black,title: 'Média', text: discipline.avarage.toString()[discipline.avarage.toString().length-1]=='0'?discipline.avarage.toInt().toString():discipline.avarage.toString())
           ]),
 
         ],

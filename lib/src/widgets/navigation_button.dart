@@ -7,7 +7,8 @@ class NavigationButton extends StatelessWidget {
   Widget child;
   Color? backgroundColor;
   Color? color;
-  NavigationButton({super.key, required this.text, required this.child,this.backgroundColor, this.color});
+  IconData? icon;
+  NavigationButton({super.key, required this.text, required this.child,this.backgroundColor, this.color, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,8 @@ class NavigationButton extends StatelessWidget {
           ),
           child: Row(
             children: [
+              icon==null?const SizedBox():Icon(icon,color: color??MainTheme.black),
+              SizedBox(width: icon==null?0:4),
               Expanded(child: Text(text ,style: TextStyle(fontSize: 14, color: color??MainTheme.black))),
               IconButton(onPressed: null,icon: Icon(Icons.arrow_forward_ios, color: color?? MainTheme.black,))
             ],

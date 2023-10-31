@@ -13,24 +13,23 @@ showModalBottomSheetDefault(BuildContext context, String text, {String? title}){
           child: Column(
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
-                  const SizedBox(width: 4),
+                  Column(mainAxisAlignment: MainAxisAlignment.center,children: [ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50))]),
+                  const SizedBox(width: 8),
                   Expanded(child: Column(
                     children: [
                       title==null? const SizedBox():Row(children: [Expanded(child: Text(title, style: TextStyle(color: MainTheme.orange, fontSize: 16,fontWeight: FontWeight.bold),textAlign: TextAlign.center,))]),
-                      Row(children: [Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))])
+                      Row(children: [Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify,))]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Flexible(child: GestureDetector(
+                              onTap: ()=>Navigator.pop(context),
+                              child: Text('OK', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
+                          ))
+                        ],
+                      ),
                     ],
-                  ))
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Flexible(child: GestureDetector(
-                      onTap: ()=>Navigator.pop(context),
-                      child: Text('OK', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
                   ))
                 ],
               ),
@@ -56,7 +55,7 @@ showModalBottomSheetConfirmAction(BuildContext context,String text, Function() f
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset('assets/images/icon.png', width: 50)),
-                const SizedBox(width: 4),
+                const SizedBox(width: 8),
                 Expanded(child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16),textAlign: TextAlign.justify))
               ],
             ),

@@ -3,7 +3,8 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 
 class SliverAppBarSearch extends StatefulWidget {
   Function(String)? onChanged;
-  SliverAppBarSearch({super.key, required this.onChanged});
+  String? text;
+  SliverAppBarSearch({super.key, required this.onChanged,this.text});
 
 
   @override
@@ -13,6 +14,7 @@ class SliverAppBarSearch extends StatefulWidget {
 class _SliverAppBarSearchState extends State<SliverAppBarSearch> {
   bool focus = false;
   final FocusNode _focusNode = FocusNode();
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -39,17 +41,22 @@ class _SliverAppBarSearchState extends State<SliverAppBarSearch> {
           children: [
             Expanded(child: TextField(
               focusNode: _focusNode,
+              controller: controller,
               style: TextStyle(fontSize: 14,color: MainTheme.black),
               cursorColor: MainTheme.orange,
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Pesquisar',
+                  hintText: widget.text??'Pesquisar',
                   hintStyle: TextStyle(color: MainTheme.black, fontSize: 14),
                   icon: Icon(Icons.search, color: focus?MainTheme.orange:MainTheme.black)
               ),
               onTapOutside: (e)=>_focusNode.unfocus(),
               onChanged: widget.onChanged,
             )),
+            controller.text.isEmpty? const SizedBox():GestureDetector(onTap: (){
+              controller.clear();
+              widget.onChanged!('');
+            }, child: Icon(Icons.close,color: MainTheme.black))
           ],
         ),
       ),

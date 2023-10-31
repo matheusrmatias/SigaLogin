@@ -1,3 +1,5 @@
+import 'package:animated_emoji/animated_emoji.dart';
+import 'package:animated_emoji/emojis.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,6 +18,7 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  int _counter = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +34,16 @@ class _AboutPageState extends State<AboutPage> {
             children: [
               const SizedBox(height: 8),
               Container(
+                alignment: Alignment.center,
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   color: MainTheme.orange,
                   borderRadius: const BorderRadius.all(Radius.circular(16))
                 ),
-                child: Image.asset('assets/images/icon.png', width: 100, height: 100,),
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(16)), child: Image.asset('assets/images/icon.png', width: 100, height: 100)),const AnimatedEmoji(AnimatedEmojis.graduationCap, size: 36,errorWidget: SizedBox())],
+                ),
               ),
               const SizedBox(height: 8),
               LinkButton(func: ()async{
@@ -45,18 +52,20 @@ class _AboutPageState extends State<AboutPage> {
                 }catch (e){
                   Fluttertoast.showToast(msg: 'Não é possível abrir o link');
                 }
-              }, text: 'Projeto no GitHub'),
+              }, text: 'Projeto no GitHub',icon: EvaIcons.github,),
               LinkButton(func: ()async{
                 try{
                   await launchUrlString("mailto:contato@matheusrmatias.dev.br", mode: LaunchMode.externalApplication);
                 }catch (e){
                   Fluttertoast.showToast(msg: 'Não é possível abrir o link');
                 }
-              }, text: 'Enviar E-mail'),
+              }, text: 'Enviar E-mail', icon: Icons.email),
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'matheusrmatias.dev.br', titleColor: MainTheme.orange,onTap: ()async=>await launchUrlString('https://matheusrmatias.dev.br', mode: LaunchMode.externalApplication)))
+                  Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'Matheus 🐀 Matias', titleColor: MainTheme.orange,onTap: ()async{
+
+                  }))
                 ],
               ),
               const SizedBox(height: 8),
@@ -67,7 +76,7 @@ class _AboutPageState extends State<AboutPage> {
                   IconButton(onPressed: ()async=>await launchUrlString('https://www.instagram.com/matheusrmatias/', mode: LaunchMode.externalApplication), icon: const Icon(UniconsLine.instagram)),
                   IconButton(onPressed: ()async=>await launchUrlString('https://www.linkedin.com/in/matheusrmatias/', mode: LaunchMode.externalApplication), icon: const Icon(UniconsLine.linkedin))
                 ],
-              )
+              ),
             ],
           ),
         ),

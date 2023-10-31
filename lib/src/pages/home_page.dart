@@ -1,4 +1,3 @@
-import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +18,7 @@ import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/services/student_account.dart';
 import 'login_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatefulWidget{
   bool afterLogin;
   HomePage({Key? key, this.afterLogin=false}) : super(key: key);
 
@@ -27,32 +26,44 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int page = 1;
-  late PageController pc;
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   StudentController control = StudentController();
   late Student student;
   late SettingRepository prefs;
   bool inUpdateStudentData = false;
+  late TabController _tabController;
+  int page=0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(!widget.afterLogin)_updateStudentDate(init: true);
-    pc = PageController(initialPage: page);
+    _tabController = TabController(length: 3, initialIndex: 0,vsync: this,animationDuration: const Duration(milliseconds: 300))..addListener(() {
+      setState(() {
+        page=_tabController.index;
+      });
+    });
+    if (!widget.afterLogin) _updateStudentDate(init: true);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     student = Provider.of<StudentRepository>(context).student;
     prefs = Provider.of<SettingRepository>(context);
-    return DefaultTabController(length: 3,child:Scaffold(
+    return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
         toolbarHeight: 100,
         title: _header(),
         bottom: TabBar(
+            controller: _tabController,
             labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,
             labelColor: MainTheme.orange,
@@ -60,23 +71,24 @@ class _HomePageState extends State<HomePage> {
             labelPadding: const EdgeInsets.symmetric(vertical: 16),
             indicatorColor: MainTheme.orange,
             indicatorPadding: const EdgeInsets.only(bottom: 4),
-            tabs: const [
-              Text('Notas', overflow: TextOverflow.ellipsis),
-              Text('Histórico',overflow: TextOverflow.ellipsis),
-              Text('Horários',overflow: TextOverflow.ellipsis)
-        ]),
+            tabs: [
+              page==0?const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.school),SizedBox(width: 4),Flexible(child: Text('Cursando', overflow: TextOverflow.ellipsis))]):const Icon(Icons.school),
+              page==1?const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.history),SizedBox(width: 4),Flexible(child: Text('Histórico', overflow: TextOverflow.ellipsis))]):const Icon(Icons.history),
+              page==2?const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.schedule),SizedBox(width: 4),Flexible(child: Text('Horários', overflow: TextOverflow.ellipsis))]):const Icon(Icons.schedule),
+            ]),
         actions: [Container(margin: const EdgeInsets.only(right: 32),child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))],
         shadowColor: Colors.transparent,
       ),
       body: TabBarView(
         physics: const BouncingScrollPhysics(),
+        controller: _tabController,
         children: [
           NotesTab(onPressed: _updateStudentDate),
           HistoricTab(onPressed: _updateStudentDate),
           ScheduleTab(onPressed: _updateStudentDate)
         ],
       ),
-    ));
+    );
   }
   _header(){
     return Container(

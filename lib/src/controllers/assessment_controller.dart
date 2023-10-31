@@ -42,6 +42,17 @@ mixin AssessmentController on SqliteController{
         assessmentList.add(disciplineAssessment);
       });
     });
+
+    assessmentList.sort((a, b){
+      if(a.name.contains('Estágio') || a.name.contains('Trabalho de Graduação')){
+        return 1;
+      }else if(b.name.contains('Estágio') || b.name.contains('Trabalho de Graduação')){
+        return -1;
+      }else{
+        return a.name.compareTo(b.name);
+      }
+    });
+
     return assessmentList;
   }
 

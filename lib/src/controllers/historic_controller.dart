@@ -34,6 +34,15 @@ mixin HistoricController on SqliteController{
       }
     });
 
+    historic.sort((a, b) {
+      int periodComparison = a.period.compareTo(b.period);
+      if (periodComparison != 0) {
+        return periodComparison;
+      } else {
+        return a.name.compareTo(b.name);
+      }
+    });
+
     return historic;
   }
   

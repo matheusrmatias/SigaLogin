@@ -37,7 +37,7 @@ class _HistoricTabState extends State<HistoricTab> {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           SliverList.list(children: [Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))])]),
-          SliverAppBarSearch(onChanged: _searchHistoric),
+          SliverAppBarSearch(onChanged: _searchHistoric,text:'Pesquisar Disciplina'),
           SliverList.builder(
               itemCount: student.historic.length,
               itemBuilder: (context, index)=>DisciplineHistoricCard(discipline: student.historic[index])
