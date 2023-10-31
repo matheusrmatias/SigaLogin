@@ -46,7 +46,7 @@ class _SecuritySettingPageState extends State<SecuritySettingPage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              SettingSwitch(text: 'Bloqueio do Aplicativo', onChange: _funcitonFt, value: prefs.appLock)
+              SettingSwitch(text: 'Bloqueio do Aplicativo', onChange: _funcitonFt, value: prefs.appLock,icon: prefs.appLock?Icons.lock_outline:Icons.lock_open,)
             ],
           ),
         ),

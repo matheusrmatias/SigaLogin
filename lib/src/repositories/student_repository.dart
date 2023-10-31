@@ -63,4 +63,16 @@ class StudentRepository extends ChangeNotifier{
   set schedule(List<Schedule> value) {
     _schedule = value;
   }
+
+  void clearRepository(){
+    student = Student(cpf: '', password: '');
+
+    allAssessment = [];
+    assessment = [];
+
+    allHistoric = [];
+    historic = [];
+
+    schedule = [];
+  }
 }

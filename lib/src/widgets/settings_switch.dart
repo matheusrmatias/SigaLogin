@@ -4,8 +4,9 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 class SettingSwitch extends StatefulWidget {
   final String text;
   Function(bool) onChange;
+  IconData? icon;
   bool value;
-  SettingSwitch({super.key, required this.text, required this.onChange, required this.value});
+  SettingSwitch({super.key, required this.text, required this.onChange, required this.value, this.icon});
 
   @override
   State<SettingSwitch> createState() => _SettingSwitchState();
@@ -28,6 +29,8 @@ class _SettingSwitchState extends State<SettingSwitch> {
         ),
         child: Row(
             children: [
+              widget.icon==null? const SizedBox():Icon(widget.icon, color: widget.value?MainTheme.orange:MainTheme.grey),
+              SizedBox(width: widget.icon==null?0:4),
               Expanded(child: Text(widget.text ,style: TextStyle(fontSize: 14, color: MainTheme.black))),
               Switch(value: widget.value, onChanged: widget.onChange, activeColor: MainTheme.orange)
             ]

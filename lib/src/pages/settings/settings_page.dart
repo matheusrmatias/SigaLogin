@@ -125,7 +125,7 @@ class _SettingPageState extends State<SettingPage> {
               setState(()=>inExit=true);
               try{
                 await control.deleteDatabase();
-                studentRep.student = Student(cpf: '', password: '');
+                studentRep.clearRepository();
                 stundentCardRep.studentCard = StudentCard.empty();
                 await settingRep.clear();
                 if(mounted){

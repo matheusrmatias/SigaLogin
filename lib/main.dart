@@ -17,7 +17,6 @@ import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
-import 'package:sigalogin/src/services/local_auth_service.dart';
 
 
 void main() async{
@@ -26,9 +25,11 @@ void main() async{
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp
   ]);
-  runApp(const MyApp(page: SplashPage()));
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(
+      ChangeNotifierProvider(create:  (context)=>SettingRepository(prefs: prefs),child: MyApp(page: const SplashPage()),)
+  );
 
   StudentController control = StudentController();
   StudentCardController cardControl = StudentCardController();
@@ -48,7 +49,7 @@ void main() async{
             ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student, [], [], [])),
             ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
           ],
-          child: const MyApp(page: LoginPage()),
+          child: MyApp(page: const LoginPage()),
         )
     );
 
@@ -61,7 +62,7 @@ void main() async{
               ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
               ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
             ],
-            child: const MyApp(page: AuthPage()),
+            child: MyApp(page: const AuthPage()),
           )
       );
     }else{

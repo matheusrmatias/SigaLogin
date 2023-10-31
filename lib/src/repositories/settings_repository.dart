@@ -44,6 +44,7 @@ class SettingRepository extends ChangeNotifier{
 
   set theme(String value) {
     _theme = value;
+    notifyListeners();
   }
 
   setBool(String key, bool value)async{
@@ -59,6 +60,7 @@ class SettingRepository extends ChangeNotifier{
     imageDisplay = true;
     appLock = false;
     lastInfoUpdate = '';
+    theme = '';
   }
 
 
