@@ -118,11 +118,11 @@ class StudentAccount{
             k=countDown==null? 11:countDown!+1;
             _isLoad = false;
             historic.sort((a, b) {
-              int periodComparison = a.period!.compareTo(b.period!);
+              int periodComparison = a.period.compareTo(b.period);
               if (periodComparison != 0) {
                 return periodComparison;
               } else {
-                return a.period!.compareTo(b.period!);
+                return a.name.compareTo(b.name);
               }
             });
           }

@@ -42,7 +42,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 child: Stack(
                   alignment: Alignment.topRight,
-                  children: [ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(16)), child: Image.asset('assets/images/icon.png', width: 100, height: 100)),const AnimatedEmoji(AnimatedEmojis.graduationCap, size: 36,errorWidget: SizedBox())],
+                  children: [ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(16)), child: Image.asset('assets/images/icon.png', width: 100, height: 100)),const AnimatedEmoji(AnimatedEmojis.graduationCap, size: 36,repeat: false,errorWidget: SizedBox())],
                 ),
               ),
               const SizedBox(height: 8),

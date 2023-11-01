@@ -38,11 +38,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: 3, initialIndex: 0,vsync: this,animationDuration: const Duration(milliseconds: 300))..addListener(() {
+    _tabController = TabController(length: 3, initialIndex: 0,vsync: this,animationDuration: const Duration(milliseconds: 500))..addListener(() {
       setState(() {
         page=_tabController.index;
       });
     });
+
     if (!widget.afterLogin) _updateStudentDate(init: true);
   }
 

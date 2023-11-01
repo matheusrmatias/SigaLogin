@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:sigalogin/src/pages/home_page.dart';
+import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/services/local_auth_service.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 
@@ -14,6 +16,7 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   LocalAuthService service = LocalAuthService();
   bool inAuthenticate = false;
+  late bool _updateOnOpen;
 
   @override
   void initState() {
@@ -24,6 +27,7 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
+    _updateOnOpen = Provider.of<SettingRepository>(context).updateOnOpen;
     return Scaffold(
       backgroundColor: MainTheme.orange,
       body: Center(
@@ -52,7 +56,7 @@ class _AuthPageState extends State<AuthPage> {
     setState(()=>inAuthenticate=false);
 
     if(authenticated){
-      if(mounted)Navigator.pushReplacement(context, PageTransition(child: HomePage(), type: PageTransitionType.fade));
+      if(mounted)Navigator.pushReplacement(context, PageTransition(child: HomePage(afterLogin: !_updateOnOpen), type: PageTransitionType.fade));
     }
   }
 }

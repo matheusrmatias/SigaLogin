@@ -7,6 +7,7 @@ import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/models/student_card.dart';
 import 'package:sigalogin/src/pages/about_page.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
+import 'package:sigalogin/src/pages/settings/others_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/security_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/student_card_page.dart';
 import 'package:sigalogin/src/pages/settings/view_settings.dart';
@@ -95,6 +96,7 @@ class _SettingPageState extends State<SettingPage> {
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Configuração de Exibição',icon: Icons.contrast, child: const ViewSettings()),
               NavigationButton(text: 'Configuração de Segurança',icon: Icons.security, child: const SecuritySettingPage()),
+              NavigationButton(text: 'Outras Configurações',icon: Icons.widgets, child: const OtherSettingsPage()),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Acessar o SIGA',icon: Icons.web, child: const SigaPage(),),
               Divider(color: Theme.of(context).colorScheme.onPrimary),

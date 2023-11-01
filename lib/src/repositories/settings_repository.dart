@@ -7,14 +7,24 @@ class SettingRepository extends ChangeNotifier{
   late String? _theme;
   late String? _lastInfoUpdate;
   late bool? _appLock;
+  late bool? _updateOnOpen;
 
   SettingRepository({required this.prefs}){
     _imageDisplay = prefs.getBool('imageDisplay');
     _theme = prefs.getString('theme');
     _lastInfoUpdate = prefs.getString('lastInfoUpdate');
     _appLock = prefs.getBool('appLock');
+    _updateOnOpen = prefs.getBool('updateOnOpen');
   }
 
+
+  bool get updateOnOpen => _updateOnOpen??true;
+
+  set updateOnOpen(bool value) {
+    _updateOnOpen = value;
+    setBool('updateOnOpen', value);
+    notifyListeners();
+  }
 
   bool get appLock => _appLock??false;
 
