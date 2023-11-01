@@ -88,7 +88,7 @@ class StudentAccount{
           if(_isLoad){
             print('historic loaded');
             await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr').length").then((value)async{
-              for(int i=1; i<int.parse(value.toString()); i++){
+              for(int i=1; i<double.parse(value.toString()).toInt(); i++){
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1ContainerTbl').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[$i].getElementsByTagName('span').length").then((value)async{
                   Historic discipline = Historic.empty();
                   for(int j=0; j<(double.parse(value.toString())).toInt();j++){
@@ -164,7 +164,7 @@ class StudentAccount{
 
                 await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children.length").then((grid)async{
                   if(double.parse(grid.toString())>1){
-                    for(int k=1; k<int.parse(grid.toString()); k++){
+                    for(int k=1; k<double.parse(grid.toString()).toInt(); k++){
                       await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[0].textContent").then((key)async{
                         await view.runJavaScriptReturningResult("document.getElementById('Grid1Container_${prefix}Tbl').firstChild.children[$k].children[2].textContent").then((val){discipline.assessment[key.toString().replaceAll('"', '')]=val.toString().replaceAll('"', '').trim();});
                       });
@@ -177,12 +177,12 @@ class StudentAccount{
             i=countDown==null? 11:countDown!+1;
             _isLoad=false;
             assessments.sort((a, b){
-              if(a.name!.contains('Estágio') || a.name!.contains('Trabalho de Graduação')){
+              if(a.name.contains('Estágio') || a.name.contains('Trabalho de Graduação')){
                 return 1;
-              }else if(b.name!.contains('Estágio') || b.name!.contains('Trabalho de Graduação')){
+              }else if(b.name.contains('Estágio') || b.name.contains('Trabalho de Graduação')){
                 return -1;
               }else{
-                return a.name!.compareTo(b.name!);
+                return a.name.compareTo(b.name);
               }
             });
           }

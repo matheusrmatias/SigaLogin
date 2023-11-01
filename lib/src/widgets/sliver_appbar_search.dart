@@ -29,13 +29,13 @@ class _SliverAppBarSearchState extends State<SliverAppBarSearch> {
       titleSpacing: 0,
       centerTitle: true,
       shadowColor: Colors.transparent,
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Colors.transparent,
       title: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
             color: MainTheme.lightGrey,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
         child: Row(
           children: [

@@ -59,7 +59,7 @@ class _SettingPageState extends State<SettingPage> {
             children: [
               const SizedBox(height: 8),
               Ink(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
                 decoration: BoxDecoration(
                   color: MainTheme.lightGrey,
                   borderRadius: const BorderRadius.all(Radius.circular(16))
@@ -108,7 +108,7 @@ class _SettingPageState extends State<SettingPage> {
                     return Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
-                          '"Já tá no Siga?" v${snapshot.data!.version}', style: TextStyle(fontSize: 12, color: MainTheme.white)),
+                          '"Já tá no Siga?" v${snapshot.data!.version}', style: TextStyle(fontSize: 12)),
                     );
                   default:
                     return const SizedBox();

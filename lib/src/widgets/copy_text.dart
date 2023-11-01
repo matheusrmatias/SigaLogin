@@ -23,12 +23,12 @@ class _CopyCardState extends State<CopyCard> {
       onTap: _copyText,
       splashColor: MainTheme.blackLowOpacity,
       highlightColor: MainTheme.blackLowOpacity,
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
             color: widget.backgroundColor?? MainTheme.lightGrey,
-            borderRadius: const BorderRadius.all(Radius.circular(8))
+            borderRadius: const BorderRadius.all(Radius.circular(16))
         ),
         child: Row(
           children: [

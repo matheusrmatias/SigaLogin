@@ -17,7 +17,7 @@ class DisciplineHistoricCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: MainTheme.tertiary,
-          borderRadius: const BorderRadius.all(Radius.circular(8))
+          borderRadius: const BorderRadius.all(Radius.circular(16))
       ),
       child: Column(
         children: [

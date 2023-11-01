@@ -15,9 +15,10 @@ class DisciplineNoteCard extends StatelessWidget {
     return Container(margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),child: InkWell(
         splashColor: MainTheme.blackLowOpacity,
         highlightColor: MainTheme.blackLowOpacity,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
         onTap:(){
           showDialog(context: context, builder: (ctx) => AlertDialog(
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
             title: Text(discipline.name.toUpperCase(), style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,),
             backgroundColor: Theme.of(context).colorScheme.primary,
             titleTextStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontFamily: 'ResolveLight'),
@@ -68,7 +69,7 @@ class DisciplineNoteCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
               color: MainTheme.tertiary,
-              borderRadius: const BorderRadius.all(Radius.circular(8))
+              borderRadius: const BorderRadius.all(Radius.circular(16))
           ),
           child: Column(
             children: [

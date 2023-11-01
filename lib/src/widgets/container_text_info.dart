@@ -16,9 +16,9 @@ class TextInfo extends StatelessWidget {
       onTap: onTap,
       splashColor: MainTheme.blackLowOpacity,
       highlightColor: MainTheme.blackLowOpacity,
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
-          decoration: BoxDecoration(color: backgroundColor?? MainTheme.lightGrey, borderRadius: const BorderRadius.all(Radius.circular(8))),
+          decoration: BoxDecoration(color: backgroundColor?? MainTheme.lightGrey, borderRadius: const BorderRadius.all(Radius.circular(16))),
           padding: const EdgeInsets.all(8),
           child: Column(
             children: [

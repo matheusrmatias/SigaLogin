@@ -16,6 +16,7 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StudentCardPage extends StatefulWidget {
   const StudentCardPage({super.key});
@@ -45,7 +46,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton.icon(onPressed: _reaQRCode, icon: const Icon(Icons.qr_code), label: const Text('Validar',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange)),
+            ElevatedButton.icon(onPressed: _reaQRCode, icon: Icon(Icons.qr_code, color: MainTheme.white,), label: Text('Validar',style: TextStyle(fontSize: 16,color: MainTheme.white,fontWeight: FontWeight.bold)),style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange)),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -59,7 +60,10 @@ class _StudentCardPageState extends State<StudentCardPage> {
         child: CarouselSlider(
             items: [
               GestureDetector(onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>Scaffold(body: GestureDetector(onTap: ()=>Navigator.pop(context),child: _cardWidget(),))),child: _cardWidget()),
-              Container(alignment: Alignment.center,child: QrImageView(data: studentCardRep.studentCard.validatorUrl,version: 9,eyeStyle: QrEyeStyle(color: Theme.of(context).colorScheme.onPrimary,eyeShape: QrEyeShape.square),dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square,color: Theme.of(context).colorScheme.onPrimary))),
+              GestureDetector(
+                child: Container(alignment: Alignment.center,child: QrImageView(data: studentCardRep.studentCard.validatorUrl,version: 9,eyeStyle: QrEyeStyle(color: Theme.of(context).colorScheme.onPrimary,eyeShape: QrEyeShape.square),dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square,color: Theme.of(context).colorScheme.onPrimary))),
+                onTap: ()async=>await launchUrl(Uri.parse(studentCardRep.studentCard.validatorUrl),mode: LaunchMode.inAppWebView),
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

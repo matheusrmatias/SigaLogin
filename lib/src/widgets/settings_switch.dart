@@ -20,12 +20,12 @@ class _SettingSwitchState extends State<SettingSwitch> {
         splashColor: MainTheme.blackLowOpacity,
         highlightColor: MainTheme.blackLowOpacity,
         onTap: ()=>widget.onChange(!widget.value),
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
             color: MainTheme.lightGrey,
-            borderRadius: const BorderRadius.all(Radius.circular(8))
+            borderRadius: const BorderRadius.all(Radius.circular(16))
         ),
         child: Row(
             children: [

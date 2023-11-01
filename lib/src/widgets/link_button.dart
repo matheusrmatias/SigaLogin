@@ -18,12 +18,13 @@ class _LinkButtonState extends State<LinkButton> {
     return Container(margin: const EdgeInsets.symmetric(vertical: 8), child: InkWell(
         splashColor: MainTheme.blackLowOpacity,
         highlightColor: MainTheme.blackLowOpacity,
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
         onTap: widget.func,
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
               color: MainTheme.lightGrey,
-              borderRadius: const BorderRadius.all(Radius.circular(8))
+              borderRadius: const BorderRadius.all(Radius.circular(16))
           ),
           child: Row(
             children: [

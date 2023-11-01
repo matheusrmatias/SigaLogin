@@ -45,7 +45,7 @@ class _ViewSettingsState extends State<ViewSettings> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: InkWell(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
                   splashColor: MainTheme.blackLowOpacity,
                   highlightColor: MainTheme.blackLowOpacity,
                   onTap: openDropdown,
@@ -53,7 +53,7 @@ class _ViewSettingsState extends State<ViewSettings> {
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
                         color: MainTheme.lightGrey,
-                        borderRadius: const BorderRadius.all(Radius.circular(8))
+                        borderRadius: const BorderRadius.all(Radius.circular(16))
                     ),
                     child: Column(
                       children: [
@@ -64,7 +64,7 @@ class _ViewSettingsState extends State<ViewSettings> {
                           child: DropdownButton(
                             key: _dropdownButtonKey,
                             autofocus: true,
-                            borderRadius: const BorderRadius.all(Radius.circular(8)),
+                            borderRadius: const BorderRadius.all(Radius.circular(16)),
                             isDense: true,
                             underline: const SizedBox(),
                             style: TextStyle(fontSize: 14, color: MainTheme.black,fontWeight: FontWeight.normal,fontFamily: 'ResolveLight'),
@@ -72,7 +72,7 @@ class _ViewSettingsState extends State<ViewSettings> {
                             iconEnabledColor: MainTheme.black,
                             iconDisabledColor: MainTheme.black,
                             isExpanded: true,
-                            value: prefs.theme.isEmpty?'Padrão do Sistema':prefs.theme,
+                            value: prefs.theme,
                             items: _themesList.map((e) => DropdownMenuItem(child: Text(e), value: e,)).toList(),
                             onChanged: (e)=>prefs.theme=e.toString(),
                           ),
