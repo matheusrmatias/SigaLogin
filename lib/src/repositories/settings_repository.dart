@@ -50,7 +50,7 @@ class SettingRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  String get theme => _theme??'';
+  String get theme => _theme??'Padrão do Sistema';
 
   set theme(String value) {
     _theme = value;
