@@ -8,8 +8,10 @@ import 'package:sigalogin/src/models/assessment.dart';
 import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student.dart';
+import 'package:sigalogin/src/models/update.dart';
 import 'package:sigalogin/src/pages/TestePage.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
+import 'package:sigalogin/src/repositories/update_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
 import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
@@ -30,6 +32,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late StudentRepository studentRep;
   late SettingRepository setting;
+  late Update update;
   TextEditingController identification = TextEditingController();
   TextEditingController password = TextEditingController();
   bool inLogin = false;
@@ -41,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     studentRep = Provider.of<StudentRepository>(context);
     setting = Provider.of<SettingRepository>(context);
+    update = Provider.of<UpdateRepository>(context).update!;
     return Scaffold(
       backgroundColor: MainTheme.white,
       body:Column(
@@ -151,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
       setting.lastInfoUpdate = 'Última Atualização: ${DateFormat('dd/MM HH:mm').format(DateTime.now())}';
 
       if(context.mounted){
-        Navigator.pushReplacement(context, PageTransition(child: HomePage(afterLogin: true), type: PageTransitionType.fade));
+        Navigator.pushReplacement(context, PageTransition(child: HomePage(afterLogin: true, update: update), type: PageTransitionType.fade));
       }
     }catch(e){
       debugPrint('Error $e');

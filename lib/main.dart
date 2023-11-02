@@ -5,6 +5,7 @@ import 'package:sigalogin/src/models/assessment.dart';
 import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/student_card.dart';
+import 'package:sigalogin/src/models/update.dart';
 import 'package:sigalogin/src/pages/auth_page.dart';
 import 'package:sigalogin/src/pages/splash_page.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,9 @@ import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
+import 'package:sigalogin/src/repositories/update_repository.dart';
+import 'package:sigalogin/src/services/update_service.dart';
+import 'dart:io' show Platform;
 
 
 void main() async{
@@ -27,9 +31,14 @@ void main() async{
   ]);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  UpdateService updateService = UpdateService();
   runApp(
       ChangeNotifierProvider(create:  (context)=>SettingRepository(prefs: prefs),child: MyApp(page: const SplashPage()),)
   );
+
+  Update? update;
+
+  if(Platform.isAndroid)try{update = await updateService.verifyAvailableUpdate();}finally{}
 
   StudentController control = StudentController();
   StudentCardController cardControl = StudentCardController();
@@ -40,19 +49,18 @@ void main() async{
   List<Historic> historic = await control.queryHistoric();
   StudentCard card = await cardControl.queryDatabase();
 
-
   if(student.cpf == ''){
     runApp(
         MultiProvider(
           providers: [
             ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
             ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student, [], [], [])),
-            ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
+            ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card)),
+            ChangeNotifierProvider<UpdateRepository>(create: (context)=>UpdateRepository(update: update)),
           ],
           child: MyApp(page: const LoginPage()),
         )
     );
-
   }else{
     if(prefs.getBool('appLock')??false){
       runApp(
@@ -60,7 +68,8 @@ void main() async{
             providers: [
               ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
               ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
-              ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
+              ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card)),
+              ChangeNotifierProvider<UpdateRepository>(create: (context)=>UpdateRepository(update: update)),
             ],
             child: MyApp(page: const AuthPage()),
           )
@@ -71,9 +80,10 @@ void main() async{
             providers: [
               ChangeNotifierProvider<SettingRepository>(create: (context)=>SettingRepository(prefs: prefs)),
               ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
-              ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card))
+              ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card)),
+              ChangeNotifierProvider<UpdateRepository>(create: (context)=>UpdateRepository(update: update)),
             ],
-            child: MyApp(page: HomePage(afterLogin: !(prefs.getBool('updateOnOpen')??true))),
+            child: MyApp(page: HomePage(afterLogin: !(prefs.getBool('updateOnOpen')??true), update: update)),
           )
       );
     }

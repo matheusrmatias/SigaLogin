@@ -6,11 +6,15 @@ import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/assessment.dart';
 import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
+import 'package:sigalogin/src/models/update.dart';
 import 'package:sigalogin/src/pages/settings/settings_page.dart';
 import 'package:sigalogin/src/pages/tabs/historic_tab.dart';
 import 'package:sigalogin/src/pages/tabs/notes_tab.dart';
 import 'package:sigalogin/src/pages/tabs/schedule_tab.dart';
+import 'package:sigalogin/src/pages/update_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
+import 'package:sigalogin/src/repositories/update_repository.dart';
+import 'package:sigalogin/src/services/update_service.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/controllers/student_controller.dart';
 import 'package:sigalogin/src/models/student.dart';
@@ -20,7 +24,8 @@ import 'login_page.dart';
 
 class HomePage extends StatefulWidget{
   bool afterLogin;
-  HomePage({Key? key, this.afterLogin=false}) : super(key: key);
+  Update? update;
+  HomePage({Key? key, this.afterLogin=false, this.update}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -30,6 +35,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   StudentController control = StudentController();
   late Student student;
   late SettingRepository prefs;
+  late Update update;
   bool inUpdateStudentData = false;
   late TabController _tabController;
   int page=0;
@@ -38,6 +44,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if(widget.update?.available??false)Fluttertoast.showToast(msg: 'Há uma nova atualização disponível !');
+
     _tabController = TabController(length: 3, initialIndex: 0,vsync: this,animationDuration: const Duration(milliseconds: 500))..addListener(() {
       setState(() {
         page=_tabController.index;
@@ -58,6 +67,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     student = Provider.of<StudentRepository>(context).student;
     prefs = Provider.of<SettingRepository>(context);
+    update = Provider.of<UpdateRepository>(context).update!;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -77,7 +87,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               page==1?const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.history),SizedBox(width: 4),Flexible(child: Text('Histórico', overflow: TextOverflow.ellipsis))]):const Icon(Icons.history),
               page==2?const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.schedule),SizedBox(width: 4),Flexible(child: Text('Horários', overflow: TextOverflow.ellipsis))]):const Icon(Icons.schedule),
             ]),
-        actions: [Container(margin: const EdgeInsets.only(right: 32),child: IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary)))],
+        actions: [
+          Container(
+              margin: const EdgeInsets.only(right: 32),child: Row(
+            children: [
+              update.available?IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const UpdatePage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.download, color: Theme.of(context).colorScheme.onPrimary)):SizedBox(),
+              IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary))
+            ],
+          ))],
         shadowColor: Colors.transparent,
       ),
       body: TabBarView(

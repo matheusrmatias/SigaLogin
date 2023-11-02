@@ -17,7 +17,6 @@ class SettingRepository extends ChangeNotifier{
     _updateOnOpen = prefs.getBool('updateOnOpen');
   }
 
-
   bool get updateOnOpen => _updateOnOpen??true;
 
   set updateOnOpen(bool value) {
@@ -72,6 +71,4 @@ class SettingRepository extends ChangeNotifier{
     lastInfoUpdate = '';
     theme = '';
   }
-
-
 }
