@@ -16,6 +16,7 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/login_input.dart';
 import 'package:sigalogin/src/widgets/show_modal_bootm_sheet_default.dart';
 import 'package:sigalogin/src/models/student.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/student_controller.dart';
 import '../repositories/student_repository.dart';
@@ -46,55 +47,82 @@ class _LoginPageState extends State<LoginPage> {
     setting = Provider.of<SettingRepository>(context);
     update = Provider.of<UpdateRepository>(context).update!;
     return Scaffold(
-      backgroundColor: MainTheme.white,
+
+      backgroundColor: MainTheme.orange,
       body:Column(
         children: [
-          Expanded(flex: 1,child: Container(
-            color: MainTheme.white,
-            alignment: Alignment.bottomCenter,
-            child: Image.asset('assets/images/icon-transparent.png',width: double.maxFinite,alignment: Alignment.bottomCenter),
-          )),
-          Expanded(flex: 2,child: Container(
-              padding: const EdgeInsets.only(right: 32,left: 32,top: 16),
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiary,
-                  borderRadius: const BorderRadius.only(topRight: Radius.circular(50))
-              ),
+          Expanded(child: SizedBox(
               child: Center(
                 child: SingleChildScrollView(
+                  reverse: true,
                   physics: const BouncingScrollPhysics(),
-
                   child: Column(
                     children: [
-                      LoginInput(controller: identification,icon: const Icon(Icons.person),hint: 'CPF',maxLength: 11, inputType: TextInputType.number,inputFormat: [FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))],enbled: !inLogin),
-                      LoginInput(controller: password,icon: const Icon(Icons.lock),hint: 'Senha',obscure: true, enbled: !inLogin),
+                      Padding(padding: const EdgeInsets.symmetric(horizontal: 80),child: Image.asset('assets/images/icon-transparent.png',width: double.maxFinite,alignment: Alignment.bottomCenter)),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: inLogin?Column(
+                        margin: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: MainTheme.lightGrey,
+                            boxShadow: [
+                              BoxShadow(color: MainTheme.black, offset: const Offset(8,8)),
+                            ],
+                            borderRadius: const BorderRadius.all(Radius.circular(16))
+                        ),
+                        child: Column(
                           children: [
-                            Stack(alignment: Alignment.center,children: [
-                              SizedBox(height: MediaQuery.of(context).textScaleFactor*44,width: MediaQuery.of(context).textScaleFactor*44, child: CircularProgressIndicator(color: MainTheme.orange)),
-                              Text('$percentage %')
-                            ],),
-                            const SizedBox(height: 8),
-                            Text(progress, style:TextStyle(color: Theme.of(context).colorScheme.onPrimary))
+                            AutofillGroup(child: Column(
+                              children: [
+                                LoginInput(onEditingComplete: ()=>TextInput.finishAutofillContext(),controller: identification,icon: const Icon(Icons.person),hint: 'CPF',maxLength: 11, inputType: TextInputType.number,inputFormat: [FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))],enbled: !inLogin,autofillHints: const [AutofillHints.username,AutofillHints.newUsername],),
+                                LoginInput(onEditingComplete: ()=>TextInput.finishAutofillContext(),controller: password,icon: const Icon(Icons.lock),hint: 'Senha',obscure: true, enbled: !inLogin,autofillHints: const [AutofillHints.password,AutofillHints.newPassword],),
+                              ],
+                            )),
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              child: inLogin?Column(
+                                children: [
+                                  // Stack(alignment: Alignment.center,children: [
+                                  //
+                                  // ],),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                        child: LinearProgressIndicator(
+                                          backgroundColor: MainTheme.black,
+                                          color: MainTheme.lightBlue,
+                                          value: percentage/100,
+                                          minHeight: MediaQuery.of(context).textScaleFactor*30
+                                        ),
+                                      ),
+                                      Text('$progress $percentage %', style:TextStyle(color: MainTheme.white),textAlign: TextAlign.center)
+                                    ],
+                                  ),
+                                ],
+                              ):ElevatedButton(onPressed: (){
+                                if(identification.text.isEmpty){
+                                  Fluttertoast.showToast(msg: 'Informe o CPF');
+                                }else if(password.text.isEmpty){
+                                  Fluttertoast.showToast(msg: 'Informe a Senha');
+                                }else if(identification.text.length<10 || identification.text.length>11){
+                                  Fluttertoast.showToast(msg: 'Informe um CPF válido');
+                                }else{
+                                  _login();
+                                }
+                              },style: ElevatedButton.styleFrom(backgroundColor: MainTheme.lightBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),padding: const EdgeInsets.symmetric(vertical: 8),minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24, fontWeight: FontWeight.bold))),
+                            ),
                           ],
-                        ):ElevatedButton(onPressed: (){
-                          if(identification.text.isEmpty){
-                            Fluttertoast.showToast(msg: 'Informe o CPF');
-                          }else if(password.text.isEmpty){
-                            Fluttertoast.showToast(msg: 'Informe a Senha');
-                          }else if(identification.text.length<10 || identification.text.length>11){
-                            Fluttertoast.showToast(msg: 'Informe um CPF válido');
-                          }else{
-                            _login();
-                          }
-                        },style: ElevatedButton.styleFrom(backgroundColor: MainTheme.orange, minimumSize: const Size(double.maxFinite, 48)), child: Text('Confirmar',style: TextStyle(color: MainTheme.white, fontSize: 24, fontWeight: FontWeight.bold))),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      inLogin?const SizedBox():GestureDetector(
+                        onTap: ()async=>await launchUrl(Uri.parse('https://siga.cps.sp.gov.br/aluno/login.aspx')),
+                        child: Text('Esqueci a senha',style: TextStyle(color: MainTheme.white)),
                       )
                     ],
-                  ),
-                ),
+                  )
+                )
               )
             )
           )
@@ -136,6 +164,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(()=>progress='Carregando Ementas');
       assessment = await account.userAssessmentDetails(assessment);
       percentage = 100;
+      TextInput.finishAutofillContext();
       studentRep.student = student;
 
       studentRep.allHistoric=historic;

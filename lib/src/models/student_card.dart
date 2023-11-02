@@ -31,7 +31,7 @@ class StudentCard{
     name: '',
     period: '',
     ra: '',
-    image: Uint8List(0),
+    image: Uint8List.fromList([]),
     shipmentDate: '',
     validatorUrl: ''
   );

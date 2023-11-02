@@ -56,17 +56,18 @@ class _UpdatePageState extends State<UpdatePage> {
                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16)))
                       ),
                       child: Text('Atualizar',style: TextStyle(color: MainTheme.white,fontSize: 24)),
-                    ):Column(
+                    ):Stack(
+                      alignment: Alignment.center,
                       children: [
                         ClipRRect(
                           borderRadius: const BorderRadius.all(Radius.circular(16)),
-                          child: LinearProgressIndicator(value: (double.tryParse(currentEvent!.value??'0')??0)/100,color: MainTheme.orange,backgroundColor: MainTheme.black,minHeight: 20),
+                          child: LinearProgressIndicator(value: (double.tryParse(currentEvent!.value??'0')??0)/100,color: MainTheme.orange,backgroundColor: MainTheme.black,minHeight: MediaQuery.of(context).textScaleFactor*30),
                         ),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Flexible(child: Text('${currentEvent!.value} %', style: TextStyle(fontSize: 16, color: MainTheme.black)))
+                            Flexible(child: Text('Baixando ${currentEvent!.value} %', style: TextStyle(fontSize: 16, color: MainTheme.white),textAlign: TextAlign.center,))
                           ],
                         )
                       ],

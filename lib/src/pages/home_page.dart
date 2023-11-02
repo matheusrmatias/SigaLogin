@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           prefs.imageDisplay?GestureDetector(child: CircleAvatar(backgroundImage: MemoryImage(student.image),backgroundColor: MainTheme.orange,radius: 30),onTap: ()=>showDialog(context: context, builder: (BuildContext context)=>GestureDetector(child: Image.memory(student.image),onTap: ()=>Navigator.pop(context),))):CircleAvatar(radius: 30,backgroundColor: MainTheme.orange, child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary)),
           const SizedBox(width: 16),
-          Expanded(child: Text(student.name, maxLines: 3,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 14))),
+          Expanded(child: Text(student.name,maxLines: student.name.split(' ').length,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 14))),
         ],
       ),
     );
@@ -178,7 +178,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         if(!init)Fluttertoast.showToast(msg: 'Não foi possível atualizar os dados, tente novamente!');
       }
     }finally{
-      setState(()=>inUpdateStudentData = false);
+      if(mounted){
+        setState(()=>inUpdateStudentData = false);
+      }
     }
   }
 

@@ -13,7 +13,9 @@ class LoginInput extends StatefulWidget {
   List<TextInputFormatter>? inputFormat;
   int? maxLength;
   bool? enbled;
-  LoginInput({super.key, required this.controller, this.icon, this.hint, this.obscure, this.inputType, this.inputFormat, this.maxLength, this.enbled});
+  Iterable<String>? autofillHints;
+  Function()? onEditingComplete;
+  LoginInput({super.key, required this.controller, this.icon, this.hint, this.obscure, this.inputType, this.inputFormat, this.maxLength, this.enbled,this.autofillHints,this.onEditingComplete});
 
   @override
   State<LoginInput> createState() => _LoginInputState();
@@ -44,6 +46,14 @@ class _LoginInputState extends State<LoginInput> {
       child: Row(
         children: [
           Expanded(child: TextField(
+            onSubmitted: (e){
+              _focusNode.unfocus();
+            },
+            onChanged: (e){
+              widget.onEditingComplete!();
+            },
+            onEditingComplete: widget.onEditingComplete,
+            autofillHints: widget.autofillHints,
             enabled: widget.enbled,
             focusNode: _focusNode,
             inputFormatters: widget.inputFormat,
