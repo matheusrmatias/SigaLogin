@@ -69,6 +69,6 @@ class SettingRepository extends ChangeNotifier{
     imageDisplay = true;
     appLock = false;
     lastInfoUpdate = '';
-    theme = '';
+    theme = 'Padrão do Sistema';
   }
 }

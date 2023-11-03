@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/assessment.dart';
@@ -47,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
     setting = Provider.of<SettingRepository>(context);
     update = Provider.of<UpdateRepository>(context).update!;
     return Scaffold(
-
       backgroundColor: MainTheme.orange,
       body:Column(
         children: [
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: BoxDecoration(
                             color: MainTheme.lightGrey,
                             boxShadow: [
-                              BoxShadow(color: MainTheme.black, offset: const Offset(8,8)),
+                              BoxShadow(color:MainTheme.black, offset: const Offset(8,8)),
                             ],
                             borderRadius: const BorderRadius.all(Radius.circular(16))
                         ),
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             AutofillGroup(child: Column(
                               children: [
-                                LoginInput(onEditingComplete: ()=>TextInput.finishAutofillContext(),controller: identification,icon: const Icon(Icons.person),hint: 'CPF',maxLength: 11, inputType: TextInputType.number,inputFormat: [FilteringTextInputFormatter.allow(RegExp(r'([0-9])'))],enbled: !inLogin,autofillHints: const [AutofillHints.username,AutofillHints.newUsername],),
+                                LoginInput(onEditingComplete: ()=>TextInput.finishAutofillContext(),controller: identification,icon: const Icon(Icons.person),hint: 'CPF',maxLength: 14, inputType: TextInputType.number,inputFormat: [MaskTextInputFormatter(mask: '###.###.###-##',filter: {'#':RegExp(r'([0-9])')})],enbled: !inLogin,autofillHints: const [AutofillHints.username,AutofillHints.newUsername],),
                                 LoginInput(onEditingComplete: ()=>TextInput.finishAutofillContext(),controller: password,icon: const Icon(Icons.lock),hint: 'Senha',obscure: true, enbled: !inLogin,autofillHints: const [AutofillHints.password,AutofillHints.newPassword],),
                               ],
                             )),
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Fluttertoast.showToast(msg: 'Informe o CPF');
                                 }else if(password.text.isEmpty){
                                   Fluttertoast.showToast(msg: 'Informe a Senha');
-                                }else if(identification.text.length<10 || identification.text.length>11){
+                                }else if(identification.text.length<13){
                                   Fluttertoast.showToast(msg: 'Informe um CPF válido');
                                 }else{
                                   _login();
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
     List<Historic> historic = [];
     List<DisciplineAssessment> assessment = [];
     List<Schedule> schedule = [];
-    Student student = Student(cpf: identification.text, password: password.text);
+    Student student = Student(cpf: identification.text.replaceAll('.', '').replaceAll('-',''), password: password.text);
 
     try{
       // Navigator.push(context, PageTransition(child: TestePage(controller: account.view), type: PageTransitionType.fade));

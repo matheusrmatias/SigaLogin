@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           Container(
               margin: const EdgeInsets.only(right: 32),child: Row(
             children: [
-              update.available?IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const UpdatePage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.download, color: Theme.of(context).colorScheme.onPrimary)):SizedBox(),
+              update.available? IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const UpdatePage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.download, color: MainTheme.orange)):const SizedBox(),
               IconButton(onPressed: ()=>Navigator.push(context, PageTransition(child: const SettingPage(), type: PageTransitionType.rightToLeft, curve: Curves.linear, duration: const Duration(milliseconds: 300))), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary))
             ],
           ))],

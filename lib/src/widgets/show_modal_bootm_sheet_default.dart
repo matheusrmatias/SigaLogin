@@ -40,7 +40,7 @@ showModalBottomSheetDefault(BuildContext context, String text, {String? title}){
   });
 }
 
-showModalBottomSheetConfirmAction(BuildContext context,String text, Function() function){
+showModalBottomSheetConfirmAction(BuildContext context,String text, Function() function,{String? afirmativeText,String? negativeText}){
   showModalBottomSheet(backgroundColor: Colors.transparent,context: context, builder: (BuildContext context){
     return Container(decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
@@ -64,12 +64,12 @@ showModalBottomSheetConfirmAction(BuildContext context,String text, Function() f
               children: [
                 Flexible(child: GestureDetector(
                     onTap: ()=>Navigator.pop(context),
-                    child: Text('Não', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
+                    child: Text(negativeText??'Não', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
                 )),
                 const SizedBox(width: 16),
                 Flexible(child: GestureDetector(
                     onTap: (){function();Navigator.pop(context);},
-                    child: Text('Sim', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
+                    child: Text(afirmativeText??'Sim', style: TextStyle(color: MainTheme.orange, fontSize: 16, fontWeight: FontWeight.bold))
                 ))
               ],
             ),

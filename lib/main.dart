@@ -20,8 +20,6 @@ import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/update_repository.dart';
 import 'package:sigalogin/src/services/update_service.dart';
-import 'dart:io' show Platform;
-
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +36,7 @@ void main() async{
 
   Update? update;
 
-  if(Platform.isAndroid)try{update = await updateService.verifyAvailableUpdate();}finally{}
+  try{update = await updateService.verifyAvailableUpdate();}finally{}
 
   StudentController control = StudentController();
   StudentCardController cardControl = StudentCardController();

@@ -3,7 +3,7 @@ class Update{
   String version;
   String sha256;
   String link;
-  Map<String,dynamic> changelog;
+  Map<String,List<String>> changelog;
 
   Update({required this.available, required this.version, required this.sha256, required this.changelog, required this.link});
 

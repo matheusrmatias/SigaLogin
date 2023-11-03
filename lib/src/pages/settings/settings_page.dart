@@ -12,6 +12,7 @@ import 'package:sigalogin/src/pages/settings/security_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/student_card_page.dart';
 import 'package:sigalogin/src/pages/settings/view_settings.dart';
 import 'package:sigalogin/src/pages/siga_page.dart';
+import 'package:sigalogin/src/pages/update_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
@@ -94,9 +95,12 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
+
               NavigationButton(text: 'Configuração de Exibição',icon: Icons.contrast, child: const ViewSettings()),
               NavigationButton(text: 'Configuração de Segurança',icon: Icons.security, child: const SecuritySettingPage()),
               NavigationButton(text: 'Outras Configurações',icon: Icons.widgets, child: const OtherSettingsPage()),
+              NavigationButton(text: 'Atualização', icon: Icons.security_update,child: const UpdatePage()),
+
               Divider(color: Theme.of(context).colorScheme.onPrimary),
               NavigationButton(text: 'Acessar o SIGA',icon: Icons.web, child: const SigaPage(),),
               Divider(color: Theme.of(context).colorScheme.onPrimary),
@@ -108,7 +112,7 @@ class _SettingPageState extends State<SettingPage> {
                     return Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
-                          '"Já tá no Siga?" v${snapshot.data!.version}', style: TextStyle(fontSize: 12)),
+                          '"Já tá no Siga?" v${snapshot.data!.version}', style: const TextStyle(fontSize: 12)),
                     );
                   default:
                     return const SizedBox();

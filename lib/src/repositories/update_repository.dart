@@ -2,9 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:sigalogin/src/models/update.dart';
 
 class UpdateRepository extends ChangeNotifier{
-  Update? update;
+  Update? _update;
 
-  UpdateRepository({this.update}){
-    update = update??Update.empty();
+  UpdateRepository({Update? update}):_update=update;
+
+  Update get update => _update??Update.empty();
+
+  set update(Update value) {
+    _update = value;
+    notifyListeners();
   }
 }

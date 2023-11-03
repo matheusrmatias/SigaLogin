@@ -8,6 +8,7 @@ import 'package:sigalogin/src/widgets/container_text_info.dart';
 import 'package:sigalogin/src/widgets/link_button.dart';
 import 'package:sigalogin/src/widgets/navigation_button.dart';
 import 'package:unicons/unicons.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AboutPage extends StatefulWidget {
@@ -63,9 +64,7 @@ class _AboutPageState extends State<AboutPage> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'Matheus 🐀 Matias', titleColor: MainTheme.orange,onTap: ()async{
-
-                  }))
+                  Expanded(child: TextInfo(title: 'Desenvolvido por:', text: 'Matheus 🐀 Matias', titleColor: MainTheme.orange,onTap: ()async=>await launchUrl(Uri.parse('https://matheusrmatias.dev.br'),mode: LaunchMode.externalNonBrowserApplication)))
                 ],
               ),
               const SizedBox(height: 8),
