@@ -52,7 +52,7 @@ class _ViewSettingsState extends State<ViewSettings> {
                   child: Ink(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
-                        color: MainTheme.lightGrey,
+                        color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
                         borderRadius: const BorderRadius.all(Radius.circular(16))
                     ),
                     child: Column(
@@ -67,10 +67,10 @@ class _ViewSettingsState extends State<ViewSettings> {
                             borderRadius: const BorderRadius.all(Radius.circular(16)),
                             isDense: true,
                             underline: const SizedBox(),
-                            style: TextStyle(fontSize: 14, color: MainTheme.black,fontWeight: FontWeight.normal,fontFamily: 'ResolveLight'),
-                            dropdownColor: MainTheme.lightGrey,
-                            iconEnabledColor: MainTheme.black,
-                            iconDisabledColor: MainTheme.black,
+                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal,fontFamily: 'ResolveLight',color: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black),
+                            dropdownColor: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
+                            iconEnabledColor: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black,
+                            iconDisabledColor: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black,
                             isExpanded: true,
                             value: prefs.theme,
                             items: _themesList.map((e) => DropdownMenuItem(child: Text(e), value: e,)).toList(),

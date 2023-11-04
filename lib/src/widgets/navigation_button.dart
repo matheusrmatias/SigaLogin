@@ -21,14 +21,14 @@ class NavigationButton extends StatelessWidget {
           padding:const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
-            color: backgroundColor??MainTheme.lightGrey,
+            color: backgroundColor??(Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey),
           ),
           child: Row(
             children: [
-              icon==null?const SizedBox():Icon(icon,color: color??MainTheme.black),
+              icon==null?const SizedBox():Icon(icon,color: color),
               SizedBox(width: icon==null?0:4),
-              Expanded(child: Text(text ,style: TextStyle(fontSize: 14, color: color??MainTheme.black))),
-              IconButton(onPressed: null,icon: Icon(Icons.arrow_forward_ios, color: color?? MainTheme.black,))
+              Expanded(child: Text(text ,style: TextStyle(fontSize: 14, color: color))),
+              IconButton(onPressed: null,icon: Icon(Icons.arrow_forward_ios, color: color))
             ],
           ),
         )

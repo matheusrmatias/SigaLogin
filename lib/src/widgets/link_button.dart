@@ -23,17 +23,17 @@ class _LinkButtonState extends State<LinkButton> {
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-              color: MainTheme.lightGrey,
+              color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
               borderRadius: const BorderRadius.all(Radius.circular(16))
           ),
           child: Row(
             children: [
-              widget.icon==null?const SizedBox():Icon(widget.icon,color: widget.color??MainTheme.black),
+              widget.icon==null?const SizedBox():Icon(widget.icon,color: widget.color),
               SizedBox(width: widget.icon==null?0:4),
               Expanded(child: Text(
-                  widget.text, style: TextStyle(fontSize: 14, color: MainTheme.black))),
-              IconButton(onPressed: null,
-                  icon: Icon(Icons.arrow_forward_ios, color: MainTheme.black,))
+                  widget.text, style: const TextStyle(fontSize: 14))),
+              const IconButton(onPressed: null,
+                  icon: Icon(Icons.arrow_forward_ios))
             ],
           ),
         )

@@ -4,7 +4,7 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 showModalBottomSheetDefault(BuildContext context, String text, {String? title}){
   showModalBottomSheet(backgroundColor: Colors.transparent,context: context, builder: (BuildContext context){
     return Container( decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.white,
         borderRadius: const BorderRadius.all(Radius.circular(16))
     ),
       padding: const EdgeInsets.all(16),
@@ -43,7 +43,7 @@ showModalBottomSheetDefault(BuildContext context, String text, {String? title}){
 showModalBottomSheetConfirmAction(BuildContext context,String text, Function() function,{String? afirmativeText,String? negativeText}){
   showModalBottomSheet(backgroundColor: Colors.transparent,context: context, builder: (BuildContext context){
     return Container(decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.white,
         borderRadius: const BorderRadius.all(Radius.circular(16))
     ),
       padding: const EdgeInsets.all(16),

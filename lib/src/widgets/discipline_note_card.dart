@@ -13,14 +13,13 @@ class DisciplineNoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),child: InkWell(
-        splashColor: MainTheme.blackLowOpacity,
-        highlightColor: MainTheme.blackLowOpacity,
+
         borderRadius: const BorderRadius.all(Radius.circular(16)),
         onTap:(){
           showDialog(context: context, builder: (ctx) => AlertDialog(
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
             title: Text(discipline.name.toUpperCase(), style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,),
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.white,
             titleTextStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontFamily: 'ResolveLight'),
             contentTextStyle: TextStyle(color: MainTheme.orange),
             content: SingleChildScrollView(
@@ -36,7 +35,7 @@ class DisciplineNoteCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Flexible(child: CircleInfo(MainTheme.orange, title: 'Total de Aulas', text: discipline.totalClasses,textColor: Theme.of(context).colorScheme.onPrimary)),
+                      Flexible(child: CircleInfo(MainTheme.orange, title: 'Total de Aulas', text: discipline.totalClasses)),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -46,9 +45,9 @@ class DisciplineNoteCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleInfo(MainTheme.lightOrange, title: 'Máximo de Faltas', text: discipline.maxAbsences, textColor: Theme.of(context).colorScheme.onPrimary),
+                        CircleInfo(MainTheme.lightOrange, title: 'Máximo de Faltas', text: discipline.maxAbsences),
                         const SizedBox(width: 4),
-                        CircleInfo(MainTheme.lightBlue, title: 'Faltas Restantes', text: (int.parse(discipline.maxAbsences)-int.parse(discipline.absence).toInt()).toString(),textColor: Theme.of(context).colorScheme.onPrimary)
+                        CircleInfo(MainTheme.lightBlue, title: 'Faltas Restantes', text: (int.parse(discipline.maxAbsences)-int.parse(discipline.absence).toInt()).toString())
                       ],
                     ),
                   )
@@ -68,7 +67,7 @@ class DisciplineNoteCard extends StatelessWidget {
         child: Ink(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: MainTheme.tertiary,
+              color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
               borderRadius: const BorderRadius.all(Radius.circular(16))
           ),
           child: Column(
@@ -76,7 +75,7 @@ class DisciplineNoteCard extends StatelessWidget {
               Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(child: Text(discipline.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: MainTheme.black))),
+                    Expanded(child: Text(discipline.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
                   ]),
               Container(margin: const EdgeInsets.symmetric(vertical: 16),child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +86,7 @@ class DisciplineNoteCard extends StatelessWidget {
                     child: Builder(builder: (BuildContext context) {
                       List<Widget> assessment = [];
                       for (var element in discipline.assessment.keys) {
-                        assessment.add(CircleInfo(MainTheme.lightBlue, text: discipline.assessment[element]=='0,0'?'0':discipline.assessment[element]!.replaceAll(" ", '').length==4?discipline.assessment[element]!.toString().substring(0,discipline.assessment[element]!.length-2):discipline.assessment[element]!,title: element, textColor: MainTheme.black));
+                        assessment.add(CircleInfo(MainTheme.lightBlue, text: discipline.assessment[element]=='0,0'?'0':discipline.assessment[element]!.replaceAll(" ", '').length==4?discipline.assessment[element]!.toString().substring(0,discipline.assessment[element]!.length-2):discipline.assessment[element]!,title: element));
                       }
                       return Row(
                         children: assessment,
@@ -95,15 +94,15 @@ class DisciplineNoteCard extends StatelessWidget {
                     },),
                   )
                   ),
-                  CircleInfo(MainTheme.lightOrange,text:discipline.absence,title:'Faltas', textColor: MainTheme.black,),
-                  CircleInfo(MainTheme.orange, text:discipline.average=='0,0'?'0':discipline.average.replaceAll(" ", '').length==4?discipline.average.toString().substring(0,discipline.average.length-2):discipline.average, title: 'Nota', textColor: MainTheme.black),
+                  CircleInfo(MainTheme.lightOrange,text:discipline.absence,title:'Faltas'),
+                  CircleInfo(MainTheme.orange, text:discipline.average=='0,0'?'0':discipline.average.replaceAll(" ", '').length==4?discipline.average.toString().substring(0,discipline.average.length-2):discipline.average, title: 'Nota'),
                 ],
               ),),
               Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(child: Text(discipline.teacher, style: TextStyle(fontSize: 10, color: MainTheme.black))),
+                    Flexible(child: Text(discipline.teacher, style: TextStyle(fontSize: 10))),
                   ]),
             ],
           ),

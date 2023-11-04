@@ -34,7 +34,7 @@ class _SliverAppBarSearchState extends State<SliverAppBarSearch> {
         margin: const EdgeInsets.symmetric(horizontal: 32),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-            color: MainTheme.lightGrey,
+            color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
             borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
         child: Row(
@@ -42,13 +42,13 @@ class _SliverAppBarSearchState extends State<SliverAppBarSearch> {
             Expanded(child: TextField(
               focusNode: _focusNode,
               controller: controller,
-              style: TextStyle(fontSize: 14,color: MainTheme.black),
+              style: const TextStyle(fontSize: 14),
               cursorColor: MainTheme.orange,
               decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: widget.text??'Pesquisar',
-                  hintStyle: TextStyle(color: MainTheme.black, fontSize: 14),
-                  icon: Icon(Icons.search, color: focus?MainTheme.orange:MainTheme.black)
+                  hintStyle: const TextStyle(fontSize: 14),
+                  icon: Icon(Icons.search, color: focus?MainTheme.orange:Theme.of(context).colorScheme.onPrimary)
               ),
               onTapOutside: (e)=>_focusNode.unfocus(),
               onChanged: widget.onChanged,

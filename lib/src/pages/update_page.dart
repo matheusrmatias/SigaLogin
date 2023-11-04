@@ -48,7 +48,7 @@ class _UpdatePageState extends State<UpdatePage> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                        color: MainTheme.lightGrey,
+                        color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
                         borderRadius: const BorderRadius.all(Radius.circular(16))
                     ),
                     child: Column(
@@ -116,11 +116,11 @@ class _UpdatePageState extends State<UpdatePage> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Flexible(child: Text('Já tá no Siga? v${update.update.version}', style: TextStyle(fontSize: 18, color: MainTheme.black,fontWeight: FontWeight.bold)))
+          Flexible(child: Text('Já tá no Siga? v${update.update.version}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)))
         ],
       ),
       const SizedBox(height: 8),
-      Divider(color: MainTheme.black)
+      Divider(color: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black)
     ];
 
     update.update.changelog.forEach((key, value) {
@@ -131,7 +131,7 @@ class _UpdatePageState extends State<UpdatePage> {
               children: [Flexible(child: Text(key,style: TextStyle(fontSize: 16, color: MainTheme.orange,fontWeight: FontWeight.bold)))],
             ),
             Column(
-              children: value.map((e) => Row(children: [Flexible(child: Text('- $e',style: TextStyle(fontSize: 14, color: MainTheme.black),textAlign: TextAlign.justify,))])).toList(),
+              children: value.map((e) => Row(children: [Flexible(child: Text('- $e',style: const TextStyle(fontSize: 14),textAlign: TextAlign.justify,))])).toList(),
             )
           ],
         )

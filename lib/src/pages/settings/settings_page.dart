@@ -62,21 +62,21 @@ class _SettingPageState extends State<SettingPage> {
               Ink(
                 padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
                 decoration: BoxDecoration(
-                  color: MainTheme.lightGrey,
-                  borderRadius: const BorderRadius.all(Radius.circular(16))
+                    color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
+                    borderRadius: const BorderRadius.all(Radius.circular(16))
                 ),
                 child: Column(
                   children: [
                     CircleAvatar(backgroundImage: MemoryImage(student.image),backgroundColor: MainTheme.orange,radius: 45),
                     Row(
                       children: [
-                        Expanded(child: Text(student.name, maxLines: 3,style: TextStyle(color: MainTheme.black,fontSize: 14),textAlign: TextAlign.center)),
+                        Expanded(child: Text(student.name, maxLines: 3,style: const TextStyle(fontSize: 14),textAlign: TextAlign.center)),
                       ],
                     ),
-                    Divider(color: MainTheme.black,),
+                    Divider(color: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black),
                     Row(
                       children: [
-                        Expanded(child: Text(student.graduation, maxLines: 3,style: TextStyle(color: MainTheme.black,fontSize: 14),textAlign: TextAlign.center,)),
+                        Expanded(child: Text(student.graduation, maxLines: 3,style: const TextStyle(fontSize: 14),textAlign: TextAlign.center,)),
                       ],
                     ),
                     Container(

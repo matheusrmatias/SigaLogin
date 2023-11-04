@@ -4,10 +4,10 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 
 class CircleInfo extends StatelessWidget {
   Color color = MainTheme.orange;
-  Color textColor;
+  Color? textColor;
   String title;
   String text;
-  CircleInfo(this.color, {required this.title, required this.text,super.key, this.textColor = Colors.white});
+  CircleInfo(this.color, {required this.title, required this.text,super.key, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CircleInfo extends StatelessWidget {
           children: [
             CircleAvatar(backgroundColor: color, child: Text(text.replaceAll(' ', ''), style: TextStyle(color: MainTheme.white, fontSize: 12))),
             const SizedBox(height: 4),
-            Text(title, style: TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.bold))
+            Text(title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: textColor??Theme.of(context).colorScheme.onPrimary))
           ]
       ),
     );

@@ -24,14 +24,14 @@ class _SettingSwitchState extends State<SettingSwitch> {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-            color: MainTheme.lightGrey,
+            color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
             borderRadius: const BorderRadius.all(Radius.circular(16))
         ),
         child: Row(
             children: [
               widget.icon==null? const SizedBox():Icon(widget.icon, color: widget.value?MainTheme.orange:MainTheme.grey),
               SizedBox(width: widget.icon==null?0:4),
-              Expanded(child: Text(widget.text ,style: TextStyle(fontSize: 14, color: MainTheme.black))),
+              Expanded(child: Text(widget.text ,style: const TextStyle(fontSize: 14))),
               Switch(value: widget.value, onChanged: widget.onChange, activeColor: MainTheme.orange)
             ]
         ),

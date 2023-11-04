@@ -27,14 +27,14 @@ class _ScheduleCardState extends State<ScheduleCard> {
         list.add(
             Container(
               margin: const EdgeInsets.only(top: 8),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text(element[0],style: TextStyle(color: MainTheme.black, fontSize: 12, fontFamily: "Arial"), textAlign: TextAlign.justify),const SizedBox(width: 8),Expanded(child: Text(element[1],style: TextStyle(color: MainTheme.black, fontSize: 14),textAlign: TextAlign.end))]),
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text(element[0],style: const TextStyle(fontSize: 12, fontFamily: "Arial"), textAlign: TextAlign.justify),const SizedBox(width: 8),Expanded(child: Text(element[1],style: const TextStyle( fontSize: 14),textAlign: TextAlign.end))]),
             )
         );
       }
     }
     if(list.length==1){
       list.add(Divider(color: MainTheme.orange));
-      list.add(Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Flexible(child: Text("Nenhum horário de aula encontrado.",style: TextStyle(color: MainTheme.black, fontSize: 12, fontFamily: "Arial")))]));
+      list.add(const Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Flexible(child: Text("Nenhum horário de aula encontrado.",style: TextStyle( fontSize: 12, fontFamily: "Arial")))]));
     }
   }
 
@@ -44,7 +44,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
       margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: MainTheme.tertiary,
+          color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,
           borderRadius: const BorderRadius.all(Radius.circular(16))
       ),
       child: Column(

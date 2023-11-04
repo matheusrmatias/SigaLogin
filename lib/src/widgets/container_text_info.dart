@@ -4,11 +4,11 @@ import 'package:sigalogin/src/themes/main_theme.dart';
 class TextInfo extends StatelessWidget {
   final String text;
   final String title;
-  Color titleColor;
-  Color textColor;
+  Color? titleColor;
+  Color? textColor;
   Color? backgroundColor;
   Function()? onTap;
-  TextInfo({super.key, required this.text, required this.title, this.titleColor = Colors.black, this.textColor = Colors.black, this.backgroundColor,this.onTap});
+  TextInfo({super.key, required this.text, required this.title, this.titleColor, this.textColor, this.backgroundColor,this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TextInfo extends StatelessWidget {
       highlightColor: MainTheme.blackLowOpacity,
       borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
-          decoration: BoxDecoration(color: backgroundColor?? MainTheme.lightGrey, borderRadius: const BorderRadius.all(Radius.circular(16))),
+          decoration: BoxDecoration(color: backgroundColor??(Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey), borderRadius: const BorderRadius.all(Radius.circular(16))),
           padding: const EdgeInsets.all(8),
           child: Column(
             children: [
