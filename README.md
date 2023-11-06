@@ -3,6 +3,7 @@
 ![Downloads Count](https://img.shields.io/github/downloads/matheusrmatias/sigalogin/total)
 ![Flutter Shiel](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dark Shield](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+
 Esse app é uma forma alternativa, segura e amigável de acessar o SIGA (Sistema Integrado de Gestão Acadêmica) do CPS (Centro Paula Souza).
 
 ## 💻 Requisitos
