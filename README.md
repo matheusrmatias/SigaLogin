@@ -27,13 +27,13 @@ Até o momento o app não foi disponibilizado nas lojas digitais, porém é poss
 
 ## 📷 Capturas de Tela
 
-| ☀️ Claro                          | 🌙 Escuro                         |
-| --------------------------------- | --------------------------------- |
-|![Login](https://github.com/matheusrmatias/SigaLogin/assets/115509118/49b8332a-4f65-44a4-8b81-b0620f0aa73d)|![Login](https://github.com/matheusrmatias/SigaLogin/assets/115509118/49b8332a-4f65-44a4-8b81-b0620f0aa73d)|
-|![Light Notes](https://github.com/matheusrmatias/SigaLogin/assets/115509118/550b3942-1525-400e-91c8-327e3d1583d7)|![Dark Notes](https://github.com/matheusrmatias/SigaLogin/assets/115509118/d9654a29-f7d9-42cb-8651-0eb45d9bcca3)|
-|![Light Historic](https://github.com/matheusrmatias/SigaLogin/assets/115509118/84712643-52ee-4c52-9bf3-869b88c3f031)|![Dark Historic](https://github.com/matheusrmatias/SigaLogin/assets/115509118/16765d3c-2d96-4e1e-ad61-1a8107ce1f3c)|
-|![Light Schedule](https://github.com/matheusrmatias/SigaLogin/assets/115509118/abe4be60-6793-4f99-928b-28a529ba09d3)|![Dark Schedule](https://github.com/matheusrmatias/SigaLogin/assets/115509118/48f076c3-a785-469e-9d4b-ff4f4fbbba33)|
-|![Light Settings](https://github.com/matheusrmatias/SigaLogin/assets/115509118/4220f5be-1607-47c8-9108-e3cecc28ff4e)|![Dark Settings](https://github.com/matheusrmatias/SigaLogin/assets/115509118/726cc0c9-ef5d-4303-ac44-cfb75be6e987)|
+| ☀️ Claro                                                                                                             | 🌙 Escuro                                                                                                         |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| ![Login](https://github.com/matheusrmatias/SigaLogin/assets/115509118/49b8332a-4f65-44a4-8b81-b0620f0aa73d)          | ![Login](https://github.com/matheusrmatias/SigaLogin/assets/115509118/49b8332a-4f65-44a4-8b81-b0620f0aa73d)        |
+| ![Light Notes](https://github.com/matheusrmatias/SigaLogin/assets/115509118/550b3942-1525-400e-91c8-327e3d1583d7)    | ![Dark Notes](https://github.com/matheusrmatias/SigaLogin/assets/115509118/d9654a29-f7d9-42cb-8651-0eb45d9bcca3)   |
+| ![Light Historic](https://github.com/matheusrmatias/SigaLogin/assets/115509118/84712643-52ee-4c52-9bf3-869b88c3f031) | ![Dark Historic](https://github.com/matheusrmatias/SigaLogin/assets/115509118/16765d3c-2d96-4e1e-ad61-1a8107ce1f3c)|
+| ![Light Schedule](https://github.com/matheusrmatias/SigaLogin/assets/115509118/abe4be60-6793-4f99-928b-28a529ba09d3) | ![Dark Schedule](https://github.com/matheusrmatias/SigaLogin/assets/115509118/48f076c3-a785-469e-9d4b-ff4f4fbbba33)|
+| ![Light Settings](https://github.com/matheusrmatias/SigaLogin/assets/115509118/4220f5be-1607-47c8-9108-e3cecc28ff4e) | ![Dark Settings](https://github.com/matheusrmatias/SigaLogin/assets/115509118/726cc0c9-ef5d-4303-ac44-cfb75be6e987)|
 
 
 ## 🐀 Autor
