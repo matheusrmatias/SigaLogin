@@ -29,13 +29,20 @@ class _ScheduleTabState extends State<ScheduleTab> {
         backgroundColor: MainTheme.white,
         color: MainTheme.orange,
         onRefresh: ()async{await widget.onPressed();},
-        child: ListView.builder(
+        child: schedule.isNotEmpty?ListView.builder(
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           itemCount: schedule.length+1,
           itemBuilder: (context, index){
             if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
             return ScheduleCard(schedule: schedule[index-1]);
           },
+        ):ListView(
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]),
+            const SizedBox(height: 16),
+            const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text('Ocorreu um erro, atualize os dados para corrigir.'))]),
+          ],
         ),
       ),
     );

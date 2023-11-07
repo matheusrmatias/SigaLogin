@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/controllers/student_controller.dart';
 import 'package:sigalogin/src/models/schedule.dart';
+import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 
@@ -16,6 +17,7 @@ class ScheduleCard extends StatefulWidget {
 
 class _ScheduleCardState extends State<ScheduleCard> {
   late StudentRepository repository;
+  late SettingRepository setting;
   bool inEdit = false;
   bool inSave = false;
   Map<String,String> hours = {
@@ -37,7 +39,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
   @override
   Widget build(BuildContext context) {
     repository = Provider.of<StudentRepository>(context);
-
+    setting = Provider.of<SettingRepository>(context);
     return AnimatedSize(
         duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
@@ -148,6 +150,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
           await controller.updateOnlySchedule(newSchedule);
           repository.schedule = await controller.querySchedule();
           setState(()=>inEdit=false);
+          setting.updateSchedule=false;
           Fluttertoast.showToast(msg: 'Horário salvo com sucesso');
         }catch (e){
           debugPrint('Error: $e');
