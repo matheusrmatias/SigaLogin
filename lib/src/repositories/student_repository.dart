@@ -62,6 +62,7 @@ class StudentRepository extends ChangeNotifier{
 
   set schedule(List<Schedule> value) {
     _schedule = value;
+    notifyListeners();
   }
 
   void clearRepository(){

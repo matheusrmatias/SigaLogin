@@ -12,7 +12,7 @@ class OtherSettingsPage extends StatefulWidget {
 
 class _OtherSettingsPageState extends State<OtherSettingsPage> {
   _function(bool e){
-    prefs.updateOnOpen = e;
+    ;
   }
 
   late SettingRepository prefs;
@@ -31,7 +31,8 @@ class _OtherSettingsPageState extends State<OtherSettingsPage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              SettingSwitch(text: 'Sincronizar dados ao abrir o app', onChange: _function, value: prefs.updateOnOpen,icon: Icons.sync)
+              SettingSwitch(text: 'Sincronizar dados ao abrir o app', onChange: (e)=>prefs.updateOnOpen = e, value: prefs.updateOnOpen,icon: Icons.sync),
+              SettingSwitch(text: 'Sincronizar horários a partir do Siga', onChange: (e)=>prefs.updateSchedule = e, value: prefs.updateSchedule,icon: Icons.schedule)
             ],
           ),
         ),

@@ -221,7 +221,7 @@ class StudentAccount{
               }
             });
             for(int j = 2; j<7; j++){
-              Schedule scheduleTemp = Schedule();
+              Schedule scheduleTemp = Schedule(schedule: {});
               await view.runJavaScriptReturningResult("document.getElementById('TEXTBLOCK${j+3}').textContent").then((value){
                 scheduleTemp.weekDay = value.toString().replaceAll('"', '');
               });
@@ -229,12 +229,11 @@ class StudentAccount{
                 for (int k = 1; k < (double.parse(value.toString())).toInt(); k++) {
                   await view.runJavaScriptReturningResult("document.getElementById('Grid${j}ContainerTbl').firstChild.children[$k].children[1].textContent").then((time)async{
                     await view.runJavaScriptReturningResult("document.getElementById('Grid${j}ContainerTbl').firstChild.children[$k].children[2].textContent").then((discipline){
-                      scheduleTemp.schedule.add([time.toString().replaceAll('"', ''),acronyms[discipline].toString()]);
+                      scheduleTemp.schedule[time.toString().replaceAll('"', '').trim()]=acronyms[discipline].toString().trim();
                     });
                   });
                 }
               });
-              scheduleTemp.schedule.sort((a,b)=>a[0].compareTo(b[0]));
               schedule.add(scheduleTemp);
             }
             i=countDown==null? 11:countDown!+1;

@@ -1,18 +1,6 @@
 class Schedule{
-  Schedule();
+  String weekDay;
+  Map<String,String> schedule;
 
-  String _weekDay = '';
-  List<List<String>> _schedule = [];
-
-  String get weekDay => _weekDay;
-
-  set weekDay(String value) {
-    _weekDay = value;
-  }
-
-  List<List<String>> get schedule => _schedule;
-
-  set schedule(List<List<String>> value) {
-    _schedule = value;
-  }
+  Schedule({this.weekDay = '',this.schedule = const {}});
 }

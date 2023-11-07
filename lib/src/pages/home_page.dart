@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       await control.updateStudent(student);
       await control.updateAssessment(assessment);
       await control.updateHistoric(historic);
-      await control.updateSchedule(schedule);
+      if(prefs.updateSchedule) await control.updateSchedule(schedule);
 
       studentRep.student = student;
       studentRep.historic = historic;
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       studentRep.assessment = assessment;
       studentRep.allAssessment = assessment;
 
-      studentRep.schedule = schedule;
+      if(prefs.updateSchedule) studentRep.schedule = schedule;
 
       setState(() {
         this.student = student;

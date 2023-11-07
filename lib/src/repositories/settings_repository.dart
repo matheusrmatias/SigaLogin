@@ -8,6 +8,7 @@ class SettingRepository extends ChangeNotifier{
   late String? _lastInfoUpdate;
   late bool? _appLock;
   late bool? _updateOnOpen;
+  late bool? _updateSchedule;
 
   SettingRepository({required this.prefs}){
     _imageDisplay = prefs.getBool('imageDisplay');
@@ -15,6 +16,16 @@ class SettingRepository extends ChangeNotifier{
     _lastInfoUpdate = prefs.getString('lastInfoUpdate');
     _appLock = prefs.getBool('appLock');
     _updateOnOpen = prefs.getBool('updateOnOpen');
+    _updateSchedule = prefs.getBool('updateSchedule');
+  }
+
+
+  bool get updateSchedule => _updateSchedule??true;
+
+  set updateSchedule(bool value) {
+    _updateSchedule = value;
+    setBool('updateSchedule', value);
+    notifyListeners();
   }
 
   bool get updateOnOpen => _updateOnOpen??true;
