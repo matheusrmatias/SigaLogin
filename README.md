@@ -10,7 +10,7 @@ Esse app é uma forma alternativa, segura e amigável de acessar o SIGA (Sistema
 
 ## 🗃️ Índice
 - [`💻 Requisitos`](#-requisitos)
-- [`⬇️ Download`](#-download)
+- [`⬇️ Download`](#%EF%B8%8F-download)
 - [`🏫 O Siga`](#-o-siga)
 - [`✨ Características`](#-características)
     - [`📷 Capturas de Tela`](#-capturas-de-tela)
