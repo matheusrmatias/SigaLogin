@@ -19,6 +19,7 @@ import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/update_repository.dart';
+import 'package:sigalogin/src/services/notification_service.dart';
 import 'package:sigalogin/src/services/update_service.dart';
 
 void main() async{
@@ -55,6 +56,7 @@ void main() async{
             ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student, [], [], [])),
             ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card)),
             ChangeNotifierProvider<UpdateRepository>(create: (context)=>UpdateRepository(update: update)),
+            Provider<NotificationService>(create: (context)=>NotificationService())
           ],
           child: MyApp(page: const LoginPage()),
         )
@@ -68,6 +70,7 @@ void main() async{
               ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
               ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card)),
               ChangeNotifierProvider<UpdateRepository>(create: (context)=>UpdateRepository(update: update)),
+              Provider<NotificationService>(create: (context)=>NotificationService())
             ],
             child: MyApp(page: const AuthPage()),
           )
@@ -80,6 +83,7 @@ void main() async{
               ChangeNotifierProvider<StudentRepository>(create: (context)=>StudentRepository(student,historic,assessment,schedule)),
               ChangeNotifierProvider<StudentCardRepository>(create: (context)=>StudentCardRepository(card)),
               ChangeNotifierProvider<UpdateRepository>(create: (context)=>UpdateRepository(update: update)),
+              Provider<NotificationService>(create: (context)=>NotificationService())
             ],
             child: MyApp(page: HomePage(afterLogin: !(prefs.getBool('updateOnOpen')??true), update: update)),
           )

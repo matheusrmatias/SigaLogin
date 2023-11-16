@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/assessment.dart';
+import 'package:sigalogin/src/models/custom_notification.dart';
 import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/update.dart';
@@ -14,6 +15,7 @@ import 'package:sigalogin/src/pages/tabs/schedule_tab.dart';
 import 'package:sigalogin/src/pages/update_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/update_repository.dart';
+import 'package:sigalogin/src/services/notification_service.dart';
 import 'package:sigalogin/src/services/update_service.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/controllers/student_controller.dart';
@@ -54,6 +56,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
 
     if (!widget.afterLogin) _updateStudentDate(init: true);
+    Provider.of<NotificationService>(context,listen: false).showNotification();
   }
 
   @override
