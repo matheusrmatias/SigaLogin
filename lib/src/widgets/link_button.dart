@@ -16,8 +16,6 @@ class _LinkButtonState extends State<LinkButton> {
   @override
   Widget build(BuildContext context) {
     return Container(margin: const EdgeInsets.symmetric(vertical: 8), child: InkWell(
-        splashColor: MainTheme.blackLowOpacity,
-        highlightColor: MainTheme.blackLowOpacity,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
         onTap: widget.func,
         child: Ink(

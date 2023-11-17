@@ -14,8 +14,6 @@ class TextInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      splashColor: MainTheme.blackLowOpacity,
-      highlightColor: MainTheme.blackLowOpacity,
       borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
           decoration: BoxDecoration(color: backgroundColor??(Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey), borderRadius: const BorderRadius.all(Radius.circular(16))),

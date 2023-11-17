@@ -21,8 +21,6 @@ class _CopyCardState extends State<CopyCard> {
   Widget build(BuildContext context) {
     return Container(margin: const EdgeInsets.symmetric(vertical: 4),child: InkWell(
       onTap: _copyText,
-      splashColor: MainTheme.blackLowOpacity,
-      highlightColor: MainTheme.blackLowOpacity,
       borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
