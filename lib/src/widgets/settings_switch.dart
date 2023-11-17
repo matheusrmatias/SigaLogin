@@ -17,8 +17,6 @@ class _SettingSwitchState extends State<SettingSwitch> {
   @override
   Widget build(BuildContext context) {
     return Container(margin: const EdgeInsets.symmetric(vertical: 8),child:InkWell(
-        splashColor: MainTheme.blackLowOpacity,
-        highlightColor: MainTheme.blackLowOpacity,
         onTap: ()=>widget.onChange(!widget.value),
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Ink(
