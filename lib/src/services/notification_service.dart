@@ -6,57 +6,55 @@ import 'package:sigalogin/src/models/schedule.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-
-class NotificationService{
+class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
   late AndroidNotificationDetails androidDetails;
 
-  NotificationService(){
+  NotificationService() {
     localNotificationsPlugin = FlutterLocalNotificationsPlugin();
     _setupNotifications();
   }
 
-  _setupNotifications()async{
+  _setupNotifications() async {
     await _setupTimeZone();
     await _initializaNotifications();
   }
 
-  _setupTimeZone()async{
+  _setupTimeZone() async {
     tz.initializeTimeZones();
     final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 
-  _initializaNotifications() async{
+  _initializaNotifications() async {
     const android = AndroidInitializationSettings('@mipmap/launcher_icon');
     await localNotificationsPlugin.initialize(
-      const InitializationSettings(
-        android: android
-      ),
+      const InitializationSettings(android: android),
     );
   }
 
-  Future<List<Schedule>> _loadSchedules()async{
+  Future<List<Schedule>> _loadSchedules() async {
     StudentController controller = StudentController();
-     return await controller.querySchedule();
+    return await controller.querySchedule();
   }
 
-  Future<String> _getStudentPeriod()async{
+  Future<String> _getStudentPeriod() async {
     StudentController controller = StudentController();
     return (await controller.queryStudent()).period.trim();
   }
 
-  int _daysInMonth(DateTime date){
+  int _daysInMonth(DateTime date) {
     var firstDayThisMonth = DateTime(date.year, date.month, date.day);
-    var firstDayNextMonth = DateTime(firstDayThisMonth.year, firstDayThisMonth.month + 1, firstDayThisMonth.day);
+    var firstDayNextMonth = DateTime(firstDayThisMonth.year,
+        firstDayThisMonth.month + 1, firstDayThisMonth.day);
     return firstDayNextMonth.difference(firstDayThisMonth).inDays;
   }
 
-  showNotification()async{
+  showNotification() async {
     await Permission.notification.request();
     List<Schedule> schedules = await _loadSchedules();
     String period = await _getStudentPeriod();
-    if(schedules.isEmpty)return;
+    if (schedules.isEmpty) return;
     androidDetails = const AndroidNotificationDetails(
       "Lembretes",
       "Lembretes de Horários",
@@ -73,45 +71,42 @@ class NotificationService{
       now.year,
       now.month,
       today,
-      period=="Noite"?17:7,
+      period == "Noite" ? 17 : 7,
     );
 
-    for(int i = today; i<today+30; i++){
-      if(scheduleDate.weekday != 6 && scheduleDate.weekday != 7 && scheduleDate.millisecondsSinceEpoch>now.millisecondsSinceEpoch){
-        print(scheduleDate);
+    for (int i = today; i < today + 30; i++) {
+      if (scheduleDate.millisecondsSinceEpoch > now.millisecondsSinceEpoch) continue;
+      if (scheduleDate.weekday != 6 && scheduleDate.weekday != 7 && schedules[scheduleDate.weekday - 1].schedule.isEmpty) {
         localNotificationsPlugin.zonedSchedule(
             i,
-            'Aulas de hoje, ${schedules[scheduleDate.weekday-1].weekDay}',
-            schedules[scheduleDate.weekday-1].schedule.toString().replaceAll(', ','\n').replaceAll("{", '').replaceAll("}", ''),
+            'Aulas de hoje, ${schedules[scheduleDate.weekday - 1].weekDay}',
+            schedules[scheduleDate.weekday - 1]
+                .schedule
+                .toString()
+                .replaceAll(', ', '\n')
+                .replaceAll("{", '')
+                .replaceAll("}", ''),
             tz.TZDateTime.from(scheduleDate, tz.local),
-            NotificationDetails(
-                android: androidDetails
-            ),
+            NotificationDetails(android: androidDetails),
             androidAllowWhileIdle: true,
-            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
-        );
-      }else{
-        print(scheduleDate);
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime);
+      } else {
         localNotificationsPlugin.zonedSchedule(
             i,
             'Hoje não tem aula',
             'Aproveite e descanse',
             tz.TZDateTime.from(scheduleDate, tz.local),
-            NotificationDetails(
-                android: androidDetails
-            ),
+            NotificationDetails(android: androidDetails),
             androidAllowWhileIdle: true,
-            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
-        );
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime);
       }
       scheduleDate = scheduleDate.add(const Duration(days: 1));
     }
-
   }
 
-  cancelNotitifications()async{
+  cancelNotitifications() async {
     localNotificationsPlugin.cancelAll();
   }
-
-
 }

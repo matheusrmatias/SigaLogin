@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/assessment.dart';
-import 'package:sigalogin/src/models/custom_notification.dart';
 import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/update.dart';
@@ -16,7 +15,6 @@ import 'package:sigalogin/src/pages/update_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/update_repository.dart';
 import 'package:sigalogin/src/services/notification_service.dart';
-import 'package:sigalogin/src/services/update_service.dart';
 import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/controllers/student_controller.dart';
 import 'package:sigalogin/src/models/student.dart';
@@ -54,9 +52,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         page=_tabController.index;
       });
     });
-
     if (!widget.afterLogin) _updateStudentDate(init: true);
-    Provider.of<NotificationService>(context,listen: false).showNotification();
+
+    _initializeReminder();
   }
 
   @override
@@ -184,6 +182,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if(mounted){
         setState(()=>inUpdateStudentData = false);
       }
+    }
+  }
+
+  _initializeReminder(){
+    NotificationService service = Provider.of<NotificationService>(context,listen: false);
+    SettingRepository prefs = Provider.of<SettingRepository>(context,listen: false);
+    if(prefs.enableReminder){
+      service.showNotification();
+    }else{
+      service.cancelNotitifications();
     }
   }
 
