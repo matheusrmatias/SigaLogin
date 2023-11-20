@@ -83,7 +83,6 @@ class _DisciplineNoteCard extends State<DisciplineNoteCard>{
                         children: [
                           Expanded(child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
                             child: Builder(builder: (BuildContext context) {
                               List<Widget> assessment = [];
                               for (var element in widget.discipline.assessment.keys) {

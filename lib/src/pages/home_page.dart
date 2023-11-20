@@ -99,7 +99,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         shadowColor: Colors.transparent,
       ),
       body: TabBarView(
-        physics: const BouncingScrollPhysics(),
         controller: _tabController,
         children: [
           NotesTab(onPressed: _updateStudentDate),
