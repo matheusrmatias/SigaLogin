@@ -20,8 +20,6 @@ class UpdateService{
       final currentVersion = packageInfo.version.split('.').map((e) => int.parse(e)).toList();
       final updateVersion = update['version'].toString().split('.').map((e) => int.parse(e)).toList();
 
-      debugPrint('Current: $currentVersion\nUpdate: $updateVersion');
-
       for(int i=0; i<currentVersion.length; i++){
         if(currentVersion[i]<updateVersion[i]){
           available = true;
