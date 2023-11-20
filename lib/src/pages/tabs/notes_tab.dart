@@ -30,36 +30,43 @@ class _NotesTabState extends State<NotesTab> {
     student = Provider.of<StudentRepository>(context);
     setting = Provider.of<SettingRepository>(context);
     return RefreshIndicator(
-      backgroundColor: MainTheme.white,
-      color: MainTheme.orange,
-      onRefresh: ()async{await widget.onPressed();},
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        slivers: [
-          SliverList.list(children: [Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))])]),
-          SliverAppBarSearch(onChanged: _searchAssessment,text:'Pesquisar Disciplina'),
-          SliverList.builder(
-            itemCount: student.assessment.length,
-            itemBuilder: (context, index)=> DisciplineNoteCard(discipline: student.assessment[index])
-          ),
-        ],
-      )
-    );
+        backgroundColor: MainTheme.white,
+        color: MainTheme.orange,
+        onRefresh: () async {
+          await widget.onPressed();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverList.list(children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Flexible(child: Text(setting.lastInfoUpdate))])
+            ]),
+            SliverAppBarSearch(
+                onChanged: _searchAssessment, text: 'Pesquisar Disciplina'),
+            SliverList.builder(
+                itemCount: student.assessment.length,
+                itemBuilder: (context, index) =>
+                    DisciplineNoteCard(discipline: student.assessment[index])),
+          ],
+        ));
   }
 
-  Future<void> _searchAssessment(String query)async{
-    final suggetions = student.allAssessment.where((element){
+  Future<void> _searchAssessment(String query) async {
+    final suggetions = student.allAssessment.where((element) {
       final discipline = element.name.toLowerCase();
       final teacher = element.teacher.toLowerCase();
       final input = query.toLowerCase();
       return discipline.contains(input) || teacher.contains(input);
     }).toList();
-    suggetions.sort((a, b){
-      if(a.name.contains('Estágio') || a.name.contains('Trabalho de Graduação')){
+    suggetions.sort((a, b) {
+      if (a.name.contains('Estágio') ||
+          a.name.contains('Trabalho de Graduação')) {
         return 1;
-      }else if(b.name.contains('Estágio') || b.name.contains('Trabalho de Graduação')){
+      } else if (b.name.contains('Estágio') ||
+          b.name.contains('Trabalho de Graduação')) {
         return -1;
-      }else{
+      } else {
         return a.name.compareTo(b.name);
       }
     });

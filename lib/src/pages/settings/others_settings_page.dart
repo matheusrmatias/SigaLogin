@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
+import 'package:sigalogin/src/themes/main_theme.dart';
 import 'package:sigalogin/src/widgets/settings_switch.dart';
 
 class OtherSettingsPage extends StatefulWidget {
@@ -11,10 +12,6 @@ class OtherSettingsPage extends StatefulWidget {
 }
 
 class _OtherSettingsPageState extends State<OtherSettingsPage> {
-  _function(bool e){
-    ;
-  }
-
   late SettingRepository prefs;
 
   @override
@@ -28,11 +25,23 @@ class _OtherSettingsPageState extends State<OtherSettingsPage> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
+              const Row(
+                children: [
+                  Flexible(child: Text('Sincronização',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)))
+                ],
+              ),
+              Divider(color: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black,),
               SettingSwitch(text: 'Sincronizar dados ao abrir o app', onChange: (e)=>prefs.updateOnOpen = e, value: prefs.updateOnOpen,icon: Icons.sync),
-              SettingSwitch(text: 'Sincronizar horários a partir do Siga', onChange: (e)=>prefs.updateSchedule = e, value: prefs.updateSchedule,icon: Icons.schedule)
+              SettingSwitch(text: 'Sincronizar horários a partir do Siga', onChange: (e)=>prefs.updateSchedule = e, value: prefs.updateSchedule,icon: Icons.schedule),
+              const Row(
+                children: [
+                  Flexible(child: Text('Notificações',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)))
+                ],
+              ),
+              Divider(color: Theme.of(context).brightness==Brightness.dark?MainTheme.white:MainTheme.black,),
+              SettingSwitch(text: 'Habilitar lembretes de aula', onChange: (e)=>prefs.enableReminder = e, value: prefs.enableReminder,icon: Icons.school)
             ],
           ),
         ),

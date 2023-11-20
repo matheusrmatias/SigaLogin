@@ -54,8 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           Expanded(child: SizedBox(
               child: Center(
                 child: SingleChildScrollView(
-                  reverse: true,
-                  physics: const BouncingScrollPhysics(),
+                  reverse: true,             
                   child: Column(
                     children: [
                       Padding(padding: const EdgeInsets.symmetric(horizontal: 80),child: Image.asset('assets/images/icon-transparent.png',width: double.maxFinite,alignment: Alignment.bottomCenter)),

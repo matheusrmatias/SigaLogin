@@ -34,7 +34,6 @@ class _HistoricTabState extends State<HistoricTab> {
       color: MainTheme.orange,
       onRefresh: ()async{await widget.onPressed();},
       child: CustomScrollView(
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           SliverList.list(children: [Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))])]),
           SliverAppBarSearch(onChanged: _searchHistoric,text:'Pesquisar Disciplina'),

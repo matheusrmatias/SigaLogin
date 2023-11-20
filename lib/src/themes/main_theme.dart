@@ -18,6 +18,7 @@ class MainTheme {
   static Color darkRed = const Color.fromRGBO(151, 37, 26, 1.0);
 
   static ThemeData darkTheme = ThemeData(
+    androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
     fontFamily: 'ResolveLight',
     colorScheme: const ColorScheme(
         brightness: Brightness.dark,
@@ -37,6 +38,7 @@ class MainTheme {
   );
 
   static ThemeData lightTheme = ThemeData(
+    androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
     fontFamily: 'ResolveLight',
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
@@ -55,7 +57,6 @@ class MainTheme {
     canvasColor: const Color.fromRGBO(242, 242, 242, 1),
     primaryColor: const Color.fromRGBO(242, 242, 242, 1),
   );
-
 }
 //
 // ThemeData darkTheme(){

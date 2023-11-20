@@ -43,7 +43,6 @@ class _SecuritySettingPageState extends State<SecuritySettingPage> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               SettingSwitch(text: 'Bloqueio do Aplicativo', onChange: _funcitonFt, value: prefs.appLock,icon: prefs.appLock?Icons.lock_outline:Icons.lock_open,)

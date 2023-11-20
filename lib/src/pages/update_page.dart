@@ -38,8 +38,7 @@ class _UpdatePageState extends State<UpdatePage> {
             update.update = await service.verifyAvailableUpdate();
             if(update.update.available)Fluttertoast.showToast(msg: 'Nova Atualização Disponível!');
           },
-          child: ListView(
-            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: ListView(           
             children: [
               const SizedBox(height: 8),
               update.update.available?Stack(
