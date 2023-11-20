@@ -51,7 +51,7 @@ class NotificationService {
   }
 
   showNotification() async {
-    await Permission.notification.request();
+    if(await Permission.notification.request() == PermissionStatus.denied)return;
     List<Schedule> schedules = await _loadSchedules();
     String period = await _getStudentPeriod();
     if (schedules.isEmpty) return;
@@ -77,7 +77,7 @@ class NotificationService {
     for (int i = today; i < today + 30; i++) {
       if (scheduleDate.millisecondsSinceEpoch > now.millisecondsSinceEpoch) continue;
       if (scheduleDate.weekday != 6 && scheduleDate.weekday != 7 && schedules[scheduleDate.weekday - 1].schedule.isEmpty) {
-        localNotificationsPlugin.zonedSchedule(
+        await localNotificationsPlugin.zonedSchedule(
             i,
             'Aulas de hoje, ${schedules[scheduleDate.weekday - 1].weekDay}',
             schedules[scheduleDate.weekday - 1]
@@ -92,7 +92,7 @@ class NotificationService {
             uiLocalNotificationDateInterpretation:
                 UILocalNotificationDateInterpretation.absoluteTime);
       } else {
-        localNotificationsPlugin.zonedSchedule(
+        await localNotificationsPlugin.zonedSchedule(
             i,
             'Hoje não tem aula',
             'Aproveite e descanse',
@@ -107,6 +107,6 @@ class NotificationService {
   }
 
   cancelNotitifications() async {
-    localNotificationsPlugin.cancelAll();
+    await localNotificationsPlugin.cancelAll();
   }
 }
