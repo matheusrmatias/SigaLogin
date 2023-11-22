@@ -17,6 +17,14 @@ class HistoricTab extends StatefulWidget {
 class _HistoricTabState extends State<HistoricTab> {
   late StudentRepository student;
   late SettingRepository setting;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   void deactivate() {
@@ -26,33 +34,59 @@ class _HistoricTabState extends State<HistoricTab> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     student = Provider.of<StudentRepository>(context);
     setting = Provider.of<SettingRepository>(context);
     return RefreshIndicator(
-      backgroundColor: MainTheme.white,
-      color: MainTheme.orange,
-      onRefresh: ()async{await widget.onPressed();},
-      child: CustomScrollView(
-        slivers: [
-          SliverList.list(children: [Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))])]),
-          SliverAppBarSearch(onChanged: _searchHistoric,text:'Pesquisar Disciplina'),
-          SliverList.builder(
-              itemCount: student.historic.length,
-              itemBuilder: (context, index)=>DisciplineHistoricCard(discipline: student.historic[index])
-          ),
-        ],
-      )
-    );
+        backgroundColor: MainTheme.white,
+        color: MainTheme.orange,
+        onRefresh: () async {
+          await widget.onPressed();
+        },
+        child: RawScrollbar(
+            thumbColor: Theme.of(context).brightness == Brightness.dark
+                ? MainTheme.lightGrey
+                : MainTheme.grey,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            crossAxisMargin: 12,
+            controller: _scrollController,
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverList.list(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Flexible(child: Text(setting.lastInfoUpdate))])
+                ]),
+                SliverAppBarSearch(
+                    onChanged: _searchHistoric, text: 'Pesquisar Disciplina'),
+                SliverList.builder(
+                    itemCount: student.historic.length,
+                    itemBuilder: (context, index) => DisciplineHistoricCard(
+                        discipline: student.historic[index])),
+              ],
+            )));
   }
-  Future<void> _searchHistoric(String query)async{
-    final suggetions = student.allHistoric.where((element){
+
+  Future<void> _searchHistoric(String query) async {
+    final suggetions = student.allHistoric.where((element) {
       final name = element.name.toLowerCase();
       final acronym = element.acronym.toLowerCase();
       final period = element.period.toLowerCase();
       final observation = element.observation.toLowerCase();
       final input = query.toLowerCase();
-      return name.contains(input) || acronym.contains(input) || period.contains(input) || observation.contains(input);
+      return name.contains(input) ||
+          acronym.contains(input) ||
+          period.contains(input) ||
+          observation.contains(input);
     }).toList();
     suggetions.sort((a, b) {
       int periodComparison = a.period.compareTo(b.period);

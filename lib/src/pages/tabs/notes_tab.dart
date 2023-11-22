@@ -17,12 +17,27 @@ class NotesTab extends StatefulWidget {
 class _NotesTabState extends State<NotesTab> {
   late StudentRepository student;
   late SettingRepository setting;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   void deactivate() {
     // TODO: implement deactivate
     super.deactivate();
     student.cleanSearch(listen: false);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -35,20 +50,30 @@ class _NotesTabState extends State<NotesTab> {
         onRefresh: () async {
           await widget.onPressed();
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverList.list(children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Flexible(child: Text(setting.lastInfoUpdate))])
-            ]),
-            SliverAppBarSearch(
-                onChanged: _searchAssessment, text: 'Pesquisar Disciplina'),
-            SliverList.builder(
-                itemCount: student.assessment.length,
-                itemBuilder: (context, index) =>
-                    DisciplineNoteCard(discipline: student.assessment[index])),
-          ],
+        child: RawScrollbar(
+          thumbColor: Theme.of(context).brightness == Brightness.dark
+              ? MainTheme.lightGrey
+              : MainTheme.grey,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          crossAxisMargin: 12,
+          controller: _scrollController,
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverList.list(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Flexible(child: Text(setting.lastInfoUpdate))])
+              ]),
+              SliverAppBarSearch(
+                  onChanged: _searchAssessment, text: 'Pesquisar Disciplina'),
+              SliverList.builder(
+                  itemCount: student.assessment.length,
+                  itemBuilder: (context, index) => DisciplineNoteCard(
+                      discipline: student.assessment[index])),
+            ],
+          ),
         ));
   }
 

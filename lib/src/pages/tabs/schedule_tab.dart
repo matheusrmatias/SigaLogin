@@ -19,6 +19,21 @@ class ScheduleTab extends StatefulWidget {
 class _ScheduleTabState extends State<ScheduleTab> {
   late List<Schedule> schedule;
   late SettingRepository setting;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +43,49 @@ class _ScheduleTabState extends State<ScheduleTab> {
       body: RefreshIndicator(
         backgroundColor: MainTheme.white,
         color: MainTheme.orange,
-        onRefresh: ()async{await widget.onPressed();},
-        child: schedule.isNotEmpty?ListView.builder(
-          itemCount: schedule.length+1,
-          itemBuilder: (context, index){
-            if(index==0)return Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]);
-            return ScheduleCard(schedule: schedule[index-1]);
-          },
-        ):ListView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text(setting.lastInfoUpdate))]),
-            const SizedBox(height: 16),
-            const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Flexible(child: Text('Ocorreu um erro, atualize os dados para corrigir.'))]),
-          ],
-        ),
+        onRefresh: () async {
+          await widget.onPressed();
+        },
+        child: schedule.isNotEmpty
+            ? RawScrollbar(
+                thumbColor: Theme.of(context).brightness == Brightness.dark
+                    ? MainTheme.lightGrey
+                    : MainTheme.grey,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                crossAxisMargin: 12,
+                controller: _scrollController,
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: schedule.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == 0)
+                      return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(child: Text(setting.lastInfoUpdate))
+                          ]);
+                    return ScheduleCard(schedule: schedule[index - 1]);
+                  },
+                ),
+              )
+            : ListView(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Flexible(child: Text(setting.lastInfoUpdate))
+                  ]),
+                  const SizedBox(height: 16),
+                  const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                            child: Text(
+                                'Ocorreu um erro, atualize os dados para corrigir.'))
+                      ]),
+                ],
+              ),
       ),
     );
   }
