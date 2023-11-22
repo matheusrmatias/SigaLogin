@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -5,6 +6,7 @@ import 'package:sigalogin/src/controllers/student_controller.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/tzdata.dart';
 
 class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
@@ -51,7 +53,8 @@ class NotificationService {
   }
 
   showNotification() async {
-    if(await Permission.notification.request() == PermissionStatus.denied)return;
+    if (await Permission.notification.request() == PermissionStatus.denied)
+      return;
     List<Schedule> schedules = await _loadSchedules();
     String period = await _getStudentPeriod();
     if (schedules.isEmpty) return;
@@ -71,42 +74,53 @@ class NotificationService {
       now.year,
       now.month,
       today,
-      period == "Noite" ? 17 : 7,
+      period == "Noite" ? 2 : 7,
     );
-
-    for (int i = today; i < today + 30; i++) {
-      if (scheduleDate.millisecondsSinceEpoch > now.millisecondsSinceEpoch) continue;
-      if (scheduleDate.weekday != 6 && scheduleDate.weekday != 7 && schedules[scheduleDate.weekday - 1].schedule.isEmpty) {
-        await localNotificationsPlugin.zonedSchedule(
-            i,
-            'Aulas de hoje, ${schedules[scheduleDate.weekday - 1].weekDay}',
-            schedules[scheduleDate.weekday - 1]
-                .schedule
-                .toString()
-                .replaceAll(', ', '\n')
-                .replaceAll("{", '')
-                .replaceAll("}", ''),
-            tz.TZDateTime.from(scheduleDate, tz.local),
-            NotificationDetails(android: androidDetails),
-            androidAllowWhileIdle: true,
-            uiLocalNotificationDateInterpretation:
-                UILocalNotificationDateInterpretation.absoluteTime);
-      } else {
-        await localNotificationsPlugin.zonedSchedule(
-            i,
-            'Hoje não tem aula',
-            'Aproveite e descanse',
-            tz.TZDateTime.from(scheduleDate, tz.local),
-            NotificationDetails(android: androidDetails),
-            androidAllowWhileIdle: true,
-            uiLocalNotificationDateInterpretation:
-                UILocalNotificationDateInterpretation.absoluteTime);
+    int i = today;
+    for (i; i < today + 30; i++) {
+      if (scheduleDate.millisecondsSinceEpoch < now.millisecondsSinceEpoch) {
+          scheduleDate = scheduleDate.add(const Duration(days: 1));
+          continue;
+        }
+      try {
+        if (scheduleDate.weekday != 6 &&
+            scheduleDate.weekday != 7 &&
+            schedules[scheduleDate.weekday - 1].schedule.isNotEmpty) {
+          await localNotificationsPlugin.zonedSchedule(
+              i,
+              'Aulas de hoje, ${schedules[scheduleDate.weekday - 1].weekDay}',
+              schedules[scheduleDate.weekday - 1]
+                  .schedule
+                  .toString()
+                  .replaceAll(', ', '\n')
+                  .replaceAll("{", '')
+                  .replaceAll("}", ''),
+              tz.TZDateTime.from(scheduleDate, tz.local),
+              NotificationDetails(android: androidDetails),
+              androidAllowWhileIdle: true,
+              uiLocalNotificationDateInterpretation:
+                  UILocalNotificationDateInterpretation.absoluteTime);
+        } else {
+          await localNotificationsPlugin.zonedSchedule(
+              i,
+              'Hoje não tem aula',
+              'Aproveite e descanse',
+              tz.TZDateTime.from(scheduleDate, tz.local),
+              NotificationDetails(android: androidDetails),
+              androidAllowWhileIdle: true,
+              uiLocalNotificationDateInterpretation:
+                  UILocalNotificationDateInterpretation.absoluteTime);
+        }
+        scheduleDate = scheduleDate.add(const Duration(days: 1));
+      } on ArgumentError catch (e) {
+        debugPrint('Notification Error: ${e.message}');
       }
-      scheduleDate = scheduleDate.add(const Duration(days: 1));
     }
+    debugPrint('${i - today} Notifications Scheduled');
   }
 
   cancelNotitifications() async {
     await localNotificationsPlugin.cancelAll();
+    debugPrint('All Notifications Canceled');
   }
 }
