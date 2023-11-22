@@ -38,7 +38,9 @@ void main() async {
 
   try {
     update = await updateService.verifyAvailableUpdate();
-  } finally {}
+  } catch (e) {
+    debugPrint('ERROR: $e');
+  }
 
   StudentController control = StudentController();
   StudentCardController cardControl = StudentCardController();
@@ -55,21 +57,20 @@ void main() async {
     page = HomePage(
         afterLogin: !(prefs.getBool('updateOnOpen') ?? true), update: update);
   if (prefs.getBool('appLock') ?? false) page = const AuthPage();
-  
+
   runApp(MultiProvider(
-        providers: [
-          ChangeNotifierProvider<SettingRepository>(
-              create: (context) => SettingRepository(prefs: prefs)),
-          ChangeNotifierProvider<StudentRepository>(
-              create: (context) =>
-                  StudentRepository(student, historic, assessment, schedule)),
-          ChangeNotifierProvider<StudentCardRepository>(
-              create: (context) => StudentCardRepository(card)),
-          ChangeNotifierProvider<UpdateRepository>(
-              create: (context) => UpdateRepository(update: update)),
-          Provider<NotificationService>(
-              create: (context) => NotificationService())
-        ],
-        child: MyApp(page: page),
-      ));
+    providers: [
+      ChangeNotifierProvider<SettingRepository>(
+          create: (context) => SettingRepository(prefs: prefs)),
+      ChangeNotifierProvider<StudentRepository>(
+          create: (context) =>
+              StudentRepository(student, historic, assessment, schedule)),
+      ChangeNotifierProvider<StudentCardRepository>(
+          create: (context) => StudentCardRepository(card)),
+      ChangeNotifierProvider<UpdateRepository>(
+          create: (context) => UpdateRepository(update: update)),
+      Provider<NotificationService>(create: (context) => NotificationService())
+    ],
+    child: MyApp(page: page),
+  ));
 }
