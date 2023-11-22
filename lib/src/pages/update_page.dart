@@ -37,7 +37,7 @@ class _UpdatePageState extends State<UpdatePage> {
             backgroundColor: MainTheme.white,
             onRefresh: () async {
               UpdateService service = UpdateService();
-              update.update = await service.verifyAvailableUpdate();
+              update.update = await service.verifyAvailableUpdate(timeoutInSecondValue: 60);
               if (update.update.available)
                 Fluttertoast.showToast(msg: 'Nova Atualização Disponível!');
             },
