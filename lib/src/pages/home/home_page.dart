@@ -8,10 +8,10 @@ import 'package:sigalogin/src/models/historic.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:sigalogin/src/models/update.dart';
 import 'package:sigalogin/src/pages/settings/settings_page.dart';
-import 'package:sigalogin/src/pages/tabs/historic_tab.dart';
-import 'package:sigalogin/src/pages/tabs/notes_tab.dart';
-import 'package:sigalogin/src/pages/tabs/schedule_tab.dart';
-import 'package:sigalogin/src/pages/update_page.dart';
+import 'package:sigalogin/src/pages/home/tabs/historic_tab.dart';
+import 'package:sigalogin/src/pages/home/tabs/notes_tab.dart';
+import 'package:sigalogin/src/pages/home/tabs/schedule_tab.dart';
+import 'package:sigalogin/src/pages/settings/update_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/update_repository.dart';
 import 'package:sigalogin/src/services/notification_service.dart';
@@ -20,7 +20,7 @@ import 'package:sigalogin/src/controllers/student_controller.dart';
 import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
 import 'package:sigalogin/src/services/student_account.dart';
-import 'login_page.dart';
+import '../login_page.dart';
 
 class HomePage extends StatefulWidget{
   bool afterLogin;
@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     NotificationService service = Provider.of<NotificationService>(context,listen: false);
     SettingRepository prefs = Provider.of<SettingRepository>(context,listen: false);
     if(prefs.enableReminder){
-      service.showNotification();
+      service.showNotification(time: prefs.scheduleNotificationTime);
     }else{
       service.cancelNotitifications();
     }

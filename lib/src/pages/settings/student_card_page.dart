@@ -42,7 +42,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
         centerTitle: true,
       ),
       body: inValidation? Center(child: CircularProgressIndicator(color: MainTheme.orange)):studentCardRep.studentCard.name==''?Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

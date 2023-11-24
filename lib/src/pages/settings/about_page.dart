@@ -28,7 +28,7 @@ class _AboutPageState extends State<AboutPage> {
         centerTitle: true,
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(        
           child: Column(
             children: [

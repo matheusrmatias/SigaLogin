@@ -22,7 +22,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/student_controller.dart';
 import '../repositories/student_repository.dart';
 import '../services/student_account.dart';
-import 'home_page.dart';
+import 'home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

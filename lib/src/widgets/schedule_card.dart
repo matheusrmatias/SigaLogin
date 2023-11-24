@@ -45,7 +45,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
       curve: Curves.easeInOut,
       alignment: Alignment.topCenter,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
             color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,

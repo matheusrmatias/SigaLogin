@@ -56,7 +56,8 @@ class _HistoricTabState extends State<HistoricTab> {
                 : MainTheme.grey,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8))),
-            crossAxisMargin: 12,
+            crossAxisMargin: 8,
+            thickness: 4,
             controller: _scrollController,
             child: CustomScrollView(
               controller: _scrollController,

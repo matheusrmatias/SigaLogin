@@ -24,7 +24,7 @@ class _DisciplineNoteCard extends State<DisciplineNoteCard>{
       curve: Curves.easeInOut,
       alignment: Alignment.topCenter,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Material(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             color:  Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,

@@ -13,7 +13,7 @@ class DisciplineHistoricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: Theme.of(context).brightness==Brightness.dark?MainTheme.black:MainTheme.lightGrey,

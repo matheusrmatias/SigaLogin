@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/models/student_card.dart';
-import 'package:sigalogin/src/pages/about_page.dart';
+import 'package:sigalogin/src/pages/settings/about_page.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/pages/settings/others_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/security_settings_page.dart';
 import 'package:sigalogin/src/pages/settings/student_card_page.dart';
 import 'package:sigalogin/src/pages/settings/view_settings.dart';
-import 'package:sigalogin/src/pages/siga_page.dart';
-import 'package:sigalogin/src/pages/update_page.dart';
+import 'package:sigalogin/src/pages/settings/siga_page.dart';
+import 'package:sigalogin/src/pages/settings/update_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';
@@ -57,7 +57,7 @@ class _SettingPageState extends State<SettingPage> {
         centerTitle: true,
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
             children: [

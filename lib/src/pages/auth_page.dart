@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sigalogin/src/models/update.dart';
-import 'package:sigalogin/src/pages/home_page.dart';
+import 'package:sigalogin/src/pages/home/home_page.dart';
 import 'package:sigalogin/src/repositories/settings_repository.dart';
 import 'package:sigalogin/src/repositories/update_repository.dart';
 import 'package:sigalogin/src/services/local_auth_service.dart';

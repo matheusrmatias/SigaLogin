@@ -53,7 +53,8 @@ class _ScheduleTabState extends State<ScheduleTab> {
                     : MainTheme.grey,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8))),
-                crossAxisMargin: 12,
+                crossAxisMargin: 8,
+                thickness: 4,
                 controller: _scrollController,
                 child: ListView.builder(
                   controller: _scrollController,
