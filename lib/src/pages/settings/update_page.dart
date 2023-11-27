@@ -37,9 +37,11 @@ class _UpdatePageState extends State<UpdatePage> {
             backgroundColor: MainTheme.white,
             onRefresh: () async {
               UpdateService service = UpdateService();
-              update.update = await service.verifyAvailableUpdate(timeoutInSecondValue: 60);
-              if (update.update.available)
+              update.update =
+                  await service.verifyAvailableUpdate(timeoutInSecondValue: 60);
+              if (update.update.available) {
                 Fluttertoast.showToast(msg: 'Nova Atualização Disponível!');
+              }
             },
             child: ListView(
               children: [
@@ -75,13 +77,18 @@ class _UpdatePageState extends State<UpdatePage> {
                                   color: MainTheme.red))
                         ],
                       )
-                    : const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                              child: Text('O aplicativo está atualizado',
-                                  style: TextStyle(fontSize: 16)))
-                        ],
+                    : Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? MainTheme.black
+                                    : MainTheme.lightGrey,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
+                        child: Column(
+                          children: _generateChildren(availableUpdate: false),
+                        ),
                       ),
               ],
             ),
@@ -92,11 +99,11 @@ class _UpdatePageState extends State<UpdatePage> {
   _updateApp() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
-      if(mounted){
+      if (mounted) {
         showModalBottomSheetConfirmAction(
-          context,
-          'Você está utiliando dados móveis, deseja mesmo efetuar a atualização? Isso pode resultar em cobranças adicionais.',
-          _initializeUpdate);
+            context,
+            'Você está utiliando dados móveis, deseja mesmo efetuar a atualização? Isso pode resultar em cobranças adicionais.',
+            _initializeUpdate);
       }
       return;
     }
@@ -139,7 +146,7 @@ class _UpdatePageState extends State<UpdatePage> {
     }
   }
 
-  List<Widget> _generateChildren() {
+  List<Widget> _generateChildren({bool availableUpdate = true}) {
     List<Widget> children = [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -187,51 +194,58 @@ class _UpdatePageState extends State<UpdatePage> {
     });
 
     children.add(Divider(color: MainTheme.black));
+    if (availableUpdate) {
+      children.add(
+        !inUpdate && currentEvent?.value == null || currentEvent!.value!.isEmpty
+            ? ElevatedButton(
+                onPressed: inUpdate ? null : _updateApp,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: MainTheme.lightBlue,
+                    minimumSize: const Size(double.maxFinite, 0),
+                    padding: const EdgeInsets.all(16),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)))),
+                child: Text('Atualizar',
+                    style: TextStyle(
+                        color: MainTheme.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold)),
+              )
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    child: LinearProgressIndicator(
+                        value:
+                            (double.tryParse(currentEvent!.value ?? '0') ?? 0) /
+                                100,
+                        color: MainTheme.lightBlue,
+                        backgroundColor: MainTheme.black,
+                        minHeight: MediaQuery.of(context).textScaleFactor * 30),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                          child: Text(
+                        'Baixando ${currentEvent!.value} %',
+                        style: TextStyle(fontSize: 16, color: MainTheme.white),
+                        textAlign: TextAlign.center,
+                      ))
+                    ],
+                  )
+                ],
+              ),
+      );
+    } else {
+      children.add(const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Flexible(child: Text('Última Atualização'))],
+      ));
+    }
 
-    children.add(
-      !inUpdate && currentEvent?.value == null || currentEvent!.value!.isEmpty
-          ? ElevatedButton(
-              onPressed: inUpdate ? null : _updateApp,
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: MainTheme.lightBlue,
-                  minimumSize: const Size(double.maxFinite, 0),
-                  padding: const EdgeInsets.all(16),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16)))),
-              child: Text('Atualizar',
-                  style: TextStyle(
-                      color: MainTheme.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold)),
-            )
-          : Stack(
-              alignment: Alignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  child: LinearProgressIndicator(
-                      value:
-                          (double.tryParse(currentEvent!.value ?? '0') ?? 0) /
-                              100,
-                      color: MainTheme.lightBlue,
-                      backgroundColor: MainTheme.black,
-                      minHeight: MediaQuery.of(context).textScaleFactor * 30),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                        child: Text(
-                      'Baixando ${currentEvent!.value} %',
-                      style: TextStyle(fontSize: 16, color: MainTheme.white),
-                      textAlign: TextAlign.center,
-                    ))
-                  ],
-                )
-              ],
-            ),
-    );
     return children;
   }
 }
