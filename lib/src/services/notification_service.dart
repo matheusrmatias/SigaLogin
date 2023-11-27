@@ -40,11 +40,6 @@ class NotificationService {
     return await controller.querySchedule();
   }
 
-  Future<String> _getStudentPeriod() async {
-    StudentController controller = StudentController();
-    return (await controller.queryStudent()).period.trim();
-  }
-
   int _daysInMonth(DateTime date) {
     var firstDayThisMonth = DateTime(date.year, date.month, date.day);
     var firstDayNextMonth = DateTime(firstDayThisMonth.year,
@@ -52,11 +47,10 @@ class NotificationService {
     return firstDayNextMonth.difference(firstDayThisMonth).inDays;
   }
 
-  showNotification() async {
+  showNotification({TimeOfDay? time}) async {
     if (await Permission.notification.request() == PermissionStatus.denied)
       return;
     List<Schedule> schedules = await _loadSchedules();
-    String period = await _getStudentPeriod();
     if (schedules.isEmpty) return;
     androidDetails = const AndroidNotificationDetails(
       "Lembretes",
@@ -70,18 +64,14 @@ class NotificationService {
     DateTime now = DateTime.now();
     int today = DateTime.now().day;
 
-    DateTime scheduleDate = DateTime(
-      now.year,
-      now.month,
-      today,
-      period == "Noite" ? 2 : 7,
-    );
+    DateTime scheduleDate = DateTime(now.year, now.month, today,
+        time == null ? 7 : time.hour, time == null ? 0 : time.minute);
     int i = today;
     for (i; i < today + 30; i++) {
       if (scheduleDate.millisecondsSinceEpoch < now.millisecondsSinceEpoch) {
-          scheduleDate = scheduleDate.add(const Duration(days: 1));
-          continue;
-        }
+        scheduleDate = scheduleDate.add(const Duration(days: 1));
+        continue;
+      }
       try {
         if (scheduleDate.weekday != 6 &&
             scheduleDate.weekday != 7 &&

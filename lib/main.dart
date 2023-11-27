@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigalogin/src/controllers/student_controller.dart';
 import 'package:sigalogin/src/models/student.dart';
 import 'package:sigalogin/src/my_app.dart';
-import 'package:sigalogin/src/pages/home_page.dart';
+import 'package:sigalogin/src/pages/home/home_page.dart';
 import 'package:sigalogin/src/pages/login_page.dart';
 import 'package:sigalogin/src/repositories/student_card_repository.dart';
 import 'package:sigalogin/src/repositories/student_repository.dart';

@@ -12,6 +12,7 @@ class SettingRepository extends ChangeNotifier {
   late bool? _updateSchedule;
   late bool? _enableReminder;
   late int? currentSdkVersion;
+  late TimeOfDay? _scheduleNotificationTime;
 
   SettingRepository({required this.prefs}) {
     _imageDisplay = prefs.getBool('imageDisplay');
@@ -21,6 +22,20 @@ class SettingRepository extends ChangeNotifier {
     _updateOnOpen = prefs.getBool('updateOnOpen');
     _updateSchedule = prefs.getBool('updateSchedule');
     _enableReminder = prefs.getBool('enableReminder');
+    _scheduleNotificationTime = TimeOfDay(
+        hour: prefs.getInt('scheduleHour') ?? 7,
+        minute: prefs.getInt('scheduleMinute') ?? 0);
+  }
+
+  TimeOfDay? get scheduleNotificationTime => _scheduleNotificationTime;
+
+  set scheduleNotificationTime(TimeOfDay? value) {
+    if (value != null) {
+      setInt('scheduleHour', value.hour);
+      setInt('scheduleMinute', value.minute);
+    }
+    _scheduleNotificationTime = value;
+    notifyListeners();
   }
 
   bool get enableReminder => _enableReminder ?? true;
@@ -93,11 +108,16 @@ class SettingRepository extends ChangeNotifier {
     await prefs.setString(key, value);
   }
 
+  setInt(String key, int value) async {
+    await prefs.setInt(key, value);
+  }
+
   clear() async {
     await prefs.clear();
     imageDisplay = true;
     appLock = false;
     lastInfoUpdate = '';
     theme = 'Padrão do Sistema';
+    scheduleNotificationTime = null;
   }
 }
