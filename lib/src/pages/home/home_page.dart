@@ -142,24 +142,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     try{
       if(!init)prefs.lastInfoUpdate = 'Atualizando Dados';
       student = await account.userLogin(student);
-      prefs.lastInfoUpdate = 'Atualizando Dados';
-      historic = await account.userHistoric();
-      assessment = await account.userAssessment();
-      schedule = await account.userSchedule();
-      assessment = await account.userAbsences(assessment);
-      assessment = await account.userAssessmentDetails(assessment);
-      await control.updateStudent(student);
-      await control.updateAssessment(assessment);
-      await control.updateHistoric(historic);
-      if(prefs.updateSchedule) await control.updateSchedule(schedule);
-
       studentRep.student = student;
+      await control.updateStudent(student);
+      prefs.lastInfoUpdate = 'Atualizando Dados';
+
+      historic = await account.userHistoric();
       studentRep.historic = historic;
       studentRep.allHistoric = historic;
+       await control.updateHistoric(historic);   
 
+      assessment = await account.userAssessment(oldAssessments: studentRep.allAssessment);
+      assessment = await account.userAbsences(assessment);
       studentRep.assessment = assessment;
       studentRep.allAssessment = assessment;
+      await control.updateAssessment(assessment);
 
+      schedule = await account.userSchedule();
+      if(prefs.updateSchedule) await control.updateSchedule(schedule);
+
+      assessment = await account.userAssessmentDetails(assessment);
+      studentRep.assessment = assessment;
+      studentRep.allAssessment = assessment;
+      await control.updateAssessment(assessment);
+      
       if(prefs.updateSchedule) studentRep.schedule = schedule;
 
       setState(() {
