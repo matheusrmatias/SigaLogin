@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sigalogin/src/controllers/student_controller.dart';
+import 'package:sigalogin/src/models/assessment.dart';
 import 'package:sigalogin/src/models/schedule.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -38,6 +39,11 @@ class NotificationService {
   Future<List<Schedule>> _loadSchedules() async {
     StudentController controller = StudentController();
     return await controller.querySchedule();
+  }
+
+  Future<List<DisciplineAssessment>> _loadDisciplines() async {
+    StudentController controller = StudentController();
+    return await controller.queryAssessment();
   }
 
   int _daysInMonth(DateTime date) {
@@ -76,15 +82,19 @@ class NotificationService {
         if (scheduleDate.weekday != 6 &&
             scheduleDate.weekday != 7 &&
             schedules[scheduleDate.weekday - 1].schedule.isNotEmpty) {
+          List<String> scheduleDisciplines = schedules[scheduleDate.weekday - 1].schedule.values.toList();
+          List<DisciplineAssessment> disciplinesList = await _loadDisciplines();
+          Map<String, String> info = {};
+
+          for (var disciplineName in scheduleDisciplines) {
+            DisciplineAssessment discTemp = (disciplinesList.where((element) => element.name==disciplineName).toList())[0];
+            info[disciplineName] = 'você pode ter ${int.parse(discTemp.maxAbsences)<int.parse(discTemp.absence)?0:int.parse(discTemp.maxAbsences)-int.parse(discTemp.absence)} falta(s)';
+          }
+
           await localNotificationsPlugin.zonedSchedule(
               i,
               'Aulas de hoje, ${schedules[scheduleDate.weekday - 1].weekDay}',
-              schedules[scheduleDate.weekday - 1]
-                  .schedule
-                  .toString()
-                  .replaceAll(', ', '\n')
-                  .replaceAll("{", '')
-                  .replaceAll("}", ''),
+              '${schedules[scheduleDate.weekday - 1].schedule.toString().replaceAll(', ', '\n').replaceAll("{", '').replaceAll("}", '')}\n\nLembre-se:\n${info.toString().replaceAll(', ', '\n').replaceAll("{", '').replaceAll("}", '').replaceAll(':', '')}',
               tz.TZDateTime.from(scheduleDate, tz.local),
               NotificationDetails(android: androidDetails),
               androidAllowWhileIdle: true,
