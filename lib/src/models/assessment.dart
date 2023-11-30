@@ -1,4 +1,4 @@
-class DisciplineAssessment{
+class DisciplineAssessment {
   DisciplineAssessment();
 
   String _name = '';
@@ -11,6 +11,7 @@ class DisciplineAssessment{
   String _syllabus = '';
   String _totalClasses = '';
   String _objective = '';
+  String presences = '';
 
   Map<String, String> _assessment = {};
 
@@ -79,5 +80,4 @@ class DisciplineAssessment{
   set objective(String value) {
     _objective = value;
   }
-
 }

@@ -53,26 +53,34 @@ class _DisciplineNoteCard extends State<DisciplineNoteCard>{
                         Row(
                             children: [
                               const Expanded(flex: 3,child: Text('Total de Aulas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
-                              Expanded(flex: 4,child: Divider(color: Theme.of(context).colorScheme.onPrimary,)),
+                              Expanded(flex: 6,child: Divider(color: Theme.of(context).colorScheme.onPrimary,)),
                               Expanded(child: Text(widget.discipline.totalClasses, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Arial'),textAlign: TextAlign.end,))
                             ]
                         ),
                         const SizedBox(height: 8),
                         Row(
                             children: [
-                              const Expanded(flex: 3,child: Text('Máximo de Faltas', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold))),
-                              Expanded(flex: 4,child: Divider(color: Theme.of(context).colorScheme.onPrimary,)),
-                              Expanded(child: Text(widget.discipline.maxAbsences, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Arial'),textAlign: TextAlign.end,))
+                              const Expanded(flex: 3,child: Text('Presenças', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+                              Expanded(flex: 6,child: Divider(color: Theme.of(context).colorScheme.onPrimary,)),
+                              Expanded(child: Text(widget.discipline.presences, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Arial'),textAlign: TextAlign.end,))
                             ]
                         ),
                         const SizedBox(height: 8),
                         Row(
                             children: [
-                              const Expanded(flex:3,child: Text('Faltas Restantes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
-                              Expanded(flex: 4,child: Divider(color: Theme.of(context).colorScheme.onPrimary,)),
-                              Expanded(child: Text((int.parse(widget.discipline.maxAbsences)-int.parse(widget.discipline.absence).toInt()).toString(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Arial'),textAlign: TextAlign.end,))
+                              const Expanded(flex: 3,child: Text('Ausências', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold))),
+                              Expanded(flex: 6,child: Divider(color: Theme.of(context).colorScheme.onPrimary,)),
+                              Expanded(child: Text(widget.discipline.absence, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Arial'),textAlign: TextAlign.end,))
                             ]
                         ),
+                        const SizedBox(height: 8),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Flexible(child: Text( int.parse(widget.discipline.maxAbsences)<int.parse(widget.discipline.absence)?'Tu vai rodar por falta ein :(':int.parse(widget.discipline.maxAbsences)==int.parse(widget.discipline.absence)?'Não falte mais ou é DP :|':'Você ainda pode ter ${int.parse(widget.discipline.maxAbsences)-int.parse(widget.discipline.absence)} falta(s) sem pegar DP :)', style: TextStyle(fontWeight: FontWeight.bold, color: int.parse(widget.discipline.maxAbsences)<int.parse(widget.discipline.absence)?Colors.red:int.parse(widget.discipline.maxAbsences)==int.parse(widget.discipline.absence)?Colors.yellowAccent:Colors.green))),
+                            ]
+                        ),
+
                         Divider(color: MainTheme.orange)
                       ],
                     ):const SizedBox(),
