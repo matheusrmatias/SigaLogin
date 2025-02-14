@@ -18,7 +18,7 @@ class MainTheme {
   static Color darkRed = const Color.fromRGBO(151, 37, 26, 1.0);
 
   static ThemeData darkTheme = ThemeData(
-    androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+    useMaterial3: false,
     fontFamily: 'ResolveLight',
     colorScheme: const ColorScheme(
         brightness: Brightness.dark,
@@ -38,7 +38,7 @@ class MainTheme {
   );
 
   static ThemeData lightTheme = ThemeData(
-    androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+    useMaterial3: false,
     fontFamily: 'ResolveLight',
     colorScheme: const ColorScheme(
       brightness: Brightness.light,

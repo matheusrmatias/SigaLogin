@@ -95,7 +95,7 @@ class StudentAccount {
                   student.email = value.toString().replaceAll('"', ''));
           await view
               .runJavaScriptReturningResult(
-                  "document.getElementById('MPW0041FOTO').firstChild.src")
+              "document.getElementById('MPW0041FOTO').firstChild.querySelector('img').src")
               .then((value) async => student.image =
                   (await get(Uri.parse(value.toString().replaceAll('"', ''))))
                       .bodyBytes);
